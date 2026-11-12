@@ -1,6 +1,20 @@
+{%- liquid
+  assign s = section.settings
+  # Hide the whole section when there is nothing to show (e.g. product without photos)
+  if s.source == 'product'
+    assign image_count = product.images.size
+  else
+    assign image_count = 0
+    for block in section.blocks
+      if block.settings.image != blank
+        assign image_count = image_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+{%- if image_count > 0 -%}
 {{ 'lp.css' | asset_url | stylesheet_tag }}
 {% render 'lp-style', section: section %}
-{%- assign s = section.settings -%}
 <div class="lp lp-gallery lp-gallery--{{ s.layout }} lp--{{ s.lp_width }}">
   <div class="lp__wrap">
     {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
@@ -25,6 +39,9 @@
     </div>
   </div>
 </div>
+{%- elsif request.design_mode -%}
+  <div class="page-width"><p class="lp-placeholder">LP Image gallery is hidden: the product has no images yet (or no custom images are set).</p></div>
+{%- endif -%}
 
 {% schema %}
 {

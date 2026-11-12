@@ -5,7 +5,14 @@
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
-  assign collection = product.collections.first
+  # Skip Shopify's automatic "Home page" (frontpage) collection when choosing the breadcrumb parent
+  assign collection = nil
+  for c in product.collections
+    if c.handle != 'frontpage'
+      assign collection = c
+      break
+    endif
+  endfor
   assign brand_name = s.brand_name | default: product.vendor | default: shop.name
   assign first_v = product.selected_or_first_available_variant
 -%}

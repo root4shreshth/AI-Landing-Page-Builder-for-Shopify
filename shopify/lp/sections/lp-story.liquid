@@ -15,7 +15,7 @@
             assign show_media = true
           endif
         -%}
-        <div class="lp-chapter" {{ block.shopify_attributes }}>
+        <div class="lp-chapter{% unless show_media %} lp-chapter--text{% endunless %}" {{ block.shopify_attributes }}>
           {%- if show_media -%}
             <div class="lp-chapter__media lp-media lp-ratio-{{ s.image_ratio }}">
               {%- if b.image != blank -%}

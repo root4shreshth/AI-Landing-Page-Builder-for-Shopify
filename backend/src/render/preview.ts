@@ -81,7 +81,7 @@ export function shopifyProduct(p: ProductSnapshot, selectedVariantId?: string | 
     selected_or_first_available_variant: selected,
     options_with_values,
     has_only_default_variant: hasOnlyDefault,
-    collections: p.collection ? [p.collection] : [],
+    collections: p.collection ? [{ ...p.collection, handle: p.collection.url.split('/').filter(Boolean).pop() ?? '' }] : [],
   };
 }
 

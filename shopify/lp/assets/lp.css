@@ -238,6 +238,7 @@
 @media (min-width: 750px) {
   .lp-story--alternate .lp-chapter { grid-template-columns: 1fr 1fr; gap: 4.8rem; }
   .lp-story--alternate .lp-chapter:nth-child(even) .lp-chapter__media { order: 2; }
+  .lp-story--alternate .lp-chapter--text { grid-template-columns: minmax(0, 72rem); }
 }
 .lp-story--centered .lp-chapter { text-align: center; max-width: 80rem; margin: 0 auto; }
 

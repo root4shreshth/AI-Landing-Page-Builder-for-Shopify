@@ -110,6 +110,22 @@ describe('factual gating', () => {
   });
 });
 
+describe('real-store data edge cases (found on Shopify)', () => {
+  it('hides the gallery for a product without images and skips the "Home page" collection in breadcrumbs', async () => {
+    const { renderPreview } = await import('./preview.js');
+    const { demoProduct } = await import('../fixtures/demo.js');
+    const r = renderTemplate(demoConfigs[0], demoFacts, demoBrand, { slug: 'x' });
+    const bare = { ...demoProduct, images: [], collection: { title: 'Home page', url: '/collections/frontpage' } };
+    const html = await renderPreview(r.template, bare);
+    expect(html).not.toContain('lp-gallery');
+    expect(html).not.toContain('/collections/frontpage');
+    expect(html).toContain('lp-chapter--text');
+    const withImgs = await renderPreview(r.template, demoProduct);
+    expect(withImgs).toContain('lp-gallery');
+    expect(withImgs).toContain('/collections/t-shirts');
+  });
+});
+
 describe('sanitize', () => {
   it('strips scripts, event handlers, javascript: links and Liquid delimiters', () => {
     const out = cleanRichtext('<p onclick="x()">Hi <script>alert(1)</script><a href="javascript:alert(1)">x</a> {{ shop }} {% render %}</p>', 500);

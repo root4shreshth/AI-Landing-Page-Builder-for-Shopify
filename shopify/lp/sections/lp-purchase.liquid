@@ -5,7 +5,13 @@
   assign ttag = s.title_tag | default: 'h2'
   assign title = s.title | default: product.title
   assign form_id = 'lp-buy-' | append: section.id
-  assign collection = product.collections.first
+  assign collection = nil
+  for c in product.collections
+    if c.handle != 'frontpage'
+      assign collection = c
+      break
+    endif
+  endfor
 -%}
 <div class="lp lp-purchase lp-purchase--media-{{ s.media_position }}{% if s.is_above_fold %} lp-purchase--top{% endif %} lp--{{ s.lp_width }}" id="lp-main-buy">
   <div class="lp__wrap">

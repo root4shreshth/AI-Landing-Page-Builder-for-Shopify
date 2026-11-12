@@ -83,7 +83,7 @@ export function styleFor(
 
   const pad = PAD[visual.density];
   const width: StyleSettings['lp_width'] =
-    type === 'faq' || type === 'specs' ? 'narrow' : type === 'gallery' ? 'wide' : 'normal';
+    type === 'faq' || type === 'specs' ? 'narrow' : 'normal'; // gallery shares the page grid so headings align
   let pt = pad;
   let pb = pad;
   if (type === 'seo') { pt = 12; pb = 0; }
