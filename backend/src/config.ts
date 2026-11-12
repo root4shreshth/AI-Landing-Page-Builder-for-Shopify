@@ -8,7 +8,7 @@ const resolveFromRoot = (p: string | undefined, fallback: string) =>
   path.isAbsolute(p ?? '') ? (p as string) : path.resolve(REPO_ROOT, p && p.trim() ? p.replace(/^\.\/?/, '') : fallback);
 
 export const config = {
-  port: Number(process.env.PORT ?? 4000),
+  port: Number(process.env.PORT ?? 4100),
   storageDir: resolveFromRoot(process.env.STORAGE_DIR, 'storage'),
   llm: {
     main: process.env.LLM_MODEL_MAIN || 'claude-haiku-5-5',

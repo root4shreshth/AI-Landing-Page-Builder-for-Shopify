@@ -4,8 +4,23 @@
     {
       "name": "previews",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["scripts/serve-static.mjs", "storage/generated", "4310"],
+      "runtimeArgs": [
+        "scripts/serve-static.mjs",
+        "storage/generated",
+        "4310"
+      ],
       "port": 4310
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "-w",
+        "backend",
+        "dev"
+      ],
+      "port": 4100
     }
   ]
 }
