@@ -90,71 +90,103 @@ function variantsFor(direction: Direction, inp: PlannerInput): StructurePlan[] {
   if (repeatCta) appliedCommon.push({ key: 'repeated_atc', how: 'Repeated scroll-to-buy CTA after the benefits' });
   const benefitsCta = repeatCta ? { cta_label: 'Add to cart' } : {};
 
+  const benefitsGrid = (cols: string, card: string): PlannedSection => ({ type: 'benefits', settings: { layout: 'grid', columns: cols, card_style: card, align: 'center', ...benefitsCta } });
+  const benefitsList = (): PlannedSection => ({ type: 'benefits', settings: { layout: 'list', card_style: 'plain', ...benefitsCta } });
+  const comparison = (): PlannedSection => ({ type: 'comparison', settings: { align: 'left' } });
+  const heroSec = (layout: string, media: 'left' | 'right', ratio: string): PlannedSection => ({ type: 'hero', settings: { layout: layout === 'collage' && !manyImages ? 'split' : layout, media_position: media, image_ratio: ratio, show_rating: hasRating } });
+  const story = (layout: string, ratio: string): PlannedSection => ({ type: 'story', settings: { layout, image_ratio: ratio } });
+
   switch (direction) {
     case 'story-led': {
-      for (const hero of ['overlay', 'stacked', 'split'] as const)
-        for (const order of ['story-first', 'benefits-first'] as const)
+      const heroes = [['overlay', 'left', 'landscape'], ['stacked', 'left', 'landscape'], ['split', 'left', 'portrait'], ['collage', 'right', 'portrait']] as const;
+      const orders: { id: string; label: string; body: () => PlannedSection[]; faq: PlannedSection }[] = [
+        { id: 'story-first', label: 'story first', body: () => [story('alternate', 'landscape'), benefitsList(), ...gallery('mosaic')], faq: faq('split') },
+        { id: 'benefits-first', label: 'benefits first', body: () => [benefitsList(), story('centered', 'portrait'), ...specs('stacked')], faq: faq('lines') },
+        { id: 'gallery-led', label: 'gallery-led', body: () => [...gallery('strip'), story('alternate', 'square'), benefitsGrid('2', 'plain')], faq: faq('cards', 'center') },
+      ];
+      for (const [hero, media, ratio] of heroes)
+        for (const o of orders)
           for (const color of ['warm', 'light'] as const) {
-            const story: PlannedSection = { type: 'story', settings: { layout: hero === 'split' ? 'centered' : 'alternate', image_ratio: hero === 'overlay' ? 'landscape' : 'portrait' } };
-            const benefits: PlannedSection = { type: 'benefits', settings: { layout: 'list', card_style: 'plain', ...benefitsCta } };
-            const mid = order === 'story-first' ? [story, benefits, ...gallery('mosaic')] : [benefits, story, ...specs('stacked')];
-            out.push(base(`${hero}-${order}-${color}`, `${hero === 'overlay' ? 'Full-bleed' : hero === 'stacked' ? 'Centred' : 'Split'} story, ${order.replace('-', ' ')}`,
-              { colorStrategy: color, radius: 'soft', density: 'airy', accent: 'primary' },
-              [{ type: 'hero', settings: { layout: hero, media_position: 'left', image_ratio: 'portrait', show_rating: hasRating } }, ...mid, ...reviews('grid'), faq(order === 'story-first' ? 'split' : 'lines')],
+            if (hero === 'collage' && !manyImages) continue;
+            out.push(base(`${hero}-${o.id}-${color}`, `${hero === 'overlay' ? 'Full-bleed' : hero === 'stacked' ? 'Centred' : hero === 'collage' ? 'Collage' : 'Split'} story, ${o.label}`,
+              { colorStrategy: color, radius: hero === 'overlay' ? 'sharp' : 'soft', density: 'airy', accent: 'primary' },
+              [heroSec(hero, media, ratio), ...o.body(), ...reviews('grid'), o.faq],
               [...appliedCommon, ...(share(ls, 'story_section') < 0.3 ? [{ key: 'story_section', how: 'Brand story used as a differentiator (few competitors tell one)' }] : [])]));
           }
       break;
     }
     case 'benefit-grid': {
-      for (const media of ['left', 'right'] as const)
+      const heroes = [['split', 'left'], ['split', 'right'], ['collage', 'left']] as const;
+      const orders: { id: string; label: string; body: (cols: string) => PlannedSection[]; color: VisualStrategy['colorStrategy'] }[] = [
+        { id: 'specs-then-compare', label: 'specs then compare', body: (c) => [benefitsGrid(c, 'outline'), ...specs('split'), comparison(), ...trust('compact')], color: 'banded' },
+        { id: 'compare-then-specs', label: 'compare then specs', body: (c) => [benefitsGrid(c, 'filled'), comparison(), ...specs('stacked'), ...trust('compact')], color: 'banded' },
+        { id: 'trust-first', label: 'trust first', body: (c) => [...trust('compact'), benefitsGrid(c, 'filled'), ...specs('split'), comparison()], color: 'light' },
+        { id: 'compare-led', label: 'comparison-led', body: (c) => [comparison(), benefitsGrid(c, 'plain'), ...specs('split'), ...trust('compact')], color: 'light' },
+      ];
+      for (const [hero, media] of heroes)
         for (const cols of ['3', '4'] as const)
-          for (const order of ['specs-then-compare', 'compare-then-specs', 'trust-first'] as const) {
-            const benefits: PlannedSection = { type: 'benefits', settings: { layout: 'grid', columns: cols, card_style: cols === '4' ? 'outline' : 'filled', align: 'center', ...benefitsCta } };
-            const comparison: PlannedSection = { type: 'comparison', settings: { align: 'left' } };
-            const body =
-              order === 'specs-then-compare' ? [benefits, ...specs('split'), comparison, ...trust('compact')]
-              : order === 'compare-then-specs' ? [benefits, comparison, ...specs('stacked'), ...trust('compact')]
-              : [...trust('compact'), benefits, ...specs('split'), comparison];
+          for (const o of orders) {
+            if (hero === 'collage' && !manyImages) continue;
             const applied = [...appliedCommon];
-            if (share(ls, 'comparison_table') < 0.4) applied.push({ key: 'comparison_table', how: 'Comparison table as a differentiator (rare among competitors)' });
-            else applied.push({ key: 'comparison_table', how: 'Comparison table (common among competitors)' });
+            applied.push({ key: 'comparison_table', how: share(ls, 'comparison_table') < 0.4 ? 'Comparison table as a differentiator (rare among competitors)' : 'Comparison table (common among competitors)' });
             if (share(ls, 'specs_table') >= 0.3 && hasSpecs) applied.push({ key: 'specs_table', how: 'Specs table from real product data' });
             if (share(ls, 'benefit_icon_grid') > 0) applied.push({ key: 'benefit_icon_grid', how: 'Icon benefit grid' });
-            out.push(base(`${media}-${cols}-${order}`, `Quick-scan grid (${cols} columns, ${order.replace(/-/g, ' ')})`,
-              { colorStrategy: order === 'trust-first' ? 'light' : 'banded', radius: cols === '4' ? 'sharp' : 'soft', density: 'compact', accent: 'primary' },
-              [{ type: 'hero', settings: { layout: 'split', media_position: media, image_ratio: 'square', show_rating: hasRating } }, ...body, faq('lines')],
+            out.push(base(`${hero}${media}-${cols}-${o.id}`, `Quick-scan grid (${cols} columns, ${o.label})`,
+              { colorStrategy: o.color, radius: cols === '4' ? 'sharp' : 'soft', density: 'compact', accent: 'primary' },
+              [heroSec(hero, media, 'square'), ...o.body(cols), faq(o.id === 'trust-first' ? 'cards' : 'lines')],
               applied, hasSpecs ? [] : ['No specs on the source page — specs section omitted.']));
           }
       break;
     }
     case 'social-proof': {
-      for (const g of ['strip', 'grid'] as const)
-        for (const rl of ['wall', 'grid'] as const)
+      const tops: { id: string; sec: () => PlannedSection }[] = [
+        { id: 'purchase-strip', sec: () => ({ type: 'purchase', settings: { gallery_style: 'strip', show_rating: hasRating, description_source: 'custom' }, claimIds: claimIds.slice(0, 3) }) },
+        { id: 'purchase-grid', sec: () => ({ type: 'purchase', settings: { gallery_style: 'grid', media_position: 'right', show_rating: hasRating, description_source: 'custom' }, claimIds: claimIds.slice(0, 3) }) },
+        { id: 'purchase-stack', sec: () => ({ type: 'purchase', settings: { gallery_style: 'stack', show_rating: hasRating, description_source: 'custom' }, claimIds: claimIds.slice(0, 3) }) },
+        { id: 'hero-collage', sec: () => heroSec('collage', 'right', 'portrait') },
+      ];
+      const orders: { id: string; body: () => PlannedSection[] }[] = hasReviews
+        ? [
+            { id: 'reviews-first', body: () => [...reviews('wall'), ...gallery('grid', '4'), benefitsGrid('3', 'filled')] },
+            { id: 'gallery-reviews', body: () => [...gallery('strip'), ...reviews('grid'), benefitsGrid('3', 'plain'), ...trust('compact')] },
+            { id: 'benefits-reviews', body: () => [benefitsList(), ...reviews('grid'), ...gallery('mosaic')] },
+          ]
+        : [
+            { id: 'trust-first', body: () => [...trust('roomy'), benefitsGrid('3', 'filled'), ...specs('stacked'), ...gallery('grid', '4')] },
+            { id: 'gallery-first', body: () => [...gallery('mosaic'), benefitsList(), ...trust('compact'), ...specs('split')] },
+            { id: 'facts-first', body: () => [...specs('split'), ...trust('compact'), benefitsGrid('2', 'outline'), ...gallery('strip')] },
+          ];
+      for (const t of tops)
+        for (const o of orders)
           for (const color of ['light', 'warm'] as const) {
+            if (t.id === 'hero-collage' && !manyImages) continue;
             const applied = [...appliedCommon];
             if (hasRating && share(ls, 'rating_near_price') > 0) applied.push({ key: 'rating_near_price', how: 'Real rating shown next to the price' });
-            if (share(ls, 'trust_near_atc') > 0 && hasClaims) applied.push({ key: 'trust_near_atc', how: 'Verified trust points directly under add-to-cart' });
-            const body = hasReviews
-              ? [...reviews(rl), ...gallery(rl === 'wall' ? 'grid' : 'strip', '4'), { type: 'benefits', settings: { layout: 'grid', columns: '3', card_style: 'filled', ...benefitsCta } } as PlannedSection]
-              : [...trust('roomy'), { type: 'benefits', settings: { layout: 'grid', columns: '3', card_style: 'filled', ...benefitsCta } } as PlannedSection, ...specs('stacked'), ...gallery('grid', '4')];
-            out.push(base(`${g}-${rl}-${color}`, hasReviews ? `Proof first (${rl === 'wall' ? 'review wall' : 'review grid'})` : 'Reassurance first (no reviews available)',
+            if (share(ls, 'trust_near_atc') > 0 && hasClaims && t.id !== 'hero-collage') applied.push({ key: 'trust_near_atc', how: 'Verified trust points directly under add-to-cart' });
+            out.push(base(`${t.id}-${o.id}-${color}`, hasReviews ? `Proof first (${o.id.replace(/-/g, ' ')})` : `Reassurance first (${o.id.replace(/-/g, ' ')}; no reviews available)`,
               { colorStrategy: color, radius: 'round', density: 'balanced', accent: 'secondary' },
-              [{ type: 'purchase', settings: { gallery_style: g, show_rating: hasRating, description_source: 'custom' }, claimIds: claimIds.slice(0, 3) }, ...body, faq('cards', 'center')],
+              [t.sec(), ...o.body(), faq(o.id.endsWith('first') ? 'cards' : 'split', 'center')],
               applied, hasReviews ? [] : ['No genuine reviews or rating on the source page — reviews omitted; this direction leans on verified trust points and facts instead.']));
           }
       break;
     }
     case 'offer-led': {
-      for (const hero of ['stacked', 'split'] as const)
-        for (const offerStyle of ['bar', 'card'] as const)
+      const heroes = [['stacked', 'right', 'landscape'], ['split', 'right', 'square'], ['overlay', 'right', 'landscape']] as const;
+      const offerSec = (style: string): PlannedSection[] => (hasOffer ? [{ type: 'offer', settings: { style, show_savings: true, button_label: 'Shop the offer' } }] : []);
+      const orders: { id: string; label: string; body: () => PlannedSection[] }[] = [
+        { id: 'offer-top', label: 'offer up front', body: () => [...offerSec('bar'), ...trust('roomy'), benefitsGrid('3', 'plain'), ...specs('stacked')] },
+        { id: 'value-compare', label: 'value vs alternative', body: () => [...offerSec('card'), comparison(), benefitsGrid('3', 'outline'), ...trust('compact')] },
+        { id: 'benefits-then-offer', label: 'benefits then offer', body: () => [benefitsList(), ...offerSec('card'), ...trust('roomy'), ...specs('split')] },
+      ];
+      for (const [hero, media, ratio] of heroes)
+        for (const o of orders)
           for (const color of ['contrast', 'banded'] as const) {
             const applied = [...appliedCommon];
             if (share(ls, 'compare_at_shown') > 0 && f.hasCompareAt) applied.push({ key: 'compare_at_shown', how: 'Struck-through compare-at price and savings badge from real prices' });
             if (share(ls, 'cod_mentioned') > 0 && claimIds.includes('cod')) applied.push({ key: 'cod_mentioned', how: 'COD shown near the offer (confirmed claim)' });
-            const offer: PlannedSection[] = hasOffer ? [{ type: 'offer', settings: { style: offerStyle, show_savings: true, button_label: 'Shop the offer' } }] : [];
-            out.push(base(`${hero}-${offerStyle}-${color}`, hasOffer ? `Offer up front (${offerStyle})` : 'Value-led (no active offer)',
+            out.push(base(`${hero}-${o.id}-${color}`, hasOffer ? `Offer-led (${o.label})` : `Value-led (${o.label}; no active offer)`,
               { colorStrategy: color, radius: 'brand', density, accent: 'secondary' },
-              [{ type: 'hero', settings: { layout: hero, media_position: 'right', image_ratio: hero === 'stacked' ? 'landscape' : 'square', show_rating: hasRating } }, ...offer, ...trust('roomy'), { type: 'benefits', settings: { layout: 'grid', columns: '3', card_style: 'plain', ...benefitsCta } }, ...specs('stacked'), faq('lines')],
+              [heroSec(hero, media, ratio), ...o.body(), faq(o.id === 'value-compare' ? 'split' : 'lines')],
               applied, hasOffer ? [] : ['No offer or compare-at price — offer banner omitted; the page leads with value instead.']));
           }
       break;
