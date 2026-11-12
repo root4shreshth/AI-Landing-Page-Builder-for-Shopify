@@ -112,7 +112,7 @@ function collect(): ComputedBrandData {
  * "we moved" popups and their dimming scrims) and undo scroll-locks/blur they apply — without clicking.
  * Kept as a string so it runs verbatim in the page.
  */
-const HIDE_OVERLAYS = `(() => {
+export const HIDE_OVERLAYS = `(() => {
   const vw = innerWidth, vh = innerHeight;
   for (const el of document.querySelectorAll('body *')) {
     const s = getComputedStyle(el);
