@@ -37,23 +37,32 @@ export const registrableDomain = (host: string) => {
   return parts.slice(-2).join('.');
 };
 
-export function keywordsFor(facts: ProductFacts): string[] {
+function titleWords(facts: ProductFacts): string[] {
   const brandWords = new Set((facts.brandName + ' ' + (facts.vendor ?? '')).toLowerCase().split(/\W+/));
-  const words = facts.title
+  return facts.title
     .toLowerCase()
     .replace(/\(.*?\)/g, ' ')
     .split(/[^a-z]+/)
-    .filter((w) => w.length > 2 && !STOP.has(w) && !brandWords.has(w));
-  const catWords = (facts.category ?? '').split(/[/-]/).filter((w) => w.length > 2 && w !== 'other' && w !== 'accessories');
-  return [...new Set([...words.slice(0, 4), ...catWords].map(stem))].slice(0, 6);
+    .filter((w) => w.length > 2 && !STOP.has(w) && !brandWords.has(w))
+    .map(stem);
+}
+
+/** Product-type words: category leaf + the last two title words (titles usually end with the noun). */
+export function typeKeywords(facts: ProductFacts): string[] {
+  const leaf = (facts.category ?? '').split('/').slice(1).join(' ');
+  const catWords = leaf.split(/[^a-z]+/).filter((w) => w.length > 2 && w !== 'other').map(stem);
+  return [...new Set([...catWords, ...titleWords(facts).slice(-2)])];
+}
+
+export function keywordsFor(facts: ProductFacts): string[] {
+  return [...new Set([...typeKeywords(facts), ...titleWords(facts)])].slice(0, 6);
 }
 
 /** Crude singular stem so "bags" matches "bag", "serums" matches "serum" (substring matching does the rest). */
 export const stem = (w: string) => (w.length > 3 && /[^su]s$/.test(w) ? w.slice(0, -1) : w);
 
 export function buildQueries(facts: ProductFacts): string[] {
-  const kw = keywordsFor(facts);
-  const core = kw.slice(0, 3).join(' ') || (facts.category ?? 'product').replace(/[/-]/g, ' ');
+  const core = titleWords(facts).slice(-2).join(' ') || typeKeywords(facts).join(' ') || (facts.category ?? 'product').replace(/[/-]/g, ' ');
   const leaf = (facts.category ?? '').split('/').pop()?.replace(/-/g, ' ') || core;
   return [...new Set([`${core} brand india buy online`, `best ${leaf} brands india d2c`, `${core} online india`])];
 }
@@ -84,7 +93,11 @@ export function scoreResult(r: SearchResult, kw: string[]): { relevance: number;
 
 const blocked = (host: string) => BLOCKED.some((b) => host.includes(b));
 
-/** For a Shopify brand site, find its product that best matches the keywords via /products.json. */
+/**
+ * For a Shopify brand site, find its product that best matches via /products.json.
+ * `kw` should be product-type words; a title hit scores 2, a type/tag hit 1, and at least 2 is required
+ * (i.e. the product type must appear in the title, or in its metadata twice over).
+ */
 export async function resolveProductPage(origin: string, kw: string[]): Promise<string | null> {
   const listUrl = `${origin}/products.json?limit=250`;
   if (!(await checkRobots(listUrl)).allowed) return null;
@@ -93,13 +106,12 @@ export async function resolveProductPage(origin: string, kw: string[]): Promise<
     if (!res.ok || !/json/.test(res.contentType)) return null;
     const { products } = res.json<{ products: { handle: string; title: string; product_type?: string; tags?: string[] }[] }>();
     let best: { handle: string; score: number } | null = null;
-    const minScore = Math.max(1, Math.ceil(kw.length / 2));
     for (const p of products ?? []) {
       // title matches count double: tags are often broad ("travel", "luggage") and less specific
       const title = p.title.toLowerCase();
       const meta = `${p.product_type ?? ''} ${(p.tags ?? []).join(' ')}`.toLowerCase();
-      const score = kw.reduce((s, k) => s + (title.includes(k) ? 2 : meta.includes(k) ? 1 : 0), 0) / 2;
-      if (score >= minScore && (!best || score > best.score)) best = { handle: p.handle, score };
+      const score = kw.reduce((s, k) => s + (title.includes(k) ? 2 : meta.includes(k) ? 1 : 0), 0);
+      if (score >= 2 && (!best || score > best.score)) best = { handle: p.handle, score };
     }
     return best ? `${origin}/products/${best.handle}` : null;
   } catch {
@@ -129,6 +141,7 @@ export async function discoverCandidates(facts: ProductFacts, ownUrl: string, op
 
   const queries = buildQueries(facts);
   const kw = keywordsFor(facts);
+  const typeKw = typeKeywords(facts);
   const results: SearchResult[] = [];
   for (const q of queries) {
     try {
@@ -147,9 +160,9 @@ export async function discoverCandidates(facts: ProductFacts, ownUrl: string, op
         const domain = registrableDomain(u.hostname);
         if (seen.has(domain) || (brandSlug && u.hostname.replace(/[^a-z0-9]/g, '').includes(brandSlug))) continue;
         seen.add(domain);
-        const resolved = await resolveProductPage(u.origin, kw);
+        const resolved = await resolveProductPage(u.origin, typeKw);
         if (!resolved) {
-          notes.push(`${u.hostname}: no product matching ${kw.map((k) => `"${k}"`).join(', ')} — skipped`);
+          notes.push(`${u.hostname}: no product matching ${typeKw.map((k) => `"${k}"`).join(', ')} — skipped`);
           continue;
         }
         out.push({
@@ -183,7 +196,7 @@ export async function discoverCandidates(facts: ProductFacts, ownUrl: string, op
     let pageType = pageTypeOf(new URL(url));
     const reasons = [...s.reasons];
     if (pageType !== 'product') {
-      const resolved = await resolveProductPage(new URL(url).origin, kw);
+      const resolved = await resolveProductPage(new URL(url).origin, typeKw);
       if (resolved) {
         url = resolved;
         pageType = 'product';

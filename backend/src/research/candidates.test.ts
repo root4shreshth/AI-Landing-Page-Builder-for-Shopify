@@ -11,7 +11,7 @@ describe('candidate selection helpers', () => {
   });
   it('stems plural keywords and picks starter lists by category and title', async () => {
     const { seedSitesFor } = await import('./seeds.js');
-    expect(keywordsFor({ ...demoFacts, title: 'Cabin Bags Pro', category: 'accessories/bags' })).toEqual(['cabin', 'bag']);
+    expect(new Set(keywordsFor({ ...demoFacts, title: 'Cabin Bags Pro', category: 'accessories/bags' }))).toEqual(new Set(['cabin', 'bag']));
     const seeds = seedSitesFor('accessories/bags', 'Em Cabin Pro');
     expect(seeds).toEqual(expect.arrayContaining(['https://www.safaribags.com', 'https://www.zouk.co.in']));
     expect(new Set(seeds).size).toBe(seeds.length);
