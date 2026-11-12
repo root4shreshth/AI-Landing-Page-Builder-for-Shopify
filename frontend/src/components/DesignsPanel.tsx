@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api';
 import type { Design, FeatureName, Run } from '../types';
 import { Empty, ErrorNote, SectionHead } from './ui';
@@ -52,6 +53,14 @@ export function DesignsPanel({ run }: { run: Run }) {
       >
         Each design follows a different direction and is checked against {compared ? `${compared} earlier design${compared === 1 ? '' : 's'} in this category` : 'earlier designs in this category (none yet)'}. Approve the ones you would publish; rejections and their reasons steer the next run.
       </SectionHead>
+      {current.some((d) => d.status === 'approved') && (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-sheet border border-magenta/30 bg-magenta-soft px-4 py-3">
+          <p className="text-sm">
+            <span className="font-medium">{current.filter((d) => d.status === 'approved').length} approved.</span> Approved designs go into the theme package by default and steer future runs in this category. Nothing is published until you deploy, and deploys only go to an unpublished theme.
+          </p>
+          <Link to="../checks" relative="path" className="btn-primary">Check and publish</Link>
+        </div>
+      )}
       {old.length > 0 && (
         <button className="btn-ghost mb-4 px-2 text-sm" onClick={() => setShowOld((v) => !v)}>{showOld ? 'Hide earlier versions' : `Show ${old.length} earlier version${old.length === 1 ? '' : 's'}`}</button>
       )}

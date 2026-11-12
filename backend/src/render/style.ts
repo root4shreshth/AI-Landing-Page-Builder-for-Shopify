@@ -59,6 +59,9 @@ export function styleFor(
       if (type === 'trust' || type === 'offer') bg = mix(base, accentSrc, 0.07);
   }
   if (type === 'sticky' || type === 'seo') bg = base;
+  // The brand band is the page's boldest brand moment: the signature colour (or ink if it is too close to the background)
+  if (type === 'marquee') bg = contrast(c.primary, base) >= 1.08 ? c.primary : c.text;
+  if (type === 'facts' && visual.colorStrategy === 'contrast') bg = isDark(c.primary) ? c.primary : c.text;
 
   const fg = readableOn(bg, [c.text, isDark(bg) ? '#FFFFFF' : '#111111']);
   const accent = ensureContrast(accentSrc, bg, 4.5); // accents are also used for small text (eyebrows), so AA for text
@@ -79,7 +82,7 @@ export function styleFor(
     lp_body_font: brand.fonts.body,
     lp_radius: Math.round(Math.min(32, radius) / 2) * 2,
   };
-  if (type === 'sticky') return style; // sticky schema has no width/padding settings
+  if (type === 'sticky' || type === 'marquee') return style; // these schemas have no width/padding settings
 
   const pad = PAD[visual.density];
   const width: StyleSettings['lp_width'] =

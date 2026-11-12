@@ -3,6 +3,7 @@ import { ProductFactsSchema, type ProductFacts } from '../catalogue/facts.js';
 import { PageConfigSchema, type PageConfig, type PageConfigInput, type SectionConfig } from '../catalogue/page-config.js';
 import { cleanRichtext, cleanText } from './sanitize.js';
 import { styleFor, type RenderedType } from './style.js';
+import { factItems, hasFactStrip, hasMarquee, marqueeItems } from '../design/data-sections.js';
 
 /** Catalogue type -> Liquid section file (sections/<name>.liquid) */
 export const LIQUID_TYPE: Record<RenderedType, string> = {
@@ -17,6 +18,8 @@ export const LIQUID_TYPE: Record<RenderedType, string> = {
   trust: 'lp-trust',
   offer: 'lp-offer',
   story: 'lp-story',
+  facts: 'lp-facts',
+  marquee: 'lp-marquee',
   seo: 'lp-seo',
   sticky: 'lp-sticky-atc',
 };
@@ -109,6 +112,18 @@ export function renderTemplate(
       case 'offer':
         if (!facts.offer && !facts.hasCompareAt) {
           notes.push({ level: 'info', section: 'offer', message: 'Offer section omitted: no confirmed offer and no compare-at price.' });
+          return false;
+        }
+        return true;
+      case 'facts':
+        if (!hasFactStrip(facts)) {
+          notes.push({ level: 'info', section: 'facts', message: 'Fact strip omitted: fewer than 2 short, factual spec values.' });
+          return false;
+        }
+        return true;
+      case 'marquee':
+        if (!hasMarquee(facts)) {
+          notes.push({ level: 'info', section: 'marquee', message: 'Brand band omitted: fewer than 3 verified promises or facts.' });
           return false;
         }
         return true;
@@ -283,9 +298,11 @@ export function renderTemplate(
         put(s, 'heading', t(st.heading, 90));
         put(s, 'intro', rt(st.intro, 400));
         if (facts.rating) Object.assign(s, { rating_value: String(facts.rating.value), rating_count: String(facts.rating.count), source: t(facts.rating.source, 80) });
-        add('reviews', s, facts.reviews.slice(0, sec.maxReviews).map((r) => {
+        // star-only reviews whose 'text' is just the product name are counted in the rating, not shown as quotes
+        const written = facts.reviews.filter((r) => r.body.trim().toLowerCase() !== facts.title.toLowerCase());
+        add('reviews', s, written.slice(0, sec.maxReviews).map((r) => {
           const bs: Settings = { author: t(r.author, 60), rating: r.rating ?? 0, body: rt(r.body, 1400), verified: !!r.verified };
-          put(bs, 'title', t(r.title, 120));
+          if (r.title && r.title.toLowerCase() !== facts.title.toLowerCase()) put(bs, 'title', t(r.title, 120)); // product name is not a review title
           put(bs, 'date', t(r.date, 40));
           return { type: 'review', settings: bs };
         }));
@@ -311,6 +328,16 @@ export function renderTemplate(
         }
         put(s, 'button_label', t(sec.settings.button_label, 30));
         add('offer', s);
+        break;
+      }
+      case 'facts': {
+        put(s, 'heading', t(sec.settings.heading, 90));
+        add('facts', s, factItems(facts, sec.maxFacts).map((f) => ({ type: 'fact', settings: { value: t(f.value, 24), label: t(f.label, 40) } })));
+        break;
+      }
+      case 'marquee': {
+        s.speed = Math.round(sec.settings.speed / 2) * 2;
+        add('marquee', s, marqueeItems(facts).map((x) => ({ type: 'item', settings: { text: t(x, 60) } })));
         break;
       }
       case 'story': {

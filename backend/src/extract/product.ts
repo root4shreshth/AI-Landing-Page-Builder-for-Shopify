@@ -250,7 +250,7 @@ export async function extractProduct(rawUrl: string): Promise<ExtractedProduct> 
       sources.specs = 'Product description + spec tables on the product page';
     }
   }
-  const reviews = extractReviews($, ld);
+  const reviews = extractReviews($, ld, snapshot.title);
   const pageText = $('body').clone().find('script,style,noscript,svg').remove().end().text().replace(/\s+/g, ' ');
   const claims = extractClaims(pageText, { isShopify: platform === 'shopify' || isShopify });
   if (specsResult.specs.length && !sources.specs) sources.specs = 'Product description';

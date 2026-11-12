@@ -22,8 +22,8 @@ describe('catalogue sync', () => {
     const build = readFileSync(path.join(REPO_ROOT, 'scripts/build-theme.mjs'), 'utf8');
     for (const i of ICONS) expect(build).toContain(`'${i}'`);
   });
-  it('loads all 13 lp sections', () => {
-    expect(schemas.size).toBe(13);
+  it('loads all 15 lp sections', () => {
+    expect(schemas.size).toBe(15);
   });
 });
 

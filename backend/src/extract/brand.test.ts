@@ -70,7 +70,7 @@ describe('deriveBrandProfile', () => {
     expect(profile.button.style).toBe('outline');
     expect(profile.colors.button).toBe('#000000');
     expect(confidence.primary.value).toBeLessThanOrEqual(0.5);
-    expect(confidence.secondary.source).toBe('default');
+    expect(confidence.secondary.source).toBe('heuristic'); // derived from the primary, never a browser default colour
   });
   it('fixes unreadable text/button combinations', () => {
     const { profile, notes } = deriveBrandProfile(base({ textColors: [{ color: 'rgb(240, 240, 240)', chars: 100 }], body: style({ bg: 'rgb(255,255,255)', color: 'rgb(245,245,245)' }) }), []);

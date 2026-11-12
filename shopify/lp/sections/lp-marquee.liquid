@@ -1,0 +1,48 @@
+{%- comment -%}
+  Brand band: a slow, pausable ticker of verified promises and product facts in the brand colour.
+  The list is rendered twice for a seamless loop; the copy is hidden from assistive tech. Static when the
+  visitor prefers reduced motion.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- if section.blocks.size > 0 -%}
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+<div class="lp lp-marquee" style="--lp-marquee-speed: {{ s.speed }}s;" role="region" aria-label="{{ s.label | default: 'Highlights' | escape }}">
+  <div class="lp-marquee__track">
+    {%- for pass in (1..2) -%}
+      <ul class="lp-marquee__group" {% if pass == 2 %}aria-hidden="true"{% endif %} style="list-style:none;margin:0">
+        {%- for block in section.blocks -%}
+          <li class="lp-marquee__item" {% if pass == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endfor -%}
+  </div>
+</div>
+{%- elsif request.design_mode -%}
+  <div class="page-width"><p class="lp-placeholder">LP Brand band is hidden: add items as blocks.</p></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Brand band",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Short, true statements only, such as delivery promises or product facts." },
+    { "type": "text", "id": "label", "label": "Accessible label", "default": "Highlights" },
+    { "type": "range", "id": "speed", "label": "Loop duration", "min": 16, "max": 60, "step": 2, "unit": "s", "default": 32 },
+    "__LP_STYLE_NOPAD__"
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Brand band", "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }] }]
+}
+{% endschema %}

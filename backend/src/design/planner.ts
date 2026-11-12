@@ -8,6 +8,7 @@
 import type { ProductFacts } from '../catalogue/facts.js';
 import type { Direction, VisualStrategy } from '../catalogue/page-config.js';
 import { fingerprintOf, nearest, similarity, type Fingerprint } from './fingerprint.js';
+import { hasFactStrip, hasMarquee } from './data-sections.js';
 
 export type PlannedSection =
   | { type: 'hero'; settings: Record<string, unknown> }
@@ -20,7 +21,9 @@ export type PlannedSection =
   | { type: 'reviews'; settings: Record<string, unknown>; maxReviews: number }
   | { type: 'trust'; settings: Record<string, unknown>; claimIds: string[] }
   | { type: 'offer'; settings: Record<string, unknown> }
-  | { type: 'story'; settings: Record<string, unknown> };
+  | { type: 'story'; settings: Record<string, unknown> }
+  | { type: 'facts'; settings: Record<string, unknown>; maxFacts: number }
+  | { type: 'marquee'; settings: Record<string, unknown> };
 
 export interface StructurePlan {
   direction: Direction;
@@ -95,14 +98,17 @@ function variantsFor(direction: Direction, inp: PlannerInput): StructurePlan[] {
   const comparison = (): PlannedSection => ({ type: 'comparison', settings: { align: 'left' } });
   const heroSec = (layout: string, media: 'left' | 'right', ratio: string): PlannedSection => ({ type: 'hero', settings: { layout: layout === 'collage' && !manyImages ? 'split' : layout, media_position: media, image_ratio: ratio, show_rating: hasRating } });
   const story = (layout: string, ratio: string): PlannedSection => ({ type: 'story', settings: { layout, image_ratio: ratio } });
+  // data-only statement sections (empty when the facts can't support them)
+  const factStrip = (): PlannedSection[] => (hasFactStrip(f) ? [{ type: 'facts', settings: {}, maxFacts: 4 }] : []);
+  const band = (): PlannedSection[] => (hasMarquee(f) ? [{ type: 'marquee', settings: { speed: 32 } }] : []);
 
   switch (direction) {
     case 'story-led': {
       const heroes = [['overlay', 'left', 'landscape'], ['stacked', 'left', 'landscape'], ['split', 'left', 'portrait'], ['collage', 'right', 'portrait']] as const;
       const orders: { id: string; label: string; body: () => PlannedSection[]; faq: PlannedSection }[] = [
-        { id: 'story-first', label: 'story first', body: () => [story('alternate', 'landscape'), benefitsList(), ...gallery('mosaic')], faq: faq('split') },
-        { id: 'benefits-first', label: 'benefits first', body: () => [benefitsList(), story('centered', 'portrait'), ...specs('stacked')], faq: faq('lines') },
-        { id: 'gallery-led', label: 'gallery-led', body: () => [...gallery('strip'), story('alternate', 'square'), benefitsGrid('2', 'plain')], faq: faq('cards', 'center') },
+        { id: 'story-first', label: 'story first', body: () => [...band(), story('alternate', 'landscape'), benefitsList(), ...gallery('mosaic')], faq: faq('split') },
+        { id: 'benefits-first', label: 'benefits first', body: () => [benefitsList(), ...factStrip(), story('alternate', 'portrait'), ...specs('stacked')], faq: faq('lines') },
+        { id: 'gallery-led', label: 'gallery-led', body: () => [...gallery('strip'), story('alternate', 'square'), ...band(), benefitsGrid('2', 'plain')], faq: faq('cards', 'center') },
       ];
       for (const [hero, media, ratio] of heroes)
         for (const o of orders)
@@ -118,10 +124,10 @@ function variantsFor(direction: Direction, inp: PlannerInput): StructurePlan[] {
     case 'benefit-grid': {
       const heroes = [['split', 'left'], ['split', 'right'], ['collage', 'left']] as const;
       const orders: { id: string; label: string; body: (cols: string) => PlannedSection[]; color: VisualStrategy['colorStrategy'] }[] = [
-        { id: 'specs-then-compare', label: 'specs then compare', body: (c) => [benefitsGrid(c, 'outline'), ...specs('split'), comparison(), ...trust('compact')], color: 'banded' },
+        { id: 'specs-then-compare', label: 'specs then compare', body: (c) => [...factStrip(), benefitsGrid(c, 'outline'), ...specs('split'), comparison(), ...trust('compact')], color: 'banded' },
         { id: 'compare-then-specs', label: 'compare then specs', body: (c) => [benefitsGrid(c, 'filled'), comparison(), ...specs('stacked'), ...trust('compact')], color: 'banded' },
-        { id: 'trust-first', label: 'trust first', body: (c) => [...trust('compact'), benefitsGrid(c, 'filled'), ...specs('split'), comparison()], color: 'light' },
-        { id: 'compare-led', label: 'comparison-led', body: (c) => [comparison(), benefitsGrid(c, 'plain'), ...specs('split'), ...trust('compact')], color: 'light' },
+        { id: 'trust-first', label: 'trust first', body: (c) => [...band(), benefitsGrid(c, 'filled'), ...specs('split'), comparison()], color: 'light' },
+        { id: 'compare-led', label: 'comparison-led', body: (c) => [...factStrip(), comparison(), benefitsGrid(c, 'plain'), ...specs('split'), ...trust('compact')], color: 'light' },
       ];
       for (const [hero, media] of heroes)
         for (const cols of ['3', '4'] as const)
@@ -147,14 +153,14 @@ function variantsFor(direction: Direction, inp: PlannerInput): StructurePlan[] {
       ];
       const orders: { id: string; body: () => PlannedSection[] }[] = hasReviews
         ? [
-            { id: 'reviews-first', body: () => [...reviews('wall'), ...gallery('grid', '4'), benefitsGrid('3', 'filled')] },
+            { id: 'reviews-first', body: () => [...band(), ...reviews('wall'), ...gallery('grid', '4'), benefitsGrid('3', 'filled')] },
             { id: 'gallery-reviews', body: () => [...gallery('strip'), ...reviews('grid'), benefitsGrid('3', 'plain'), ...trust('compact')] },
             { id: 'benefits-reviews', body: () => [benefitsList(), ...reviews('grid'), ...gallery('mosaic')] },
           ]
         : [
-            { id: 'trust-first', body: () => [...trust('roomy'), benefitsGrid('3', 'filled'), ...specs('stacked'), ...gallery('grid', '4')] },
+            { id: 'trust-first', body: () => [...band(), ...trust('roomy'), benefitsGrid('3', 'filled'), ...specs('stacked'), ...gallery('grid', '4')] },
             { id: 'gallery-first', body: () => [...gallery('mosaic'), benefitsList(), ...trust('compact'), ...specs('split')] },
-            { id: 'facts-first', body: () => [...specs('split'), ...trust('compact'), benefitsGrid('2', 'outline'), ...gallery('strip')] },
+            { id: 'facts-first', body: () => [...factStrip(), ...specs('split'), ...trust('compact'), benefitsGrid('2', 'outline'), ...gallery('strip')] },
           ];
       for (const t of tops)
         for (const o of orders)
@@ -174,8 +180,8 @@ function variantsFor(direction: Direction, inp: PlannerInput): StructurePlan[] {
       const heroes = [['stacked', 'right', 'landscape'], ['split', 'right', 'square'], ['overlay', 'right', 'landscape']] as const;
       const offerSec = (style: string): PlannedSection[] => (hasOffer ? [{ type: 'offer', settings: { style, show_savings: true, button_label: 'Shop the offer' } }] : []);
       const orders: { id: string; label: string; body: () => PlannedSection[] }[] = [
-        { id: 'offer-top', label: 'offer up front', body: () => [...offerSec('bar'), ...trust('roomy'), benefitsGrid('3', 'plain'), ...specs('stacked')] },
-        { id: 'value-compare', label: 'value vs alternative', body: () => [...offerSec('card'), comparison(), benefitsGrid('3', 'outline'), ...trust('compact')] },
+        { id: 'offer-top', label: 'offer up front', body: () => [...offerSec('bar'), ...band(), ...trust('roomy'), benefitsGrid('3', 'plain'), ...specs('stacked')] },
+        { id: 'value-compare', label: 'value vs alternative', body: () => [...offerSec('card'), ...factStrip(), comparison(), benefitsGrid('3', 'outline'), ...trust('compact')] },
         { id: 'benefits-then-offer', label: 'benefits then offer', body: () => [benefitsList(), ...offerSec('card'), ...trust('roomy'), ...specs('split')] },
       ];
       for (const [hero, media, ratio] of heroes)

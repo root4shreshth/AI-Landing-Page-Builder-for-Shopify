@@ -7,6 +7,14 @@
   assign hf = s.lp_heading_font
   assign bf = s.lp_body_font
   assign bf_bold = bf | font_modify: 'weight', 'bold'
+  # Display headings need editorial weight: use the bold cut of the brand's heading font when it is lighter than 600
+  assign heading_face = hf
+  if hf.weight < 600
+    assign hf_bold = hf | font_modify: 'weight', 'bold'
+    if hf_bold
+      assign heading_face = hf_bold
+    endif
+  endif
   assign pt = s.lp_pt | default: 0
   assign pb = s.lp_pb | default: 0
   assign pt_m = pt | times: 0.66 | round
@@ -15,7 +23,7 @@
   assign accent_brightness = s.lp_accent | color_brightness
 -%}
 <style>
-  {{ hf | font_face: font_display: 'swap' }}
+  {{ heading_face | font_face: font_display: 'swap' }}
   {{ bf | font_face: font_display: 'swap' }}
   {{ bf_bold | font_face: font_display: 'swap' }}
   #shopify-section-{{ section.id }} .lp {
@@ -28,9 +36,9 @@
     --lp-btn-fg: {{ s.lp_btn_fg }};
     --lp-surface: {{ s.lp_fg | color_modify: 'alpha', 0.05 }};
     --lp-line: {{ s.lp_fg | color_modify: 'alpha', 0.18 }};
-    --lp-heading-font: {{ hf.family }}, {{ hf.fallback_families }};
-    --lp-heading-weight: {{ hf.weight }};
-    --lp-heading-style: {{ hf.style }};
+    --lp-heading-font: {{ heading_face.family }}, {{ heading_face.fallback_families }};
+    --lp-heading-weight: {{ heading_face.weight }};
+    --lp-heading-style: {{ heading_face.style }};
     --lp-body-font: {{ bf.family }}, {{ bf.fallback_families }};
     --lp-radius: {{ s.lp_radius | default: 0 }}px;
     --lp-pt: {{ pt_m }}px;

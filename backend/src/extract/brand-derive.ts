@@ -4,7 +4,7 @@
  */
 import type { BrandConfidence, BrandProfile } from '../catalogue/brand.js';
 import { findFamily, fontHandle, FONT_LIBRARY } from '../catalogue/fonts.js';
-import { contrast, hexToRgb, readableOn, rgbToHex, type RGB } from '../render/color.js';
+import { contrast, hexToRgb, mix, readableOn, rgbToHex, type RGB } from '../render/color.js';
 import type { ComputedBrandData } from './brand-capture.js';
 import type { PaletteColor } from './palette.js';
 
@@ -84,6 +84,9 @@ export function mapFont(fontFamilyCss: string, weight: number): BrandProfile['fo
   return { handle: fontHandle(fallback, weight), detectedFamily: detected, matched: 'default', confidence: 0.35 };
 }
 
+/** User-agent default colours (unstyled links etc.) — never evidence of a brand colour. */
+const BROWSER_DEFAULTS = new Set(['#0000EE', '#551A8B', '#0000FF', '#EE0000', '#FF0000', '#1A0DAB', '#0645AD', '#0B0080']);
+
 // ---------- main ----------
 export function deriveBrandProfile(data: ComputedBrandData, palette: PaletteColor[]): { profile: Omit<BrandProfile, 'tone' | 'toneSummary' | 'imageStyle'>; confidence: BrandConfidence; notes: string[] } {
   const notes: string[] = [];
@@ -139,7 +142,7 @@ export function deriveBrandProfile(data: ComputedBrandData, palette: PaletteColo
   // primary / secondary: chromatic candidates weighted by evidence
   const cand = new Map<string, number>();
   const bump = (hex: string | null, w: number) => {
-    if (!hex || !isChromatic(hex) || dist(hex, background!) < 40) return;
+    if (!hex || !isChromatic(hex) || dist(hex, background!) < 40 || BROWSER_DEFAULTS.has(hex)) return;
     // merge near-duplicates
     const near = [...cand.keys()].find((k) => dist(k, hex) < 28);
     cand.set(near ?? hex, (cand.get(near ?? hex) ?? 0) + w);
@@ -166,9 +169,10 @@ export function deriveBrandProfile(data: ComputedBrandData, palette: PaletteColo
   let secondary = ranked.find((h) => h !== primary && (hueDist(h, primary) > 25 || Math.abs(lightness(h) - lightness(primary)) > 0.25));
   if (secondary) confidence.secondary = { value: 0.6, source: 'css+screenshot' };
   else {
-    const neutral = palette.map((p) => p.hex).find((h) => dist(h, background!) > 12 && dist(h, background!) < 60);
-    secondary = neutral ?? (lightness(background) > 0.5 ? '#F2EEE8' : '#2A2A2A');
-    confidence.secondary = { value: neutral ? 0.45 : 0.3, source: neutral ? 'screenshot' : 'default', note: 'no second brand colour; using a soft surface tone' };
+    // No second brand colour: derive an on-brand companion instead of an unrelated neutral — a deep ink
+    // version of the primary when the primary is light (e.g. yellow), otherwise a soft tint of it.
+    secondary = lightness(primary) > 0.6 ? mix(primary, text, 0.82) : mix(background!, primary, 0.16);
+    confidence.secondary = { value: 0.35, source: 'heuristic', note: 'no second brand colour found; derived from the primary' };
   }
 
   // fonts

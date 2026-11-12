@@ -265,7 +265,27 @@
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
+  /** One quiet reveal per content section as it enters the viewport. Content is never hidden before this
+   *  runs (the CSS is scoped to .lp-reveal-ready), and it is skipped in the theme editor and for reduced motion. */
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.Shopify && window.Shopify.designMode) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var targets = Array.prototype.filter.call(document.querySelectorAll('.lp'), function (el) {
+      return !el.matches('.lp-hero, .lp-purchase, .lp-sticky, .lp-marquee, .lp-seo--crumbs') && el.getBoundingClientRect().top > window.innerHeight;
+    });
+    if (!targets.length) return;
+    document.documentElement.classList.add('lp-reveal-ready');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { el.classList.add('lp-section-reveal'); io.observe(el); });
+  }
+
   function init() {
+    initReveal();
     var dataEl = document.querySelector('script[data-lp-product]');
     if (!dataEl) return;
     var data;

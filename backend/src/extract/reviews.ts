@@ -12,7 +12,9 @@ const num = (v: unknown) => {
 };
 const str = (v: unknown) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim() : '');
 
-export function extractReviews($: cheerio.CheerioAPI, ld: Json[]): { rating?: ProductFacts['rating']; reviews: ProductFacts['reviews'] } {
+export function extractReviews($: cheerio.CheerioAPI, ld: Json[], productTitle = ''): { rating?: ProductFacts['rating']; reviews: ProductFacts['reviews'] } {
+  // Many review apps put the product name in the review "title" field; that is not a real title.
+  const realTitle = (t: string) => (t && t.toLowerCase() !== productTitle.toLowerCase() ? t.slice(0, 120) : undefined);
   const reviews: ProductFacts['reviews'] = [];
   let rating: ProductFacts['rating'];
 
@@ -30,10 +32,12 @@ export function extractReviews($: cheerio.CheerioAPI, ld: Json[]): { rating?: Pr
       const body = str(r.reviewBody ?? r.description);
       const author = str((r.author as Json)?.name ?? r.author);
       if (!body || !author) continue;
+      // star-only reviews: some apps put the product name in reviewBody when there is no written text
+      if (productTitle && body.toLowerCase() === productTitle.toLowerCase()) continue;
       reviews.push({
         author: author.slice(0, 60),
         rating: num((r.reviewRating as Json)?.ratingValue) ?? undefined,
-        title: str(r.name).slice(0, 120) || undefined,
+        title: realTitle(str(r.name)),
         body: body.slice(0, 1200),
         date: str(r.datePublished).slice(0, 40) || undefined,
       });

@@ -88,6 +88,10 @@ export function assembleConfig(plan: StructurePlan, copy: DesignCopy): PageConfi
         return { type: 'trust' as const, settings: s.settings, claimIds: s.claimIds };
       case 'offer':
         return { type: 'offer' as const, settings: s.settings };
+      case 'facts':
+        return { type: 'facts' as const, settings: s.settings, maxFacts: s.maxFacts };
+      case 'marquee':
+        return { type: 'marquee' as const, settings: s.settings };
     }
   });
   return {

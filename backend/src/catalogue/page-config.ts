@@ -216,9 +216,19 @@ export const StorySection = z
   })
   .strict();
 
+/** Fact strip: values come from verified specs; only the heading is configurable. */
+export const FactsSection = z
+  .object({ type: z.literal('facts'), settings: z.object({ heading: txt(90).optional() }).strict(), maxFacts: z.number().int().min(2).max(4).default(4) })
+  .strict();
+
+/** Brand band: items come from verified promises and short facts. */
+export const MarqueeSection = z
+  .object({ type: z.literal('marquee'), settings: z.object({ speed: z.number().int().min(16).max(60).default(32) }).strict() })
+  .strict();
+
 export const SectionConfig = z.discriminatedUnion('type', [
   HeroSection, PurchaseSection, BenefitsSection, SpecsSection, FaqSection, GallerySection,
-  ComparisonSection, ReviewsSection, TrustSection, OfferSection, StorySection,
+  ComparisonSection, ReviewsSection, TrustSection, OfferSection, StorySection, FactsSection, MarqueeSection,
 ]);
 export type SectionConfig = z.infer<typeof SectionConfig>;
 export type SectionType = SectionConfig['type'];
