@@ -1,5 +1,7 @@
-import { config } from './config.js';
+import { config, REPO_ROOT } from './config.js';
 import express from 'express';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { api, errorHandler, files } from './api/routes.js';
 import { designsApi } from './api/designs.js';
 import { publishApi } from './api/publish.js';
@@ -19,6 +21,12 @@ app.use('/api', api);
 app.use('/api', designsApi);
 app.use('/api', publishApi);
 app.use('/files', files);
+// Production / Docker: serve the built dashboard from the same origin (in development Vite does this on 5180).
+const dashboard = path.join(REPO_ROOT, 'frontend', 'dist');
+if (existsSync(path.join(dashboard, 'index.html'))) {
+  app.use(express.static(dashboard, { index: false, maxAge: '1h' }));
+  app.get(/^\/(?!api\/|files\/).*/, (_req, res) => res.sendFile(path.join(dashboard, 'index.html')));
+}
 app.use(errorHandler);
 
 await failStaleRuns().catch((e) => console.error('[boot] could not check stale runs:', (e as Error).message));

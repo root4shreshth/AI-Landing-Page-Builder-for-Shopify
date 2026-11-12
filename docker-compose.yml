@@ -17,5 +17,27 @@ services:
       timeout: 3s
       retries: 10
 
+  # Full app in one command: docker compose up --build  ->  http://localhost:4180
+  # (`npm run db:up` still starts only Postgres for local development.)
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      DATABASE_URL: postgresql://lpb:lpb_dev_password@postgres:5432/lpb?schema=public
+      PORT: "4100"
+      STORAGE_DIR: /app/storage
+    ports:
+      - "${APP_HOST_PORT:-4180}:4100"
+    volumes:
+      - storage:/app/storage
+    shm_size: "1gb"
+    restart: unless-stopped
+
 volumes:
   pgdata:
+  storage:

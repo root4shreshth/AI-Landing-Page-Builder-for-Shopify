@@ -1,0 +1,13 @@
+**/node_modules
+**/.env
+**/.env.*
+!.env.example
+storage
+shopify/dist
+frontend/dist
+**/*.tsbuildinfo
+*.docx
+*.pdf
+.git
+.claude
+docs/results/img
