@@ -1,0 +1,55 @@
+{%- comment -%}
+  Trust badges — verified claims only (delivery, COD, returns, secure checkout…). Hidden when empty.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- if section.blocks.size > 0 -%}
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+<div class="lp lp-trust lp-trust--{{ s.density }} lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {%- if s.heading != blank -%}<h2 class="lp-h3">{{ s.heading | escape }}</h2>{%- endif -%}
+    <ul class="lp-trust__list">
+      {%- for block in section.blocks -%}
+        <li class="lp-trust__item" {{ block.shopify_attributes }}>
+          {% render 'lp-icon', name: block.settings.icon %}
+          <span>
+            <strong>{{ block.settings.title | escape }}</strong>
+            {%- if block.settings.text != blank -%}<span class="lp-muted">{{ block.settings.text | escape }}</span>{%- endif -%}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+{%- elsif request.design_mode -%}
+  <div class="page-width"><p class="lp-placeholder">LP Trust badges is hidden: add badges for claims your store really offers.</p></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Trust badges",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Only add claims your store actually offers, e.g. delivery time, cash on delivery, return window." },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "select", "id": "density", "label": "Spacing", "default": "compact", "options": [
+      { "value": "compact", "label": "Compact" }, { "value": "roomy", "label": "Roomy" }
+    ] },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "limit": 6,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": "__LP_ICONS__" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Trust point" },
+        { "type": "text", "id": "text", "label": "Detail" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Trust badges" }]
+}
+{% endschema %}

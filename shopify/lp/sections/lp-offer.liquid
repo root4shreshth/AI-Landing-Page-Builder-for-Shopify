@@ -1,0 +1,59 @@
+{%- comment -%}
+  Offer banner — merchant-confirmed offers only. Optional automatic "save X%" from the live
+  compare-at price (never invented). No fake countdowns. Hidden when there is nothing real to show.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign v = product.selected_or_first_available_variant
+  assign has_saving = false
+  if s.show_savings and v.compare_at_price > v.price
+    assign has_saving = true
+    assign save_pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+  endif
+-%}
+{%- if s.text != blank or has_saving -%}
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+<div class="lp lp-offer lp-offer--{{ s.style }} lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    <div class="lp-offer__inner">
+      <div>
+        {%- if s.text != blank -%}<p class="lp-h3" style="margin:0">{{ s.text | escape }}</p>{%- endif -%}
+        {%- if has_saving -%}
+          <p style="margin:0.4rem 0 0">
+            <strong>{{ v.price | money }}</strong> <s class="lp-muted">{{ v.compare_at_price | money }}</s>
+            <span class="lp-badge">Save {{ save_pct }}%</span>
+          </p>
+        {%- endif -%}
+        {%- if s.subtext != blank -%}<div class="lp-rte lp-muted">{{ s.subtext }}</div>{%- endif -%}
+      </div>
+      {%- if s.code != blank -%}<span>Use code <span class="lp-offer__code">{{ s.code | escape }}</span></span>{%- endif -%}
+      {%- if s.button_label != blank -%}<a href="#lp-main-buy" class="lp-btn" data-lp-scroll-buy>{{ s.button_label | escape }}</a>{%- endif -%}
+    </div>
+  </div>
+</div>
+{%- elsif request.design_mode -%}
+  <div class="page-width"><p class="lp-placeholder">LP Offer is hidden: add offer text, or enable savings when the product has a compare-at price.</p></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Offer banner",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Only show offers your store is really running." },
+    { "type": "text", "id": "text", "label": "Offer headline" },
+    { "type": "richtext", "id": "subtext", "label": "Offer details / terms" },
+    { "type": "text", "id": "code", "label": "Discount code" },
+    { "type": "checkbox", "id": "show_savings", "label": "Show savings from compare-at price", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "info": "Scrolls to add-to-cart." },
+    { "type": "select", "id": "style", "label": "Style", "default": "card", "options": [
+      { "value": "card", "label": "Card" }, { "value": "bar", "label": "Slim bar" }
+    ] },
+    "__LP_STYLE__"
+  ],
+  "presets": [{ "name": "LP Offer banner" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

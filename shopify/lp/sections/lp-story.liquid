@@ -1,0 +1,76 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- assign s = section.settings -%}
+<div class="lp lp-story lp-story--{{ s.layout }} lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
+    <div class="lp-story__chapters">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign show_media = false
+          if b.image != blank
+            assign show_media = true
+          elsif b.use_product_image and product.media.size > 0
+            assign show_media = true
+          endif
+        -%}
+        <div class="lp-chapter" {{ block.shopify_attributes }}>
+          {%- if show_media -%}
+            <div class="lp-chapter__media lp-media lp-ratio-{{ s.image_ratio }}">
+              {%- if b.image != blank -%}
+                {% render 'lp-image', image: b.image, sizes: '(min-width: 750px) 50vw, 100vw' %}
+              {%- else -%}
+                {%- assign img_index = forloop.index | modulo: product.media.size -%}
+                {% render 'lp-image', image: product.media[img_index], sizes: '(min-width: 750px) 50vw, 100vw' %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <div>
+            {%- if b.eyebrow != blank -%}<span class="lp-eyebrow">{{ b.eyebrow | escape }}</span>{%- endif -%}
+            <h3 class="lp-h2">{{ b.heading | escape }}</h3>
+            <div class="lp-rte">{{ b.text }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LP Story",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The story behind it" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "select", "id": "align", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }
+    ] },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "alternate", "options": [
+      { "value": "alternate", "label": "Alternating image and text" }, { "value": "centered", "label": "Centred column" }
+    ] },
+    { "type": "select", "id": "image_ratio", "label": "Image shape", "default": "landscape", "options": [
+      { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait" }, { "value": "landscape", "label": "Landscape" }
+    ] },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Chapter",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "checkbox", "id": "use_product_image", "label": "Use a product image if no image is set", "default": true },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Chapter heading" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Tell part of the product story with real facts.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Story", "blocks": [{ "type": "chapter" }, { "type": "chapter" }] }]
+}
+{% endschema %}

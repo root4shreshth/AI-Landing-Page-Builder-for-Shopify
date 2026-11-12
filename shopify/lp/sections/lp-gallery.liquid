@@ -1,0 +1,70 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- assign s = section.settings -%}
+<div class="lp lp-gallery lp-gallery--{{ s.layout }} lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
+    <div
+      class="{% if s.layout == 'strip' %}lp-gallery-strip{% else %}lp-gallery__grid lp-gallery__grid--{{ s.columns }}{% endif %}"
+      {% if s.layout == 'strip' %}tabindex="0" role="region" aria-label="{{ s.heading | default: 'Gallery' | escape }}"{% endif %}
+    >
+      {%- if s.source == 'product' -%}
+        {%- for m in product.media limit: s.limit -%}
+          {%- if m.media_type == 'image' -%}
+            <figure class="lp-media lp-ratio-{{ s.image_ratio }}" style="margin:0">{% render 'lp-image', image: m, sizes: '(min-width: 990px) 25vw, 50vw', max_width: 1200 %}</figure>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <figure style="margin:0" {{ block.shopify_attributes }}>
+            <div class="lp-media lp-ratio-{{ s.image_ratio }}">{% render 'lp-image', image: block.settings.image, alt: block.settings.alt, sizes: '(min-width: 990px) 25vw, 50vw', max_width: 1200 %}</div>
+            {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption | escape }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LP Image gallery",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "select", "id": "align", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }
+    ] },
+    { "type": "select", "id": "source", "label": "Images", "default": "product", "options": [
+      { "value": "product", "label": "Product images" }, { "value": "custom", "label": "Custom images (blocks)" }
+    ] },
+    { "type": "range", "id": "limit", "label": "Product images to show", "min": 2, "max": 12, "step": 1, "default": 6 },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "grid", "options": [
+      { "value": "grid", "label": "Grid" }, { "value": "mosaic", "label": "Mosaic" }, { "value": "strip", "label": "Swipe strip" }
+    ] },
+    { "type": "select", "id": "columns", "label": "Columns (desktop)", "default": "3", "options": [
+      { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ] },
+    { "type": "select", "id": "image_ratio", "label": "Image shape", "default": "square", "options": [
+      { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait" }, { "value": "landscape", "label": "Landscape" }
+    ] },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 12,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "alt", "label": "Alt text", "info": "Describe the image for screen readers and search." },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Image gallery" }]
+}
+{% endschema %}

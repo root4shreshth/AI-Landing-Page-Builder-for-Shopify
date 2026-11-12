@@ -1,0 +1,88 @@
+{%- comment -%}
+  Reviews — REAL data only. Renders nothing on the storefront when there are no reviews and no rating
+  (a placeholder note is shown only in the theme editor). Source label is always visible.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- if section.blocks.size > 0 or s.rating_value != blank -%}
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+<div class="lp lp-reviews lp-reviews--{{ s.layout }} lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
+    {%- if s.rating_value != blank -%}
+      <div class="lp-reviews__summary">
+        <span class="lp-reviews__score">{{ s.rating_value | escape }}</span>
+        <div>
+          {% render 'lp-stars', rating: s.rating_value %}
+          {%- if s.rating_count != blank -%}<div class="lp-muted">Based on {{ s.rating_count | escape }} reviews</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="lp-grid lp-grid--3">
+        {%- for block in section.blocks -%}
+          {%- assign b = block.settings -%}
+          <article class="lp-review lp-card lp-card--{{ s.card_style }}" {{ block.shopify_attributes }}>
+            {%- if b.image != blank -%}
+              <div class="lp-media lp-ratio-square">{% render 'lp-image', image: b.image, sizes: '(min-width: 990px) 33vw, 100vw', max_width: 800 %}</div>
+            {%- endif -%}
+            {%- if b.rating > 0 -%}{% render 'lp-stars', rating: b.rating %}{%- endif -%}
+            {%- if b.title != blank -%}<h3>{{ b.title | escape }}</h3>{%- endif -%}
+            <blockquote class="lp-rte">{{ b.body }}</blockquote>
+            <div class="lp-review__meta">
+              {{ b.author | escape }}{% if b.verified %} · Verified buyer{% endif %}{% if b.date != blank %} · {{ b.date | escape }}{% endif %}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    {%- if s.source != blank -%}<p class="lp-source">Source: {{ s.source | escape }}</p>{%- endif -%}
+  </div>
+</div>
+{%- elsif request.design_mode -%}
+  <div class="page-width"><p class="lp-placeholder">LP Reviews is hidden: add real reviews as blocks or enter a real rating.</p></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Reviews",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Only add genuine reviews from real customers. Do not write or edit reviews." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "select", "id": "align", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }
+    ] },
+    { "type": "text", "id": "rating_value", "label": "Average rating", "info": "Leave blank if you don't have one." },
+    { "type": "text", "id": "rating_count", "label": "Number of reviews" },
+    { "type": "text", "id": "source", "label": "Review source", "info": "e.g. Verified reviews on our store" },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "grid", "options": [
+      { "value": "grid", "label": "Grid" }, { "value": "wall", "label": "Wall (masonry)" }
+    ] },
+    { "type": "select", "id": "card_style", "label": "Card style", "default": "filled", "options": [
+      { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" }, { "value": "plain", "label": "Plain" }
+    ] },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 24,
+      "settings": [
+        { "type": "text", "id": "author", "label": "Customer name", "default": "Customer" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 0, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "body", "label": "Review", "default": "<p>Paste a genuine review.</p>" },
+        { "type": "text", "id": "date", "label": "Date" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": false },
+        { "type": "image_picker", "id": "image", "label": "Customer photo" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Reviews" }]
+}
+{% endschema %}

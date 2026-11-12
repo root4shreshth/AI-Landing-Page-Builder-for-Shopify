@@ -1,0 +1,10 @@
+{%- comment -%}
+  Section heading group. Params: eyebrow, heading, intro (richtext), align ('left'|'center')
+{%- endcomment -%}
+{%- if heading != blank or eyebrow != blank or intro != blank -%}
+  <div class="lp-head{% if align == 'center' %} lp-head--center{% endif %}">
+    {%- if eyebrow != blank -%}<span class="lp-eyebrow">{{ eyebrow | escape }}</span>{%- endif -%}
+    {%- if heading != blank -%}<h2>{{ heading | escape }}</h2>{%- endif -%}
+    {%- if intro != blank -%}<div class="lp-rte lp-muted">{{ intro }}</div>{%- endif -%}
+  </div>
+{%- endif -%}

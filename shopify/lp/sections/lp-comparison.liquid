@@ -1,0 +1,72 @@
+{%- comment -%}
+  Comparison against a generic alternative. Never names or disparages specific competitors.
+  Each cell: "yes" (tick), "no" (cross) or free text.
+{%- endcomment -%}
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- assign s = section.settings -%}
+{%- assign ours_label = s.ours_label | default: product.title -%}
+<div class="lp lp-comparison lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
+    <div class="lp-compare" tabindex="0" role="region" aria-label="{{ s.heading | default: 'Comparison' | escape }}">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"><span class="lp-sr">Feature</span></th>
+            <th scope="col" class="lp-compare__ours">{{ ours_label | escape }}</th>
+            <th scope="col">{{ s.other_label | escape }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.feature | escape }}</th>
+              {%- assign cells = block.settings.ours | append: '|||' | append: block.settings.other | split: '|||' -%}
+              {%- for cell in cells -%}
+                {%- assign c = cell | strip | downcase -%}
+                <td{% if forloop.first %} class="lp-compare__ours"{% endif %}>
+                  {%- if c == 'yes' -%}<span class="lp-yes">{% render 'lp-icon', name: 'check' %}<span class="lp-sr">Yes</span></span>
+                  {%- elsif c == 'no' -%}<span class="lp-no">{% render 'lp-icon', name: 'x' %}<span class="lp-sr">No</span></span>
+                  {%- else -%}{{ cell | escape }}{%- endif -%}
+                </td>
+              {%- endfor -%}
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LP Comparison",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How it compares" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "select", "id": "align", "label": "Heading alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }
+    ] },
+    { "type": "text", "id": "ours_label", "label": "Our column label", "info": "Defaults to the product title." },
+    { "type": "text", "id": "other_label", "label": "Other column label", "default": "Typical alternative", "info": "Keep it generic. Do not name competitors." },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "limit": 12,
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "Feature" },
+        { "type": "text", "id": "ours", "label": "Ours", "default": "yes", "info": "Type yes, no, or a short value." },
+        { "type": "text", "id": "other", "label": "Other", "default": "no", "info": "Type yes, no, or a short value." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Comparison", "blocks": [{ "type": "row" }, { "type": "row" }] }]
+}
+{% endschema %}

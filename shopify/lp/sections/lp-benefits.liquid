@@ -1,0 +1,85 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- assign s = section.settings -%}
+<div class="lp lp-benefits lp--{{ s.lp_width }}">
+  <div class="lp__wrap">
+    {% render 'lp-head', eyebrow: s.eyebrow, heading: s.heading, intro: s.intro, align: s.align %}
+    {%- if s.layout == 'list' -%}
+      <div class="lp-list">
+        {%- for block in section.blocks -%}
+          <div class="lp-list__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <div class="lp-media lp-ratio-square" style="width:6.4rem">{% render 'lp-image', image: block.settings.image, sizes: '64px', max_width: 200 %}</div>
+            {%- else -%}
+              <span class="lp-icon">{% render 'lp-icon', name: block.settings.icon %}</span>
+            {%- endif -%}
+            <div>
+              <h3>{{ block.settings.title | escape }}</h3>
+              {%- if block.settings.text != blank -%}<div class="lp-rte">{{ block.settings.text }}</div>{%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="lp-grid lp-grid--{{ s.columns }}">
+        {%- for block in section.blocks -%}
+          <div class="lp-card lp-card--{{ s.card_style }}{% if s.align == 'center' %} lp-head--center{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <div class="lp-media lp-ratio-landscape" style="margin-bottom:1.6rem">{% render 'lp-image', image: block.settings.image, sizes: '(min-width: 990px) 25vw, (min-width: 560px) 50vw, 100vw', max_width: 800 %}</div>
+            {%- else -%}
+              <span class="lp-icon">{% render 'lp-icon', name: block.settings.icon %}</span>
+            {%- endif -%}
+            <h3>{{ block.settings.title | escape }}</h3>
+            {%- if block.settings.text != blank -%}<div class="lp-rte">{{ block.settings.text }}</div>{%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    {%- if s.cta_label != blank -%}
+      <div style="margin-top:3.2rem{% if s.align == 'center' %};text-align:center{% endif %}">
+        <a href="#lp-main-buy" class="lp-btn" data-lp-scroll-buy>{{ s.cta_label | escape }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "LP Benefits",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why you'll love it" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "grid", "options": [
+      { "value": "grid", "label": "Grid" }, { "value": "list", "label": "List" }
+    ] },
+    { "type": "select", "id": "columns", "label": "Columns (desktop)", "default": "3", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ] },
+    { "type": "select", "id": "card_style", "label": "Card style", "default": "filled", "options": [
+      { "value": "filled", "label": "Filled" }, { "value": "outline", "label": "Outline" }, { "value": "plain", "label": "Plain" }
+    ] },
+    { "type": "select", "id": "align", "label": "Alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }
+    ] },
+    { "type": "text", "id": "cta_label", "label": "Button label", "info": "Scrolls to add-to-cart. Leave blank to hide." },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 12,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": "__LP_ICONS__" },
+        { "type": "image_picker", "id": "image", "label": "Image (replaces icon)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Benefit" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Explain the benefit with a concrete fact.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Benefits", "blocks": [{ "type": "benefit" }, { "type": "benefit" }, { "type": "benefit" }] }]
+}
+{% endschema %}
