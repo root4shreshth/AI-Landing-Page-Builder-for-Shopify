@@ -1,6 +1,7 @@
 import { config } from './config.js';
 import express from 'express';
 import { api, errorHandler, files } from './api/routes.js';
+import { designsApi } from './api/designs.js';
 import { closeBrowser } from './browser/browser.js';
 import { prisma } from './db.js';
 import { failStaleRuns } from './services/runs.js';
@@ -14,6 +15,7 @@ app.get('/api/health', async (_req, res) => {
   res.json({ ok: db, db, llm: config.llm.enabled, model: config.llm.main, time: new Date().toISOString() });
 });
 app.use('/api', api);
+app.use('/api', designsApi);
 app.use('/files', files);
 app.use(errorHandler);
 

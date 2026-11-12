@@ -11,6 +11,9 @@ import { UsageTracker } from '../ai/client.js';
 import { prisma } from '../db.js';
 import { analyzeProductUrl, runDirFor } from './analyze.js';
 import { runResearch } from './research.js';
+import { generateDesigns } from './generate.js';
+import { config } from '../config.js';
+import type { BrandProfile } from '../catalogue/brand.js';
 
 export interface StageState { stage: string; status: 'pending' | 'running' | 'done' | 'failed' | 'skipped'; message?: string; startedAt?: string; finishedAt?: string }
 
@@ -109,9 +112,29 @@ async function executeRun(runId: string) {
       await setStage(runId, 'competitors', 'failed', `Research failed: ${(e as Error).message}`);
     }
 
-    // Generation/validation stages arrive in later milestones; they stay "pending" (not run) — never faked.
-    await prisma.generationRun.update({ where: { id: runId }, data: { status: 'researched', stage: 'researched', cost: json(usage.toJSON()) } });
-    runEvents.emit(runId, { type: 'status', status: 'researched', productId: product.id, brandId: brand.id });
+    // ---- design generation (uses the brand profile as stored, i.e. including user corrections) ----
+    let generated = 0;
+    if (config.llm.enabled) {
+      const brandNow = await prisma.brand.findUniqueOrThrow({ where: { id: brand.id } });
+      const designs = await generateDesigns({
+        runId,
+        runDir: runDirFor(runId),
+        productId: product.id,
+        facts,
+        snapshot,
+        brand: brandNow.profile as unknown as BrandProfile,
+        usage,
+        report: (stage, status, message) => setStage(runId, stage, status, message),
+      });
+      generated = designs.length;
+    } else {
+      await setStage(runId, 'generate', 'skipped', 'No ANTHROPIC_API_KEY configured — designs need the LLM for copy');
+    }
+
+    // Validation (SEO/AEO/GEO, Lighthouse) arrives in M6; it stays "pending" (not run) — never faked.
+    const status = generated ? 'generated' : 'researched';
+    await prisma.generationRun.update({ where: { id: runId }, data: { status, stage: status, cost: json(usage.toJSON()) } });
+    runEvents.emit(runId, { type: 'status', status, productId: product.id, brandId: brand.id });
   } catch (e) {
     const message = (e as Error).message || 'Unknown error';
     const fresh = await prisma.generationRun.findUnique({ where: { id: runId } });
