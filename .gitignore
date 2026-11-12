@@ -14,3 +14,4 @@ Thumbs.db
 # Assignment brief files (not part of the codebase)
 *.docx
 *.pdf
+*.tsbuildinfo
