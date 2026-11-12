@@ -10,7 +10,6 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { chromium, type Browser, type Page } from 'playwright';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { execFileSync } from 'node:child_process';
 import { demoBrand, demoConfigs, demoFacts, demoProduct, fixtureFactsWithReviews } from '../fixtures/demo.js';
 import { renderPreview } from './preview.js';
 import { renderTemplate } from './template.js';
@@ -23,7 +22,6 @@ let browser: Browser;
 const pages: { name: string; file: string }[] = [];
 
 beforeAll(async () => {
-  execFileSync(process.execPath, [path.join(REPO_ROOT, 'scripts', 'build-theme.mjs')], { stdio: 'pipe' });
   dir = await mkdtemp(path.join(tmpdir(), 'lp-preview-'));
   await mkdir(path.join(dir, 'assets'));
   for (const a of ['lp.css', 'lp-cart.js']) await copyFile(path.join(DEFAULT_THEME_DIR, 'assets', a), path.join(dir, 'assets', a));

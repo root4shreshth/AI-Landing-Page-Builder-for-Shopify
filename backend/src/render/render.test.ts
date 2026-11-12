@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -12,7 +11,6 @@ import { loadSectionSchemas, REPO_ROOT, validateTemplate, type SectionSchema } f
 let schemas: Map<string, SectionSchema>;
 
 beforeAll(async () => {
-  execFileSync(process.execPath, [path.join(REPO_ROOT, 'scripts', 'build-theme.mjs')], { stdio: 'pipe' });
   schemas = await loadSectionSchemas();
 }, 60_000);
 
