@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "lp_test": {
+      "type": "lp-test",
+      "blocks": {
+        "point_1": { "type": "point", "settings": { "title": "Rendered from a JSON product template" } },
+        "point_2": { "type": "point", "settings": { "title": "Blocks can be added, removed and reordered" } }
+      },
+      "block_order": ["point_1", "point_2"],
+      "settings": {
+        "heading": "",
+        "bg_color": "#F5F1EA",
+        "text_color": "#17324D",
+        "show_price": true
+      }
+    }
+  },
+  "order": ["lp_test"]
+}

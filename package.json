@@ -1,0 +1,22 @@
+{
+  "name": "ai-landing-page-builder",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI Landing Page Builder for Shopify (Wishluck take-home)",
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "theme:build": "node scripts/build-theme.mjs",
+    "theme:check": "node scripts/build-theme.mjs && shopify theme check --path shopify/dist/theme",
+    "theme:zip": "node scripts/build-theme.mjs --zip"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1"
+  }
+}

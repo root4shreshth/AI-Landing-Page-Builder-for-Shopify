@@ -1,0 +1,177 @@
+// Relational core + JSONB for flexible AI / extraction payloads.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id         String    @id @default(uuid())
+  domain     String    @unique
+  name       String?
+  // { colors:{primary,secondary,background,text,button,buttonText}, fonts:{heading,body,...}, tone, imageStyle, button:{radius,style}, spacing }
+  profile    Json
+  // Same shape as profile but each leaf -> { confidence: 0..1, source: "css"|"screenshot"|"llm"|"user" }
+  confidence Json
+  // Original extracted profile so the dashboard can "Reset to extracted"
+  extracted  Json
+  editedAt   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  products   Product[]
+}
+
+model Product {
+  id          String           @id @default(uuid())
+  sourceUrl   String
+  handle      String?
+  title       String
+  category    String?
+  // Raw extracted facts: description, specs, images, price, compareAt, rating (only if real), source of each fact
+  facts       Json
+  brandId     String
+  brand       Brand            @relation(fields: [brandId], references: [id])
+  variants    ProductVariant[]
+  runs        GenerationRun[]
+  createdAt   DateTime         @default(now())
+
+  @@index([category])
+}
+
+model ProductVariant {
+  id              String   @id @default(uuid())
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  // Variant ID on the SOURCE store (informational; storefront ATC uses live dev-store product.variants)
+  sourceVariantId String
+  title           String
+  options         Json
+  priceCents      Int?
+  compareAtCents  Int?
+  available       Boolean?
+  sku             String?
+}
+
+model GenerationRun {
+  id          String       @id @default(uuid())
+  productId   String?
+  product     Product?     @relation(fields: [productId], references: [id])
+  inputUrl    String
+  status      String       @default("queued") // queued | running | completed | failed
+  stage       String       @default("queued") // product | brand | competitors | learnings | generating | validating | done
+  // [{stage, status, startedAt, finishedAt, message, error}]
+  stages      Json         @default("[]")
+  error       String?
+  // { inputTokens, outputTokens, estimatedUsd, byStage:{...} }
+  cost        Json?
+  competitors Competitor[]
+  designs     Design[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Competitor {
+  id          String              @id @default(uuid())
+  runId       String
+  run         GenerationRun       @relation(fields: [runId], references: [id], onDelete: Cascade)
+  url         String
+  domain      String
+  title       String?
+  isIndianD2C Boolean?
+  relevance   Float?
+  rationale   String?
+  crawlStatus String              @default("pending") // pending | crawled | blocked_robots | failed | skipped
+  crawlError  String?
+  capturedAt  DateTime?
+  // { desktop: path, mobile: path }
+  screenshots Json?
+  // Structured page breakdown (section order, headline style, trust, ATC position, FAQ, media, urgency, unusual)
+  structure   Json?
+  findings    CompetitorFinding[]
+}
+
+model CompetitorFinding {
+  id           String     @id @default(uuid())
+  competitorId String
+  competitor   Competitor @relation(fields: [competitorId], references: [id], onDelete: Cascade)
+  feature      String // e.g. "reviews_near_price"
+  value        Json
+  evidence     String? // short neutral description (never copied copy)
+}
+
+model CategoryLearning {
+  id             String   @id @default(uuid())
+  category       String
+  key            String // feature key, e.g. "reviews_near_price"
+  kind           String // observation | hypothesis | recommendation
+  statement      String
+  supportCount   Int
+  sampleSize     Int
+  // [{competitorId, url}]
+  sources        Json
+  runId          String?
+  createdAt      DateTime @default(now())
+
+  @@index([category])
+}
+
+model Design {
+  id          String             @id @default(uuid())
+  runId       String
+  run         GenerationRun      @relation(fields: [runId], references: [id], onDelete: Cascade)
+  direction   String // story-led | benefit-grid | social-proof | offer-led
+  name        String
+  // Validated page config (sections, settings, blocks)
+  config      Json
+  templateKey String // e.g. product.lp-abc123-story
+  status      String             @default("draft") // draft | approved | rejected | superseded
+  // SEO/AEO/GEO checklist + Lighthouse results
+  checks      Json?
+  version     Int                @default(1)
+  parentId    String? // regenerated from
+  fingerprint DesignFingerprint?
+  feedback    DesignFeedback[]
+  createdAt   DateTime           @default(now())
+}
+
+model DesignFingerprint {
+  id         String   @id @default(uuid())
+  designId   String   @unique
+  design     Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
+  category   String
+  features   Json // { heroType, sectionOrder, composition, visualStyle, imageLayout, atcPlacement, colorStrategy }
+  // { nearestDesignId, score, featureScores:{...}, comparedAgainst:n }
+  similarity Json?
+  createdAt  DateTime @default(now())
+
+  @@index([category])
+}
+
+model DesignFeedback {
+  id        String   @id @default(uuid())
+  designId  String
+  design    Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
+  verdict   String // approved | rejected | published
+  reason    String?
+  tags      Json? // structured reasons, e.g. ["too_busy","wrong_colors"]
+  createdAt DateTime @default(now())
+}
+
+model PublishHistory {
+  id         String   @id @default(uuid())
+  designIds  Json
+  method     String // cli | zip | admin_api
+  status     String // pending | succeeded | failed
+  store      String?
+  themeId    String?
+  themeName  String?
+  previewUrl String?
+  editorUrl  String?
+  zipPath    String?
+  log        String?
+  createdAt  DateTime @default(now())
+}
