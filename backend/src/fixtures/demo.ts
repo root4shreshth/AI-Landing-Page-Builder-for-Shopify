@@ -60,6 +60,7 @@ export const demoFacts: ProductFacts = {
   descriptionText: 'A midweight crew neck t-shirt made from 100% organic cotton.',
   hasCompareAt: true,
   reviews: [],
+  highlights: [],
   specs: [
     { label: 'Material', value: '100% organic cotton', source: 'dom' },
     { label: 'Fabric weight', value: '180 GSM', source: 'dom' },

@@ -31,6 +31,8 @@ export const ProductFactsSchema = z.object({
     )
     .default([]),
   specs: z.array(z.object({ label: z.string().min(1).max(40), value: z.string().min(1).max(160), source: factSource })).default([]),
+  /** Unlabelled bullet points from the product description (grounding for benefit copy). */
+  highlights: z.array(z.string().min(1).max(160)).default([]),
   /** Verified store claims (delivery, COD, returns…). id is referenced by the AI config. */
   claims: z
     .array(
@@ -40,6 +42,8 @@ export const ProductFactsSchema = z.object({
         title: z.string().min(1).max(40),
         text: z.string().max(80).optional(),
         source: z.string(),
+        /** Exact text on the source page that supports the claim (shown to the user for confirmation). */
+        evidence: z.string().max(200).optional(),
       }),
     )
     .default([]),
