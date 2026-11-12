@@ -2,6 +2,9 @@
  * Shopify font library subset used for brand mapping and local previews.
  * Handle format: <family_snake>_<style><weight/100>, e.g. playfair_display_n7.
  * All families listed are also on Google Fonts, so local previews load the same face.
+ *
+ * Verified 2026-11-12: every handle fontHandle() can produce for these families (110 handles) was pushed
+ * to a real Shopify theme and accepted. EB Garamond was rejected for all weights and removed.
  */
 export interface FontFamilyDef {
   family: string;
@@ -43,7 +46,6 @@ export const FONT_LIBRARY: FontFamilyDef[] = [
   F('Lora', 'serif', [4, 5, 6, 7]),
   F('Libre Baskerville', 'serif', [4, 7]),
   F('Cormorant', 'serif', [3, 4, 5, 6, 7]),
-  F('EB Garamond', 'serif', [4, 5, 6, 7, 8]),
   F('Fraunces', 'serif', [1, 2, 3, 4, 5, 6, 7, 8, 9]),
   F('Merriweather', 'serif', [3, 4, 7, 9]),
   F('Space Mono', 'mono', [4, 7]),
