@@ -11,7 +11,11 @@
     "db:down": "docker compose down",
     "theme:build": "node scripts/build-theme.mjs",
     "theme:check": "node scripts/build-theme.mjs && shopify theme check --path shopify/dist/theme",
-    "theme:zip": "node scripts/build-theme.mjs --zip"
+    "theme:zip": "node scripts/build-theme.mjs --zip",
+    "typecheck": "npm run -w backend typecheck",
+    "test": "npm run -w backend test",
+    "render:demo": "npm run -w backend render:demo && node scripts/build-theme.mjs --extra storage/generated/demo --zip",
+    "preview:serve": "node scripts/serve-static.mjs storage/generated 4310"
   },
   "engines": {
     "node": ">=20"

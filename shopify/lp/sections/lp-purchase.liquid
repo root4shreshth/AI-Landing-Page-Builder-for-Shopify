@@ -7,7 +7,7 @@
   assign form_id = 'lp-buy-' | append: section.id
   assign collection = product.collections.first
 -%}
-<div class="lp lp-purchase lp-purchase--media-{{ s.media_position }} lp--{{ s.lp_width }}" id="lp-main-buy">
+<div class="lp lp-purchase lp-purchase--media-{{ s.media_position }}{% if s.is_above_fold %} lp-purchase--top{% endif %} lp--{{ s.lp_width }}" id="lp-main-buy">
   <div class="lp__wrap">
     <div class="lp-purchase__grid">
       <div class="lp-purchase__media">

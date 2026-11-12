@@ -106,6 +106,7 @@
 .lp-hero--overlay .lp-hero__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,var(--lp-scrim, 0.45)) 0%, rgba(0,0,0,calc(var(--lp-scrim, 0.45) + 0.15)) 100%); }
 .lp-hero--overlay .lp__wrap { position: relative; padding-top: var(--lp-pt, 4.8rem); padding-bottom: var(--lp-pb, 4.8rem); min-height: min(88vh, 84rem); display: flex; align-items: center; }
 .lp-hero--overlay .lp-hero__content { max-width: 56rem; }
+.lp-hero--overlay .lp-eyebrow, .lp-hero--overlay .lp-highlights svg, .lp-hero--overlay .lp-stars { color: var(--lp-overlay-fg, #fff); }
 .lp-hero--overlay .lp-buy-card { background: var(--lp-bg); color: var(--lp-fg); padding: 1.6rem; border-radius: var(--lp-radius, 0.6rem); }
 .lp-hero--stacked .lp-hero__content { text-align: center; justify-items: center; max-width: 76rem; margin: 0 auto; }
 .lp-hero--stacked .lp-buy { justify-items: stretch; width: 100%; max-width: 48rem; text-align: left; }
@@ -127,6 +128,10 @@
 .lp-gallery-strip { display: grid; grid-auto-flow: column; grid-auto-columns: 86%; gap: 0.8rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
 .lp-gallery-strip > * { scroll-snap-align: start; }
 .lp-purchase__info { display: grid; gap: 1.4rem; align-content: start; }
+@media (max-width: 749px) {
+  /* When the purchase section opens the page, keep title/price/ATC on the first mobile screen */
+  .lp-purchase--top .lp-purchase__media { order: 2; }
+}
 .lp-breadcrumb { font-size: 1.3rem; margin-bottom: 0.4rem; }
 .lp-breadcrumb ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0; }
 .lp-breadcrumb li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.5; }

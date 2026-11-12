@@ -269,7 +269,7 @@
     var dataEl = document.querySelector('script[data-lp-product]');
     if (!dataEl) return;
     var data;
-    try { data = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    try { data = JSON.parse(dataEl.textContent); } catch (e) { console.error('[lp-cart] invalid product data; add-to-cart falls back to a normal form post', e); return; }
     store.product = data.product;
     store.moneyFormat = data.moneyFormat || store.moneyFormat;
     var initial = null;

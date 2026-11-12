@@ -10,6 +10,40 @@
 import type { BrandTokens } from '../catalogue/brand.js';
 import type { ProductFacts } from '../catalogue/facts.js';
 import type { PageConfigInput } from '../catalogue/page-config.js';
+import type { ProductSnapshot } from '../catalogue/product.js';
+
+/** Offline placeholder product photos (flat SVGs) so local previews and tests need no network images. */
+const svgImg = (label: string, bg: string, w = 1200, h = 1200) =>
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="${bg}"/><path d="M${w * 0.32} ${h * 0.28} l${w * 0.12} -${h * 0.06} q${w * 0.06} ${h * 0.05} ${w * 0.12} 0 l${w * 0.12} ${h * 0.06} l-${w * 0.05} ${h * 0.12} l-${w * 0.05} -${h * 0.02} v${h * 0.4} h-${w * 0.24} v-${h * 0.4} l-${w * 0.05} ${h * 0.02} z" fill="#ffffff" opacity="0.85"/><text x="50%" y="${h * 0.9}" font-family="sans-serif" font-size="${w * 0.04}" fill="#ffffff" text-anchor="middle">${label}</text></svg>`,
+  );
+
+export const demoProduct: ProductSnapshot = {
+  handle: 'organic-cotton-crew-t-shirt',
+  title: 'Organic Cotton Crew T-Shirt',
+  vendor: 'Demo Brand',
+  descriptionHtml: '<p>A midweight crew neck t-shirt made from 100% organic cotton.</p>',
+  url: '/products/organic-cotton-crew-t-shirt',
+  currency: 'INR',
+  moneyFormat: 'Rs. {{amount}}',
+  images: [
+    { src: svgImg('Front', '#7A8B99'), alt: 'Organic cotton crew t-shirt, front view', width: 1200, height: 1200 },
+    { src: svgImg('Back', '#5E6E7B'), alt: 'Organic cotton crew t-shirt, back view', width: 1200, height: 1200 },
+    { src: svgImg('Detail', '#A1907A'), alt: 'Close-up of the organic cotton fabric', width: 1200, height: 1200 },
+    { src: svgImg('Worn', '#8C7B6B'), alt: 'T-shirt worn with jeans', width: 1200, height: 1500 },
+    { src: svgImg('Folded', '#6B7F6B'), alt: 'Folded t-shirt', width: 1200, height: 1200 },
+  ],
+  options: ['Size', 'Colour'],
+  variants: [
+    { id: 1001, title: 'S / Navy', options: ['S', 'Navy'], price: 79900, compareAtPrice: 99900, available: true, sku: 'TEE-S-NVY' },
+    { id: 1002, title: 'M / Navy', options: ['M', 'Navy'], price: 79900, compareAtPrice: 99900, available: true, sku: 'TEE-M-NVY' },
+    { id: 1003, title: 'L / Navy', options: ['L', 'Navy'], price: 79900, compareAtPrice: 99900, available: false, sku: 'TEE-L-NVY' },
+    { id: 1004, title: 'S / Sand', options: ['S', 'Sand'], price: 84900, compareAtPrice: null, available: true, sku: 'TEE-S-SND' },
+    { id: 1005, title: 'M / Sand', options: ['M', 'Sand'], price: 84900, compareAtPrice: null, available: true, sku: 'TEE-M-SND' },
+  ],
+  collection: { title: 'T-Shirts', url: '/collections/t-shirts' },
+};
 
 export const demoBrand: BrandTokens = {
   colors: { primary: '#17324D', secondary: '#E9B76B', background: '#FFFFFF', text: '#1B1B1B', button: '#17324D', buttonText: '#FFFFFF' },
