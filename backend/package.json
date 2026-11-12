@@ -12,7 +12,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "render:demo": "tsx src/cli/render-demo.ts",
-    "render:preview": "tsx src/cli/render-preview.ts"
+    "render:preview": "tsx src/cli/render-preview.ts",
+    "export:demo-csv": "tsx src/cli/export-demo-csv.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
