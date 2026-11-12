@@ -7,7 +7,8 @@ services:
       POSTGRES_PASSWORD: lpb_dev_password
       POSTGRES_DB: lpb
     ports:
-      - "5432:5432"
+      # Host port 5440 avoids clashing with other local Postgres instances on 5432/5433
+      - "${POSTGRES_HOST_PORT:-5440}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
