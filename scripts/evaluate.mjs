@@ -7,6 +7,7 @@
  *   node scripts/evaluate.mjs                      # default 5 products
  *   node scripts/evaluate.mjs --repeat <url>       # also run <url> a second time to show memory-driven differences
  *   node scripts/evaluate.mjs --report-only <runId,...>   # rebuild the report from existing runs (no LLM spend)
+ *   node scripts/evaluate.mjs --recheck <runId,...>       # re-render with the current theme + re-run checks (no LLM spend)
  */
 import { copyFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -46,6 +47,17 @@ async function waitFor(fn, { timeoutMs, everyMs = 4000, label }) {
   }
 }
 
+async function checkRun(id) {
+  const t0 = new Date().toISOString();
+  await api(`/api/runs/${id}/checks`, { method: 'POST', body: JSON.stringify({ lighthouse: true }) });
+  await waitFor(async () => {
+    const r = await api(`/api/runs/${id}`);
+    const v = r.stages.find((s) => s.stage === 'validate');
+    return v && ['done', 'failed'].includes(v.status) && (v.finishedAt ?? '') > t0 ? v : null;
+  }, { timeoutMs: 30 * 60_000, everyMs: 8000, label: `checks ${id}` });
+  log('checked', id.slice(0, 8));
+}
+
 async function runProduct(url) {
   log('start', url);
   const { id } = await api('/api/runs', { method: 'POST', body: JSON.stringify({ url }) });
@@ -55,13 +67,7 @@ async function runProduct(url) {
   }, { timeoutMs: 15 * 60_000, label: `run ${id}` });
   log('run', id.slice(0, 8), run.status, run.error ?? '');
   if (run.status !== 'generated') return id;
-  await api(`/api/runs/${id}/checks`, { method: 'POST', body: JSON.stringify({ lighthouse: true }) });
-  await waitFor(async () => {
-    const r = await api(`/api/runs/${id}`);
-    const v = r.stages.find((s) => s.stage === 'validate');
-    return v && ['done', 'failed'].includes(v.status) ? v : null;
-  }, { timeoutMs: 30 * 60_000, everyMs: 8000, label: `checks ${id}` });
-  log('checked', id.slice(0, 8));
+  await checkRun(id);
   return id;
 }
 
@@ -161,7 +167,8 @@ function markdown(results) {
     L.push('## Same product, second run', '');
     for (const g of repeats) {
       const [a, b] = g;
-      L.push(`**${a.product}**: run \`${a.runId.slice(0, 8)}\` vs run \`${b.runId.slice(0, 8)}\``, '');
+      const prior = Math.max(0, ...b.designs.map((d) => d.similarity.comparedAgainst ?? 0));
+      L.push(`**${a.product}**: run \`${a.runId.slice(0, 8)}\` vs run \`${b.runId.slice(0, 8)}\`. The second run was scored against ${prior} earlier designs in its category.`, '');
       L.push('| Direction | First run | Second run | Second run vs nearest prior |', '|---|---|---|---|');
       for (const d of b.designs) {
         const prev = a.designs.find((x) => x.direction === d.direction);
@@ -173,6 +180,7 @@ function markdown(results) {
   L.push('## Honest notes', '');
   L.push('- Lighthouse and browser checks run on the local LiquidJS render of the same section files, not on the Shopify storefront (the dev store is password protected). Shopify adds its own scripts, so storefront scores will differ.');
   L.push('- Competitor search used the curated Indian D2C starter list where the search API had no credits; the competitor stage message above says how many pages were crawled.');
+  L.push('- Memory saturation: each run is compared with every earlier design in its category. After several runs of the same product, a direction can run short of unused layouts. The planner then ships the least similar candidate and reports the score instead of failing, so "nearest prior" can exceed 0.75 on repeated products. Sibling designs within a run are always kept below 0.75.');
   L.push('- "Needs verification" checklist items (meta title, canonical) are produced by the theme layout and are confirmed on the Shopify preview, not counted as passed.');
   return L.join('\n') + '\n';
 }
@@ -180,8 +188,15 @@ function markdown(results) {
 async function main() {
   await mkdir(OUT, { recursive: true });
   let ids;
-  const only = flag('--report-only');
-  if (only) ids = only.split(',').map((s) => s.trim()).filter(Boolean);
+  const only = flag('--report-only') ?? flag('--recheck');
+  if (only) {
+    ids = only.split(',').map((s) => s.trim()).filter(Boolean);
+    if (flag('--recheck')) for (const id of ids) {
+      const { rerendered } = await api(`/api/runs/${id}/rerender`, { method: 'POST' });
+      log('re-rendered', id.slice(0, 8), rerendered, 'design(s)');
+      await checkRun(id);
+    }
+  }
   else {
     const urls = flag('--urls')?.split(',') ?? DEFAULT_PRODUCTS;
     ids = [];

@@ -258,7 +258,7 @@ ${gf}
 ${cartShim}
 </head>
 <body>
-<div class="lp-preview-banner" role="note">Local render · cart requests simulated · header/footer come from your theme on Shopify</div>
+<div class="lp-preview-banner" role="note">Local preview · cart simulated · theme header on Shopify</div>
 <main id="MainContent">
 ${body}
 </main>

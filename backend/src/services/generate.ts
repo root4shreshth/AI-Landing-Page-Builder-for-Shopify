@@ -2,7 +2,7 @@
  * Design generation stage: memory retrieval -> structure planning -> copy (LLM) -> assembly -> deterministic
  * render -> schema validation -> local preview -> fingerprint + similarity -> persist.
  */
-import { copyFile, mkdir, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import pLimit from 'p-limit';
 import type { Prisma } from '@prisma/client';
@@ -182,4 +182,28 @@ export async function generateDesigns(a: GenerateArgs) {
   const failed = results.length - ok.length;
   await a.report('generate', ok.length ? 'done' : 'failed', `${ok.length} design(s) generated${failed ? `, ${failed} failed` : ''}`);
   return ok.map((r) => r.design);
+}
+
+/**
+ * Re-render a run's previews from their stored template JSON with the current theme files (no LLM call,
+ * no new designs, no memory change). Used after theme/CSS updates so existing designs pick them up.
+ */
+export async function rerenderRun(runId: string): Promise<number> {
+  const run = await prisma.generationRun.findUniqueOrThrow({ where: { id: runId }, include: { product: true } });
+  if (!run.product) throw new Error('Run has no analysed product');
+  const { snapshot } = run.product.facts as unknown as { snapshot: ProductSnapshot };
+  const designs = await prisma.design.findMany({ where: { runId, status: { not: 'superseded' } } });
+  const previewDir = path.join(config.storageDir, 'runs', runId, 'preview');
+  await mkdir(path.join(previewDir, 'assets'), { recursive: true });
+  for (const f of ['lp.css', 'lp-cart.js']) await copyFile(path.join(DEFAULT_THEME_DIR, 'assets', f), path.join(previewDir, 'assets', f));
+  let n = 0;
+  for (const d of designs) {
+    const c = d.config as { previewFile?: string; templateFile?: string };
+    if (!c.previewFile || !c.templateFile) continue;
+    const template = JSON.parse(await readFile(path.join(config.storageDir, c.templateFile), 'utf8'));
+    const html = await renderPreview(template, snapshot, { assetBase: 'assets', title: `${d.name} — ${snapshot.title}` });
+    await writeFile(path.join(config.storageDir, c.previewFile), html);
+    n++;
+  }
+  return n;
 }

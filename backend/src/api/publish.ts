@@ -5,6 +5,7 @@ import { prisma } from '../db.js';
 import { isChecking, runChecks } from '../services/checks.js';
 import { buildPackage, deploy, lastPackage } from '../services/publish.js';
 import { findShopifyCli } from '../services/shopify-cli.js';
+import { rerenderRun } from '../services/generate.js';
 
 export const publishApi = express.Router();
 const wrap = (fn: (req: Request, res: Response) => Promise<unknown>) => (req: Request, res: Response, next: NextFunction) => fn(req, res).catch(next);
@@ -17,6 +18,14 @@ publishApi.post('/runs/:id/checks', wrap(async (req, res) => {
   if (isChecking(run.id)) return res.status(202).json({ status: 'already-running' });
   void runChecks(run.id, { lighthouse });
   res.status(202).json({ status: 'started' });
+}));
+
+/** Re-render a run's previews with the current theme files (no LLM, no new designs). */
+publishApi.post('/runs/:id/rerender', wrap(async (req, res) => {
+  const run = await prisma.generationRun.findUnique({ where: { id: req.params.id } });
+  if (!run) return res.status(404).json({ error: 'Run not found' });
+  if (isChecking(run.id)) return res.status(409).json({ error: 'Checks are running for this run' });
+  res.json({ rerendered: await rerenderRun(run.id) });
 }));
 
 /** Publishing context for the dashboard: CLI availability, configured store, last package, deploy history. */

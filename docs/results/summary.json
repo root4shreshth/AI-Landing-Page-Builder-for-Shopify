@@ -1,0 +1,2694 @@
+{
+  "generatedAt": "2026-11-12T17:24:35.900Z",
+  "api": "http://localhost:4100",
+  "results": [
+    {
+      "runId": "d212101f-a599-4e81-b8f4-2389c304d717",
+      "url": "https://strongsoul.in/products/m8-competition-white-oversized-hoodie-400-gsm",
+      "status": "generated",
+      "error": null,
+      "product": "M8 Competition Fan Art - Black - Oversized Hoodie 400 GSM",
+      "brand": "Strong Soul",
+      "category": "apparel/outerwear",
+      "createdAt": "2026-11-12T16:54:33.144Z",
+      "costUsd": 0.0054583,
+      "tokens": {
+        "in": 17988,
+        "out": 7319
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "M8 Competition Fan Art - Black - Oversized Hoodie 400 GSM — 5 variant(s), 0 specs, 2 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #FFE74E, heading font poppins_n5"
+        },
+        "tone": {
+          "status": "done",
+          "message": "bold, friendly · lifestyle"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "3 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"hoodie gsm brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "22 learnings from 3 pages — e.g. 3 of 3 pages: delivery estimate or pincode check; 3 of 3 pages: returns / exchange policy mentioned"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 3,
+        "note": "3 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"hoodie gsm brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+      },
+      "learnings": 22,
+      "designs": [
+        {
+          "id": "c0b77e98-7fed-4215-a17a-23ed5dc08bc7",
+          "name": "Loud Lap Stories",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-m8-competition-white-ove-d21210-story",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "story",
+            "benefits",
+            "gallery",
+            "reviews",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:overlay",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "hero",
+              "marquee",
+              "reviews",
+              "story"
+            ],
+            "imageLayout": "overlay/left/landscape+gallery:mosaic+story:alternate",
+            "visualStyle": "light|sharp|airy|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "story",
+              "benefits",
+              "gallery",
+              "reviews",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.559,
+            "nearestPrior": {
+              "score": 0.747,
+              "name": "Bold Racing Spirit Hoodie"
+            },
+            "comparedAgainst": 16
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 652,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 90,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.019,
+            "lcpMs": 3210,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/d212101f/story-led.jpg"
+        },
+        {
+          "id": "c02d2c26-96c7-476d-bb67-efb74101e4c4",
+          "name": "M8 Fan Art Quick Grid",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-m8-competition-white-ove-d21210-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "benefits",
+            "comparison",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "marquee"
+            ],
+            "imageLayout": "collage/left/square",
+            "visualStyle": "light|sharp|compact|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "benefits",
+              "comparison",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.559,
+            "nearestPrior": {
+              "score": 0.846,
+              "name": "Bold Racing Grid Hoodie"
+            },
+            "comparedAgainst": 16
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 654,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.001,
+            "lcpMs": 2030,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/d212101f/benefit-grid.jpg"
+        },
+        {
+          "id": "4beecfcb-e667-43e7-9c87-6b1d9d89d176",
+          "name": "Proof-First Fan Art Edit",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-m8-competition-white-ove-d21210-proof",
+          "sections": [
+            "seo",
+            "purchase",
+            "marquee",
+            "reviews",
+            "gallery",
+            "benefits",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "purchase:stack",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "marquee",
+              "purchase",
+              "reviews"
+            ],
+            "imageLayout": "gallery-stack/left+gallery:grid",
+            "visualStyle": "light|round|balanced|secondary",
+            "atcPlacement": "purchase-top+sticky",
+            "sectionOrder": [
+              "purchase",
+              "marquee",
+              "reviews",
+              "gallery",
+              "benefits",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.336,
+            "nearestPrior": {
+              "score": 0.757,
+              "name": "Bold Racing Fan Hoodie"
+            },
+            "comparedAgainst": 16
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 571,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.001,
+            "lcpMs": 2188,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/d212101f/social-proof.jpg"
+        },
+        {
+          "id": "9d9e9be5-794f-43ad-af97-5e0abed9d8a4",
+          "name": "Oversized Fan Art Value Edit",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-m8-competition-white-ove-d21210-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "trust",
+            "benefits",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:stacked",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "hero",
+              "marquee",
+              "trust"
+            ],
+            "imageLayout": "stacked/right/landscape",
+            "visualStyle": "contrast|brand|balanced|secondary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "trust",
+              "benefits",
+              "faq"
+            ],
+            "colorStrategy": "contrast"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.513,
+            "nearestPrior": {
+              "score": 0.839,
+              "name": "Bold Warmth Value Pick"
+            },
+            "comparedAgainst": 16
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 699,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.018,
+            "lcpMs": 2468,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/d212101f/offer-led.jpg"
+        }
+      ]
+    },
+    {
+      "runId": "a67530ff-5aab-4042-bd38-d6a000d0f7cf",
+      "url": "https://www.bonkerscorner.com/products/out-of-imagination-oversized-t-shirt-1",
+      "status": "generated",
+      "error": null,
+      "product": "Out of Imagination Oversized T-shirt",
+      "brand": "Bonkers Corner",
+      "category": "apparel/t-shirts",
+      "createdAt": "2026-11-12T16:57:37.599Z",
+      "costUsd": 0.004873300000000001,
+      "tokens": {
+        "in": 18968,
+        "out": 5953
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "Out of Imagination Oversized T-shirt — 6 variant(s), 12 specs, 4 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #0982DE, heading font assistant_n4"
+        },
+        "tone": {
+          "status": "done",
+          "message": "bold, youthful, friendly · lifestyle"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "6 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"oversized shirt brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "22 learnings from 6 pages — e.g. 6 of 6 pages: size guide; 5 of 6 pages: FAQ section"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 6,
+        "note": "6 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"oversized shirt brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+      },
+      "learnings": 22,
+      "designs": [
+        {
+          "id": "f63902d0-dd11-448a-b9ca-9fadfe28e189",
+          "name": "Quick Fit White Stack",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-out-of-imagination-overs-a67530-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "benefits",
+            "specs",
+            "comparison",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "marquee",
+              "specs"
+            ],
+            "imageLayout": "collage/left/square",
+            "visualStyle": "light|soft|compact|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "benefits",
+              "specs",
+              "comparison",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.522,
+            "nearestPrior": {
+              "score": 0.792,
+              "name": "Loud Drop Cotton Grid"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 6
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 604,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.005,
+            "lcpMs": 2093,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/a67530ff/benefit-grid.jpg"
+        },
+        {
+          "id": "90dc73b6-79ef-4eeb-9024-ae392f76800c",
+          "name": "Imagination Made Loud",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-out-of-imagination-overs-a67530-story",
+          "sections": [
+            "seo",
+            "hero",
+            "benefits",
+            "facts",
+            "story",
+            "specs",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:overlay",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "facts",
+              "faq",
+              "hero",
+              "specs",
+              "story"
+            ],
+            "imageLayout": "overlay/left/landscape+story:alternate",
+            "visualStyle": "light|sharp|airy|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "benefits",
+              "facts",
+              "story",
+              "specs",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.522,
+            "nearestPrior": {
+              "score": 0.72,
+              "name": "Dream Big Oversized Story"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 7
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 643,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 2363,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/a67530ff/story-led.jpg"
+        },
+        {
+          "id": "30da3229-11dd-48fb-9170-a13be85b8996",
+          "name": "Clean Cotton Proof Stack",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-out-of-imagination-overs-a67530-proof",
+          "sections": [
+            "seo",
+            "purchase",
+            "gallery",
+            "benefits",
+            "trust",
+            "specs",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "purchase:strip",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "purchase",
+              "specs",
+              "trust"
+            ],
+            "imageLayout": "gallery-strip/left+gallery:mosaic",
+            "visualStyle": "warm|round|balanced|secondary",
+            "atcPlacement": "purchase-top+sticky",
+            "sectionOrder": [
+              "purchase",
+              "gallery",
+              "benefits",
+              "trust",
+              "specs",
+              "faq"
+            ],
+            "colorStrategy": "warm"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.242,
+            "nearestPrior": {
+              "score": 0.659,
+              "name": "Bold Cotton Fit Proof"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 7
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 491,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.005,
+            "lcpMs": 2261,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/a67530ff/social-proof.jpg"
+        },
+        {
+          "id": "cc770ab9-a2de-4062-bd99-04df2050ac61",
+          "name": "Loud Value Drop Tee",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-out-of-imagination-overs-a67530-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "offer",
+            "marquee",
+            "trust",
+            "benefits",
+            "specs",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:overlay",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "hero",
+              "marquee",
+              "offer",
+              "specs",
+              "trust"
+            ],
+            "imageLayout": "overlay/right/landscape",
+            "visualStyle": "contrast|brand|compact|secondary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "offer",
+              "marquee",
+              "trust",
+              "benefits",
+              "specs",
+              "faq"
+            ],
+            "colorStrategy": "contrast"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.476,
+            "nearestPrior": {
+              "score": 0.766,
+              "name": "Imagination Drop Street Offer"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 7
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 622,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 97,
+            "accessibility": 96,
+            "best-practices": 100,
+            "cls": 0.007,
+            "lcpMs": 2380,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/a67530ff/offer-led.jpg"
+        }
+      ]
+    },
+    {
+      "runId": "992866ff-0a89-4fc6-8187-8122e31dfb69",
+      "url": "https://mokobara.com/products/em-cabin-pro-copy",
+      "status": "generated",
+      "error": null,
+      "product": "Em Cabin Pro (V1)",
+      "brand": "Mokobara",
+      "category": "accessories/bags",
+      "createdAt": "2026-11-12T17:00:45.118Z",
+      "costUsd": 0.006723499999999999,
+      "tokens": {
+        "in": 17825,
+        "out": 9882
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "Em Cabin Pro (V1) — 1 variant(s), 0 specs, 3 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #FFC314, heading font inter_n4"
+        },
+        "tone": {
+          "status": "done",
+          "message": "premium, friendly · studio-white"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "6 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"cabin brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "22 learnings from 6 pages — e.g. 6 of 6 pages: original price struck through next to the sale price"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 6,
+        "note": "6 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"cabin brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+      },
+      "learnings": 22,
+      "designs": [
+        {
+          "id": "d8f35be3-f259-44c3-bfa1-8479454ceecd",
+          "name": "Quiet Wheels, Ready Pocket",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-em-cabin-pro-copy-992866-story",
+          "sections": [
+            "seo",
+            "hero",
+            "benefits",
+            "story",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:stacked",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "hero",
+              "story"
+            ],
+            "imageLayout": "stacked/left/landscape+story:alternate",
+            "visualStyle": "light|soft|airy|primary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "benefits",
+              "story",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.522,
+            "nearestPrior": {
+              "score": 0.563,
+              "name": "Carry-On Ninja Story"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 620,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 2011,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/992866ff/story-led.jpg"
+        },
+        {
+          "id": "373014b1-8299-4d43-a00d-b131819006f7",
+          "name": "Silent Hard-Shell Carry",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-em-cabin-pro-copy-992866-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "benefits",
+            "comparison",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "marquee"
+            ],
+            "imageLayout": "collage/left/square",
+            "visualStyle": "light|sharp|compact|primary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "benefits",
+              "comparison",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.536,
+            "nearestPrior": {
+              "score": 0.588,
+              "name": "Quick-Scan Carry Grid"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 542,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1880,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/992866ff/benefit-grid.jpg"
+        },
+        {
+          "id": "b986ef57-23c5-4fc7-927d-6f717aa5a838",
+          "name": "Proof-First Carry Cabin",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-em-cabin-pro-copy-992866-proof",
+          "sections": [
+            "seo",
+            "hero",
+            "gallery",
+            "benefits",
+            "trust",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "hero",
+              "trust"
+            ],
+            "imageLayout": "collage/right/portrait+gallery:mosaic",
+            "visualStyle": "warm|round|balanced|secondary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "gallery",
+              "benefits",
+              "trust",
+              "faq"
+            ],
+            "colorStrategy": "warm"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.551,
+            "nearestPrior": {
+              "score": 0.514,
+              "name": "Carry-On Ninja Story"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 522,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 89,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 3585,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/992866ff/social-proof.jpg"
+        },
+        {
+          "id": "880354a0-b722-425b-9e99-6a37fc40a75c",
+          "name": "Value Carry Cabin Kit",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-em-cabin-pro-copy-992866-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "offer",
+            "comparison",
+            "benefits",
+            "trust",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:overlay",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "offer",
+              "trust"
+            ],
+            "imageLayout": "overlay/right/landscape",
+            "visualStyle": "banded|brand|balanced|secondary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "offer",
+              "comparison",
+              "benefits",
+              "trust",
+              "faq"
+            ],
+            "colorStrategy": "banded"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.551,
+            "nearestPrior": {
+              "score": 0.602,
+              "name": "Glide Easy Carry-On"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 558,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 96,
+            "best-practices": 100,
+            "cls": 0.03,
+            "lcpMs": 2001,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/992866ff/offer-led.jpg"
+        }
+      ]
+    },
+    {
+      "runId": "587a6eae-9e95-4282-bded-1a4368f04e3d",
+      "url": "https://www.bombayshavingcompany.com/products/power-groomer-special-edition",
+      "status": "generated",
+      "error": null,
+      "product": "Power Groomer Special Edition",
+      "brand": "Bombay Shaving Company",
+      "category": "beauty/grooming",
+      "createdAt": "2026-11-12T17:03:58.113Z",
+      "costUsd": 0.0048965,
+      "tokens": {
+        "in": 17145,
+        "out": 6364
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "Power Groomer Special Edition — 1 variant(s), 17 specs, 2 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #EAFF00, heading font oswald_n4"
+        },
+        "tone": {
+          "status": "done",
+          "message": "bold, friendly · studio-white"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "5 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"power groomer brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "23 learnings from 5 pages — e.g. 5 of 5 pages: original price struck through next to the sale price; 5 of 5 pages: FAQ section"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 5,
+        "note": "5 crawled, 0 failed/blocked — fewer than 8 usable pages; Search failed for \"power groomer brand india buy online\": google.serper.dev returned HTTP 400: Not enough credits"
+      },
+      "learnings": 23,
+      "designs": [
+        {
+          "id": "5dd824f1-1126-4671-8bb7-d205eb8420be",
+          "name": "Bold Grid Grooming Showcase",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-power-groomer-special-ed-587a6e-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "marquee",
+            "benefits",
+            "specs",
+            "comparison",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:split",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "marquee",
+              "specs"
+            ],
+            "imageLayout": "split/left/square",
+            "visualStyle": "light|soft|compact|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "marquee",
+              "benefits",
+              "specs",
+              "comparison",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.522,
+            "nearestPrior": {
+              "score": 0.572,
+              "name": "Quick-Scan Grooming Grid"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 6
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 474,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 96,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.002,
+            "lcpMs": 2647,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/587a6eae/benefit-grid.jpg"
+        },
+        {
+          "id": "ec99d5d5-5aac-4951-a275-6ebe228b6924",
+          "name": "Bold Everyday Groom Edit",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-power-groomer-special-ed-587a6e-story",
+          "sections": [
+            "seo",
+            "hero",
+            "benefits",
+            "facts",
+            "story",
+            "specs",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:overlay",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "facts",
+              "faq",
+              "hero",
+              "specs",
+              "story"
+            ],
+            "imageLayout": "overlay/left/landscape+story:alternate",
+            "visualStyle": "light|sharp|airy|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "benefits",
+              "facts",
+              "story",
+              "specs",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.522,
+            "nearestPrior": {
+              "score": 0.534,
+              "name": "Quick-Scan Grooming Grid"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 6
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 553,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 97,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.003,
+            "lcpMs": 2418,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/587a6eae/story-led.jpg"
+        },
+        {
+          "id": "b27d0911-bb12-419f-90fa-506e2a063aed",
+          "name": "Trust-First Groom Kit",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-power-groomer-special-ed-587a6e-proof",
+          "sections": [
+            "seo",
+            "purchase",
+            "facts",
+            "specs",
+            "trust",
+            "benefits",
+            "gallery",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "purchase:strip",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "facts",
+              "faq",
+              "gallery",
+              "purchase",
+              "specs",
+              "trust"
+            ],
+            "imageLayout": "gallery-strip/left+gallery:strip",
+            "visualStyle": "warm|round|balanced|secondary",
+            "atcPlacement": "purchase-top+sticky",
+            "sectionOrder": [
+              "purchase",
+              "facts",
+              "specs",
+              "trust",
+              "benefits",
+              "gallery",
+              "faq"
+            ],
+            "colorStrategy": "warm"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.262,
+            "nearestPrior": {
+              "score": 0.579,
+              "name": "Proof First Grooming Layout"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 83,
+              "total": 7,
+              "failed": 1,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [
+            "Every number in the copy comes from product data"
+          ],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 348,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 98,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.032,
+            "lcpMs": 2208,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [
+            "1,400"
+          ],
+          "image": "img/587a6eae/social-proof.jpg"
+        },
+        {
+          "id": "59b8f37e-53a4-40b0-b815-fe30f24560df",
+          "name": "Value Stack Groom Kit",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-power-groomer-special-ed-587a6e-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "offer",
+            "facts",
+            "comparison",
+            "benefits",
+            "trust",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:stacked",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "comparison",
+              "facts",
+              "faq",
+              "hero",
+              "offer",
+              "trust"
+            ],
+            "imageLayout": "stacked/right/landscape",
+            "visualStyle": "banded|brand|balanced|secondary",
+            "atcPlacement": "hero-buybox+repeat+sticky",
+            "sectionOrder": [
+              "hero",
+              "offer",
+              "facts",
+              "comparison",
+              "benefits",
+              "trust",
+              "faq"
+            ],
+            "colorStrategy": "banded"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.318,
+            "nearestPrior": {
+              "score": 0.546,
+              "name": "One Trimmer, Endless Looks"
+            },
+            "comparedAgainst": 4
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            },
+            "geo": {
+              "score": 83,
+              "total": 7,
+              "failed": 1,
+              "passed": 5
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [
+            "Quotable specifications table"
+          ],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 569,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 96,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0.019,
+            "lcpMs": 2623,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/587a6eae/offer-led.jpg"
+        }
+      ]
+    },
+    {
+      "runId": "0a723302-f4ed-4dfe-ab70-b043a0c8451e",
+      "url": "https://beminimalist.co/products/lip-peptide-complex-lip-mask",
+      "status": "generated",
+      "error": null,
+      "product": "Lip Peptide Complex 2.5% Lip Mask",
+      "brand": "Minimalist",
+      "category": "beauty/lip-care",
+      "createdAt": "2026-11-12T17:06:57.379Z",
+      "costUsd": 0.0058358,
+      "tokens": {
+        "in": 17288,
+        "out": 8214
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "Lip Peptide Complex 2.5% Lip Mask — 1 variant(s), 0 specs, 2 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #FB6900, heading font montserrat_n5"
+        },
+        "tone": {
+          "status": "done",
+          "message": "friendly, technical, minimal · product-closeups"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "9 crawled, 0 failed/blocked"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "23 learnings from 9 pages — e.g. 8 of 9 pages: dedicated reviews section; 8 of 9 pages: original price struck through next to the sale price"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 9,
+        "note": "9 crawled, 0 failed/blocked"
+      },
+      "learnings": 23,
+      "designs": [
+        {
+          "id": "2208beb2-18a7-458a-9435-31cb9750a01f",
+          "name": "Quick-Scan Peptide Lip Grid",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-0a7233-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "comparison",
+            "benefits",
+            "trust",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:split",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "trust"
+            ],
+            "imageLayout": "split/right/square",
+            "visualStyle": "light|soft|compact|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "comparison",
+              "benefits",
+              "trust",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.727,
+            "nearestPrior": {
+              "score": 0.739,
+              "name": "Hilurlip Barrier Grid"
+            },
+            "comparedAgainst": 8
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 3
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 496,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1852,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/0a723302/benefit-grid.jpg"
+        },
+        {
+          "id": "21e176b0-1d2f-4e24-b84a-ce878a829dd4",
+          "name": "Quiet Barrier Story",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-0a7233-story",
+          "sections": [
+            "seo",
+            "hero",
+            "story",
+            "benefits",
+            "gallery",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "hero",
+              "story"
+            ],
+            "imageLayout": "collage/right/portrait+gallery:mosaic+story:alternate",
+            "visualStyle": "warm|soft|airy|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "story",
+              "benefits",
+              "gallery",
+              "faq"
+            ],
+            "colorStrategy": "warm"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.658,
+            "nearestPrior": {
+              "score": 0.682,
+              "name": "Delivery-Led Lip Care Story"
+            },
+            "comparedAgainst": 8
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 517,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1755,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/0a723302/story-led.jpg"
+        },
+        {
+          "id": "e534172d-3b5d-481a-834e-c1faa478c854",
+          "name": "Plain Facts Lip Care",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-0a7233-proof",
+          "sections": [
+            "seo",
+            "hero",
+            "trust",
+            "benefits",
+            "gallery",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "hero",
+              "trust"
+            ],
+            "imageLayout": "collage/right/portrait+gallery:grid",
+            "visualStyle": "light|round|balanced|secondary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "trust",
+              "benefits",
+              "gallery",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.658,
+            "nearestPrior": {
+              "score": 0.637,
+              "name": "Peptide Barrier Value Set"
+            },
+            "comparedAgainst": 8
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 536,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1736,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/0a723302/social-proof.jpg"
+        },
+        {
+          "id": "8997e962-4a0a-410d-8646-61d6a53b7d8b",
+          "name": "Value Gel Lip Mask Overview",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-0a7233-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "trust",
+            "benefits",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:split",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "hero",
+              "trust"
+            ],
+            "imageLayout": "split/right/square",
+            "visualStyle": "banded|brand|balanced|secondary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "trust",
+              "benefits",
+              "faq"
+            ],
+            "colorStrategy": "banded"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.727,
+            "nearestPrior": {
+              "score": 0.743,
+              "name": "Peptide Barrier Value Set"
+            },
+            "comparedAgainst": 8
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 3
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 506,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1864,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/0a723302/offer-led.jpg"
+        }
+      ]
+    },
+    {
+      "runId": "6033b44a-f9bc-468d-b99e-192f23dd568e",
+      "url": "https://beminimalist.co/products/lip-peptide-complex-lip-mask",
+      "status": "generated",
+      "error": null,
+      "product": "Lip Peptide Complex 2.5% Lip Mask",
+      "brand": "Minimalist",
+      "category": "beauty/lip-care",
+      "createdAt": "2026-11-12T17:10:17.708Z",
+      "costUsd": 0.0065777,
+      "tokens": {
+        "in": 17192,
+        "out": 9717
+      },
+      "stages": {
+        "product": {
+          "status": "done",
+          "message": "Lip Peptide Complex 2.5% Lip Mask — 1 variant(s), 0 specs, 2 claims"
+        },
+        "brand": {
+          "status": "done",
+          "message": "Primary #FB6900, heading font montserrat_n5"
+        },
+        "tone": {
+          "status": "done",
+          "message": "technical, minimal · studio-white"
+        },
+        "competitors": {
+          "status": "done",
+          "message": "9 crawled, 0 failed/blocked"
+        },
+        "learnings": {
+          "status": "done",
+          "message": "23 learnings from 9 pages — e.g. 8 of 9 pages: dedicated reviews section; 8 of 9 pages: original price struck through next to the sale price"
+        },
+        "generate": {
+          "status": "done",
+          "message": "4 design(s) generated"
+        },
+        "validate": {
+          "status": "done",
+          "message": "Checked 4 design(s): checklist, browser and Lighthouse (local render)"
+        }
+      },
+      "competitors": {
+        "crawled": 0,
+        "total": 9,
+        "note": "9 crawled, 0 failed/blocked"
+      },
+      "learnings": 23,
+      "designs": [
+        {
+          "id": "a7521afe-3a3d-4189-8241-78d1dd07ae49",
+          "name": "Peptide Barrier Grid",
+          "direction": "benefit-grid",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-6033b4-grid",
+          "sections": [
+            "seo",
+            "hero",
+            "benefits",
+            "comparison",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:collage",
+            "direction": "benefit-grid",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero"
+            ],
+            "imageLayout": "collage/left/square",
+            "visualStyle": "light|sharp|compact|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "benefits",
+              "comparison",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.507,
+            "nearestPrior": {
+              "score": 0.857,
+              "name": "Peptide Barrier Grid"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 4
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 496,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1746,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/6033b44a/benefit-grid.jpg"
+        },
+        {
+          "id": "3968d516-fef6-4181-b873-8b341a0a3a41",
+          "name": "Story-Led Peptide Lip Editorial",
+          "direction": "story-led",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-6033b4-story",
+          "sections": [
+            "seo",
+            "hero",
+            "gallery",
+            "story",
+            "benefits",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:split",
+            "direction": "story-led",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "hero",
+              "story"
+            ],
+            "imageLayout": "split/left/portrait+gallery:strip+story:alternate",
+            "visualStyle": "warm|soft|airy|primary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "gallery",
+              "story",
+              "benefits",
+              "faq"
+            ],
+            "colorStrategy": "warm"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.484,
+            "nearestPrior": {
+              "score": 0.755,
+              "name": "Peptide Barrier Story"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 3
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 547,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1916,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/6033b44a/story-led.jpg"
+        },
+        {
+          "id": "289cd673-6179-4291-8bd4-50afe17678e6",
+          "name": "Verified Barrier Lip Formula",
+          "direction": "social-proof",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-6033b4-proof",
+          "sections": [
+            "seo",
+            "purchase",
+            "trust",
+            "benefits",
+            "gallery",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "purchase:strip",
+            "direction": "social-proof",
+            "composition": [
+              "benefits",
+              "faq",
+              "gallery",
+              "purchase",
+              "trust"
+            ],
+            "imageLayout": "gallery-strip/left+gallery:strip",
+            "visualStyle": "light|round|balanced|secondary",
+            "atcPlacement": "purchase-top+sticky",
+            "sectionOrder": [
+              "purchase",
+              "trust",
+              "benefits",
+              "gallery",
+              "faq"
+            ],
+            "colorStrategy": "light"
+          },
+          "similarity": {
+            "verdict": "distinct",
+            "maxSibling": 0.311,
+            "nearestPrior": {
+              "score": 0.743,
+              "name": "Trust-First Peptide Clarity"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 3
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 348,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1886,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/6033b44a/social-proof.jpg"
+        },
+        {
+          "id": "2e337cf4-dc95-4159-9750-eed44d9d0a56",
+          "name": "Value Peptide Lip Reference",
+          "direction": "offer-led",
+          "status": "draft",
+          "template": "lp-lip-peptide-complex-lip-6033b4-offer",
+          "sections": [
+            "seo",
+            "hero",
+            "comparison",
+            "benefits",
+            "trust",
+            "faq",
+            "sticky"
+          ],
+          "fingerprint": {
+            "heroType": "hero:stacked",
+            "direction": "offer-led",
+            "composition": [
+              "benefits",
+              "comparison",
+              "faq",
+              "hero",
+              "trust"
+            ],
+            "imageLayout": "stacked/right/landscape",
+            "visualStyle": "banded|brand|balanced|secondary",
+            "atcPlacement": "hero-buybox+sticky",
+            "sectionOrder": [
+              "hero",
+              "comparison",
+              "benefits",
+              "trust",
+              "faq"
+            ],
+            "colorStrategy": "banded"
+          },
+          "similarity": {
+            "verdict": "similar",
+            "maxSibling": 0.507,
+            "nearestPrior": {
+              "score": 0.839,
+              "name": "Peptide Barrier Value Set"
+            },
+            "comparedAgainst": 12
+          },
+          "checklist": {
+            "aeo": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 3
+            },
+            "geo": {
+              "score": 100,
+              "total": 7,
+              "failed": 0,
+              "passed": 3
+            },
+            "seo": {
+              "score": 100,
+              "total": 9,
+              "failed": 0,
+              "passed": 7
+            },
+            "schema": {
+              "score": 100,
+              "total": 4,
+              "failed": 0,
+              "passed": 4
+            }
+          },
+          "failedChecks": [],
+          "browser": {
+            "cart": true,
+            "sticky": true,
+            "atcFirstScreen": {
+              "passed": true,
+              "bottomPx": 570,
+              "viewport": "360x740"
+            },
+            "overflowPx": 0,
+            "jsErrors": 0
+          },
+          "lighthouse": {
+            "seo": 100,
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "cls": 0,
+            "lcpMs": 1881,
+            "tbtMs": 0,
+            "target": "local-render"
+          },
+          "unsupportedNumbers": [],
+          "image": "img/6033b44a/offer-led.jpg"
+        }
+      ]
+    }
+  ]
+}

@@ -25,7 +25,8 @@ app.use('/files', files);
 const dashboard = path.join(REPO_ROOT, 'frontend', 'dist');
 if (existsSync(path.join(dashboard, 'index.html'))) {
   app.use(express.static(dashboard, { index: false, maxAge: '1h' }));
-  app.get(/^\/(?!api\/|files\/).*/, (_req, res) => res.sendFile(path.join(dashboard, 'index.html')));
+  // client routes only: paths with a file extension (robots.txt, favicon.ico, …) stay 404 rather than returning the app
+  app.get(/^\/(?!api\/|files\/)[^.]*$/, (_req, res) => res.sendFile(path.join(dashboard, 'index.html')));
 }
 app.use(errorHandler);
 
