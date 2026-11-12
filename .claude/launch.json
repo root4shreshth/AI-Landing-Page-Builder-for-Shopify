@@ -21,6 +21,17 @@
         "dev"
       ],
       "port": 4100
+    },
+    {
+      "name": "dashboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "-w",
+        "frontend",
+        "dev"
+      ],
+      "port": 5180
     }
   ]
 }

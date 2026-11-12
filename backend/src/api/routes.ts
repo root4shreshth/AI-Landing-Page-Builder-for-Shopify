@@ -4,6 +4,7 @@ import type { Prisma } from '@prisma/client';
 import { z, ZodError } from 'zod';
 import { BrandProfileSchema, type BrandConfidence, type BrandProfile } from '../catalogue/brand.js';
 import { ProductFactsSchema } from '../catalogue/facts.js';
+import { FONT_LIBRARY } from '../catalogue/fonts.js';
 import { config } from '../config.js';
 import { prisma } from '../db.js';
 import { UnsafeUrlError, assertSafeUrlShape } from '../net/url-guard.js';
@@ -76,6 +77,11 @@ api.get('/categories/:group/:leaf?/learnings', wrap(async (req, res) => {
   const category = req.params.leaf ? `${req.params.group}/${req.params.leaf}` : req.params.group;
   res.json({ category, learnings: await categoryLearnings(category) });
 }));
+
+/** Shopify font library subset (all handles verified on Shopify) for the brand editor. */
+api.get('/fonts', (_req, res) => {
+  res.json(FONT_LIBRARY.map((f) => ({ family: f.family, category: f.category, handles: f.weights.map((w) => ({ handle: `${f.base}_n${w}`, weight: w * 100 })) })));
+});
 
 // ---------------- brands ----------------
 api.get('/brands/:id', wrap(async (req, res) => {

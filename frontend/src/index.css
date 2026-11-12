@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #eceef2;
+  --sheet: #ffffff;
+  --ink: #1d2342;
+  --ink-2: #5b6280;
+  --ink-3: #8a90a8;
+  --rule: #d4d8e1;
+  --magenta: #c2255c;
+  --magenta-soft: #fbe9f0;
+  --ok: #0f7b5f;
+  --ok-soft: #e3f3ee;
+  --warn: #a3650f;
+  --warn-soft: #fbf0df;
+  --bad: #b3302a;
+  --bad-soft: #fbe7e5;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.55;
+    font-feature-settings: 'tnum' 1;
+  }
+  h1, h2, h3 { @apply font-display text-ink; letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--magenta); outline-offset: 2px; }
+  ::selection { background: var(--magenta-soft); }
+}
+
+@layer components {
+  .sheet { @apply bg-sheet border border-rule rounded-sheet; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary { @apply btn bg-magenta text-white hover:brightness-110; }
+  .btn-ink { @apply btn bg-ink text-white hover:bg-[#2b3360]; }
+  .btn-quiet { @apply btn border border-rule bg-sheet text-ink hover:border-ink-3; }
+  .btn-ghost { @apply btn text-ink-2 hover:text-ink hover:bg-paper; }
+  .field {
+    @apply w-full rounded-md border border-rule bg-sheet px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none;
+  }
+  .label { @apply text-[13px] font-medium text-ink-2; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full border border-rule bg-sheet px-2 py-0.5 text-xs text-ink-2; }
+  .link { @apply text-ink underline decoration-rule underline-offset-2 hover:decoration-ink; }
+}
+
+/* Crop marks: drawn only around design proofs (they are proofs awaiting sign-off). */
+.proof { position: relative; }
+.proof::before,
+.proof::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: var(--ink-3);
+}
+.proof::before { top: -7px; left: -7px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.proof::after { bottom: -7px; right: -7px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+.proof.is-approved::before,
+.proof.is-approved::after { border-color: var(--magenta); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

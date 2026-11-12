@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "description": "AI Landing Page Builder for Shopify (Wishluck take-home)",
   "workspaces": [
-    "backend"
+    "backend",
+    "frontend"
   ],
   "scripts": {
     "db:up": "docker compose up -d postgres",
@@ -15,7 +16,9 @@
     "typecheck": "npm run -w backend typecheck",
     "test": "npm run -w backend test",
     "render:demo": "npm run -w backend render:demo && node scripts/build-theme.mjs --extra storage/generated/demo --zip",
-    "preview:serve": "node scripts/serve-static.mjs storage/generated 4310"
+    "preview:serve": "node scripts/serve-static.mjs storage/generated 4310",
+    "dev:frontend": "npm run -w frontend dev",
+    "dev:backend": "npm run -w backend dev"
   },
   "engines": {
     "node": ">=20"
