@@ -15,7 +15,7 @@ describe('planDesigns', () => {
 
   it('plans one design per direction with clearly different structures', () => {
     expect(plans.map((p) => p.direction)).toEqual(['story-led', 'benefit-grid', 'social-proof', 'offer-led']);
-    for (let i = 0; i < plans.length; i++) for (let j = i + 1; j < plans.length; j++) expect(similarity(plans[i].fingerprint, plans[j].fingerprint).score).toBeLessThan(0.65);
+    for (let i = 0; i < plans.length; i++) for (let j = i + 1; j < plans.length; j++) expect(similarity(plans[i].fingerprint, plans[j].fingerprint).score).toBeLessThan(0.55);
   });
   it('only plans sections the real data supports', () => {
     const all = plans.flatMap((p) => p.sections.map((s) => s.type));

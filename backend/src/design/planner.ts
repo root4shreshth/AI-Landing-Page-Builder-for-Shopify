@@ -180,10 +180,14 @@ export function planDesigns(inp: PlannerInput): ChosenPlan[] {
   const directions: Direction[] = inp.directions ?? ['story-led', 'benefit-grid', 'social-proof', 'offer-led'];
   const chosen: ChosenPlan[] = [];
   const priorItems = inp.history.map((h) => ({ id: h.id, label: h.label, fp: h.fp }));
+  // Fingerprint every candidate of every direction up front so each choice can prefer variants that are
+  // far from the OTHER directions' options too (distinctiveness), not just from earlier picks.
+  const pool = new Map<Direction, { c: StructurePlan; fp: Fingerprint }[]>();
+  for (const d of directions) pool.set(d, variantsFor(d, inp).filter((c) => !inp.excludeVariants?.includes(c.variantId)).map((c) => ({ c, fp: fingerprintOf(skeletonConfig(c)) })));
   for (const d of directions) {
-    const cands = variantsFor(d, inp).filter((c) => !inp.excludeVariants?.includes(c.variantId));
-    const scored = cands.map((c) => {
-      const fp = fingerprintOf(skeletonConfig(c));
+    const others = directions.filter((x) => x !== d).flatMap((x) => pool.get(x)!.map((o) => o.fp));
+    const scored = pool.get(d)!.map(({ c, fp }) => {
+      const distinct = others.length ? others.reduce((s, o) => s + similarity(fp, o).score, 0) / others.length : 0;
       // prior designs in the category: rejected ones count 20% more, approved ones 10% less
       let priorMax = 0;
       for (const h of inp.history) {
@@ -191,7 +195,7 @@ export function planDesigns(inp: PlannerInput): ChosenPlan[] {
         priorMax = Math.max(priorMax, s);
       }
       const siblingMax = Math.max(0, ...chosen.map((c2) => similarity(fp, c2.fingerprint).score));
-      const score = Math.max(priorMax, siblingMax) + rand() * 0.01; // tiny jitter = stable tie-break per run
+      const score = Math.max(priorMax, siblingMax) + 0.3 * distinct + rand() * 0.01; // tiny jitter = stable tie-break per run
       return { c, fp, score, siblingMax };
     });
     scored.sort((a, b) => a.score - b.score);
