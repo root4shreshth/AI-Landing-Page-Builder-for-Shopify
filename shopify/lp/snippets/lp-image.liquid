@@ -1,0 +1,21 @@
+{%- comment -%}
+  Responsive image (image or media object) with lazy loading by default.
+  Params: image, alt (optional), eager (bool, for above-the-fold LCP image), sizes, max_width (default 1600)
+{%- endcomment -%}
+{%- liquid
+  assign max_width = max_width | default: 1600
+  assign sizes = sizes | default: '(min-width: 990px) 50vw, 100vw'
+  assign alt_text = alt | default: image.alt | default: product.title | escape
+  if eager
+    assign loading = 'eager'
+    assign priority = 'high'
+  else
+    assign loading = 'lazy'
+    assign priority = 'auto'
+  endif
+-%}
+{%- if image != blank -%}
+  {{ image | image_url: width: max_width | image_tag: loading: loading, fetchpriority: priority, sizes: sizes, widths: '360, 540, 720, 960, 1200, 1600', alt: alt_text }}
+{%- else -%}
+  {{ 'product-1' | placeholder_svg_tag: 'lp-placeholder-svg' }}
+{%- endif -%}

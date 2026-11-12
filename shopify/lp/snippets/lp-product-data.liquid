@@ -1,0 +1,13 @@
+{%- comment -%}
+  Compact variant data for lp-cart.js. Variant IDs come from the LIVE Shopify product object,
+  so add-to-cart always posts IDs that exist in this store.
+{%- endcomment -%}
+{%- if product != blank -%}
+<script type="application/json" data-lp-product>
+  {"moneyFormat": {{ shop.money_format | json }}, "selectedVariantId": {{ product.selected_or_first_available_variant.id | json }}, "product": {"id": {{ product.id | json }}, "title": {{ product.title | json }}, "variants": [
+    {%- for v in product.variants -%}
+      {"id": {{ v.id | json }}, "title": {{ v.title | json }}, "options": {{ v.options | json }}, "price": {{ v.price | json }}, "compare_at_price": {{ v.compare_at_price | default: 0 | json }}, "available": {{ v.available | json }}}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]}}
+</script>
+{%- endif -%}

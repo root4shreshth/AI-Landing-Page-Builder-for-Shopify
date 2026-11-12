@@ -1,0 +1,31 @@
+{%- comment -%}
+  Inline stroke icons (original, 24x24). Usage: {% render 'lp-icon', name: 'truck' %}
+  Names: check, x, truck, cash, return, shield, star, leaf, sparkle, clock, heart, droplet, sun, ruler, box, award, lock, bolt, feather, gift, chat, tag
+{%- endcomment -%}
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+  {%- case name -%}
+    {%- when 'check' -%}<path d="M4 12.5l5 5L20 6.5"/>
+    {%- when 'x' -%}<path d="M6 6l12 12M18 6L6 18"/>
+    {%- when 'truck' -%}<path d="M2 6h11v10H2zM13 10h4l3 3v3h-7"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+    {%- when 'cash' -%}<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9v.01M18 15v.01"/>
+    {%- when 'return' -%}<path d="M9 7H4V2"/><path d="M4.5 7.5A8 8 0 1 1 4 13"/>
+    {%- when 'shield' -%}<path d="M12 2.5l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>
+    {%- when 'star' -%}<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>
+    {%- when 'leaf' -%}<path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19l7-7"/>
+    {%- when 'sparkle' -%}<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/>
+    {%- when 'clock' -%}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+    {%- when 'heart' -%}<path d="M12 20s-7.5-4.6-9-9.5C2 6.8 4.6 4 7.6 4c1.9 0 3.4 1 4.4 2.5C13 5 14.5 4 16.4 4c3 0 5.6 2.8 4.6 6.5-1.5 4.9-9 9.5-9 9.5z"/>
+    {%- when 'droplet' -%}<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>
+    {%- when 'sun' -%}<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+    {%- when 'ruler' -%}<rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/>
+    {%- when 'box' -%}<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>
+    {%- when 'award' -%}<circle cx="12" cy="9" r="6"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/>
+    {%- when 'lock' -%}<rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+    {%- when 'bolt' -%}<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>
+    {%- when 'feather' -%}<path d="M20 4c-8 0-14 6-14 14v2"/><path d="M6 18c6 0 11-4 12-10M10 14h6"/>
+    {%- when 'gift' -%}<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8S10.5 3 8 4s.5 4 4 4zM12 8s1.5-5 4-4-.5 4-4 4z"/>
+    {%- when 'chat' -%}<path d="M4 5h16v11H9l-5 4z"/>
+    {%- when 'tag' -%}<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/>
+    {%- else -%}<circle cx="12" cy="12" r="3"/>
+  {%- endcase -%}
+</svg>

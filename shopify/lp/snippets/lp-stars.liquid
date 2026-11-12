@@ -1,0 +1,13 @@
+{%- comment -%}
+  Star rating display (rounded to the nearest whole star; exact value is in the label).
+  Only render with REAL rating data. Usage: {% render 'lp-stars', rating: 4.6 %}
+{%- endcomment -%}
+{%- liquid
+  assign r = rating | times: 1.0
+  assign filled = r | round
+-%}
+<span class="lp-stars" role="img" aria-label="{{ r | round: 1 }} out of 5 stars">
+  {%- for i in (1..5) -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="{% if i <= filled %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="1.5"/></svg>
+  {%- endfor -%}
+</span>

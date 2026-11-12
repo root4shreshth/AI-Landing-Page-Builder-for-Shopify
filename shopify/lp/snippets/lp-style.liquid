@@ -1,0 +1,40 @@
+{%- comment -%}
+  Emits scoped CSS custom properties + @font-face for one LP section, from its theme-editor style settings.
+  Usage: {% render 'lp-style', section: section %}
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign hf = s.lp_heading_font
+  assign bf = s.lp_body_font
+  assign bf_bold = bf | font_modify: 'weight', 'bold'
+  assign pt = s.lp_pt | default: 0
+  assign pb = s.lp_pb | default: 0
+  assign pt_m = pt | times: 0.66 | round
+  assign pb_m = pb | times: 0.66 | round
+-%}
+<style>
+  {{ hf | font_face: font_display: 'swap' }}
+  {{ bf | font_face: font_display: 'swap' }}
+  {{ bf_bold | font_face: font_display: 'swap' }}
+  #shopify-section-{{ section.id }} .lp {
+    --lp-bg: {{ s.lp_bg }};
+    --lp-fg: {{ s.lp_fg }};
+    --lp-accent: {{ s.lp_accent }};
+    --lp-accent-fg: {{ s.lp_btn_fg }};
+    --lp-accent-soft: {{ s.lp_accent | color_modify: 'alpha', 0.12 }};
+    --lp-btn-bg: {{ s.lp_btn_bg }};
+    --lp-btn-fg: {{ s.lp_btn_fg }};
+    --lp-surface: {{ s.lp_fg | color_modify: 'alpha', 0.05 }};
+    --lp-line: {{ s.lp_fg | color_modify: 'alpha', 0.18 }};
+    --lp-heading-font: {{ hf.family }}, {{ hf.fallback_families }};
+    --lp-heading-weight: {{ hf.weight }};
+    --lp-heading-style: {{ hf.style }};
+    --lp-body-font: {{ bf.family }}, {{ bf.fallback_families }};
+    --lp-radius: {{ s.lp_radius | default: 0 }}px;
+    --lp-pt: {{ pt_m }}px;
+    --lp-pb: {{ pb_m }}px;
+  }
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .lp { --lp-pt: {{ pt }}px; --lp-pb: {{ pb }}px; }
+  }
+</style>

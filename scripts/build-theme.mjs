@@ -2,7 +2,7 @@
 // (shopify/lp) + optional generated templates dir. Optionally zips it for Admin upload.
 //
 // Usage: node scripts/build-theme.mjs [--zip] [--extra <dir>] [--out <dir>]
-import { cp, rm, mkdir, readdir } from 'node:fs/promises';
+import { cp, rm, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -43,11 +43,40 @@ async function zipDir(dir, zipPath) {
   });
 }
 
+// Expand schema placeholders so every LP section exposes the same editable style controls.
+//   "__LP_STYLE__"        -> colours, fonts, radius, width, padding
+//   "__LP_STYLE_NOPAD__"  -> colours, fonts, radius only (e.g. sticky bar)
+async function expandSchemaPartials() {
+  const raw = await readFile(path.join(overlayDir, 'partials', 'style-settings.json'), 'utf8');
+  const all = JSON.parse(`[${raw}]`);
+  const noPad = all.filter((s) => !['lp_width', 'lp_pt', 'lp_pb'].includes(s.id));
+  const frag = (arr) => arr.map((s) => JSON.stringify(s)).join(',\n    ');
+  const sectionsDir = path.join(outDir, 'sections');
+  for (const file of await readdir(sectionsDir)) {
+    if (!file.startsWith('lp-') || !file.endsWith('.liquid')) continue;
+    const p = path.join(sectionsDir, file);
+    const src = await readFile(p, 'utf8');
+    if (!src.includes('"__LP_STYLE')) continue;
+    const out = src.replaceAll('"__LP_STYLE_NOPAD__"', frag(noPad)).replaceAll('"__LP_STYLE__"', frag(all));
+    // Validate the resulting schema JSON early so a typo fails the build, not the upload.
+    const m = out.match(/\{%\s*schema\s*%\}([\s\S]*?)\{%\s*endschema\s*%\}/);
+    if (m) {
+      try {
+        JSON.parse(m[1]);
+      } catch (e) {
+        throw new Error(`[theme] invalid schema JSON in ${file}: ${e.message}`);
+      }
+    }
+    await writeFile(p, out);
+  }
+}
+
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 await cp(baseDir, outDir, { recursive: true });
 await overlay(overlayDir);
 if (extraDir) await overlay(path.resolve(extraDir));
+await expandSchemaPartials();
 
 const sections = await readdir(path.join(outDir, 'sections'));
 console.log(`[theme] built ${outDir} (${sections.filter((s) => s.startsWith('lp-')).length} lp sections)`);

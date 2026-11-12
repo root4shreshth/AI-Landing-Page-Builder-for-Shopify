@@ -1,0 +1,100 @@
+{%- comment -%}
+  Purchase form shared by hero, purchase and sticky sections. All instances share one state (lp-cart.js).
+  Params:
+    product, form_id (unique), primary (bool: main CTA, observed by the sticky bar),
+    show_options (bool), show_qty (bool), show_price (bool), button_label, compact (bool: sticky layout),
+    save_label
+  Works without JS as a normal POST to /cart/add with the selected/first available variant.
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign button_label = button_label | default: 'Add to cart'
+  assign save_label = save_label | default: 'Save'
+  assign has_compare = false
+  if current_variant.compare_at_price > current_variant.price
+    assign has_compare = true
+    assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+  endif
+-%}
+<form
+  action="{{ routes.cart_add_url }}"
+  method="post"
+  class="lp-buy{% if compact %} lp-buy--compact{% endif %}"
+  id="{{ form_id }}"
+  data-lp-form
+  {% if primary %}data-lp-primary{% endif %}
+  novalidate
+>
+  <input type="hidden" name="id" value="{{ current_variant.id }}" data-lp-variant-input>
+
+  {%- if compact -%}
+    <div class="lp-sticky__meta">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 120 | image_tag: class: 'lp-sticky__thumb', loading: 'lazy', alt: '', width: 44, height: 44 }}
+      {%- endif -%}
+      <div style="min-width:0">
+        <div class="lp-sticky__title">{{ product.title | escape }}</div>
+        <div class="lp-sticky__sub">
+          <span class="lp-price" data-lp-price>{{ current_variant.price | money }}</span>
+          <s class="lp-price--compare" data-lp-compare {% unless has_compare %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
+          {%- unless product.has_only_default_variant -%}<span class="lp-muted" data-lp-variant-title>{{ current_variant.title | escape }}</span>{%- endunless -%}
+        </div>
+      </div>
+    </div>
+  {%- else -%}
+    {%- if show_price -%}
+      <div class="lp-price-row">
+        <span class="lp-sr">Price</span>
+        <span class="lp-price" data-lp-price>{{ current_variant.price | money }}</span>
+        <s class="lp-price--compare" data-lp-compare {% unless has_compare %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
+        <span class="lp-badge" data-lp-save data-label="{{ save_label | escape }}" {% unless has_compare %}hidden{% endunless %}>{{ save_label | escape }} {{ save_pct }}%</span>
+      </div>
+    {%- endif -%}
+
+    {%- if show_options -%}{%- unless product.has_only_default_variant -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign opt_index = forloop.index0 -%}
+        <fieldset class="lp-opt">
+          <legend>{{ option.name | escape }}: <span data-lp-opt-label="{{ opt_index }}">{{ option.selected_value | escape }}</span></legend>
+          <div class="lp-opt__values">
+            {%- for value in option.values -%}
+              <input
+                type="radio"
+                id="{{ form_id }}-o{{ opt_index }}-{{ forloop.index }}"
+                name="{{ form_id }}-o{{ opt_index }}"
+                value="{{ value.name | escape }}"
+                data-lp-option="{{ opt_index }}"
+                {% if value.selected %}checked{% endif %}
+              >
+              <label for="{{ form_id }}-o{{ opt_index }}-{{ forloop.index }}"{% unless value.available %} class="is-unavailable"{% endunless %}>{{ value.name | escape }}</label>
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    {%- endunless -%}{%- endif -%}
+  {%- endif -%}
+
+  <div class="lp-buy__row">
+    {%- if show_qty -%}{%- unless compact -%}
+      <div class="lp-qty">
+        <button type="button" data-lp-qty-step="-1" aria-label="Decrease quantity">&minus;</button>
+        <label class="lp-sr" for="{{ form_id }}-qty">Quantity</label>
+        <input id="{{ form_id }}-qty" type="number" name="quantity" min="1" max="999" value="1" inputmode="numeric" data-lp-qty>
+        <button type="button" data-lp-qty-step="1" aria-label="Increase quantity">+</button>
+      </div>
+    {%- endunless -%}{%- endif -%}
+    <button
+      type="submit"
+      name="add"
+      class="lp-btn"
+      data-lp-atc
+      data-label="{{ button_label | escape }}"
+      data-soldout="Sold out"
+      data-unavailable="Unavailable"
+      {% unless current_variant.available %}disabled{% endunless %}
+    >
+      <span data-lp-atc-label>{%- if current_variant.available -%}{{ button_label | escape }}{%- else -%}Sold out{%- endif -%}</span>
+    </button>
+  </div>
+  <p class="lp-status" role="status" aria-live="polite" data-lp-status hidden></p>
+</form>
