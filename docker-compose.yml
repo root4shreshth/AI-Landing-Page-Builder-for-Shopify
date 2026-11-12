@@ -34,10 +34,11 @@ services:
     ports:
       - "${APP_HOST_PORT:-4180}:4100"
     volumes:
-      - storage:/app/storage
+      # Same folder as local development: the database is shared, so run files (previews, screenshots,
+      # packages) must be too, or runs made in one place show missing previews in the other.
+      - ./storage:/app/storage
     shm_size: "1gb"
     restart: unless-stopped
 
 volumes:
   pgdata:
-  storage:

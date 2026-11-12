@@ -28,6 +28,7 @@ export const api = {
   feedback: (designId: string, verdict: 'approved' | 'rejected', reason?: string, tags?: string[]) =>
     request<{ design: Design }>(`/api/designs/${designId}/feedback`, { method: 'POST', body: JSON.stringify({ verdict, ...(reason ? { reason } : {}), ...(tags?.length ? { tags } : {}) }) }),
   regenerate: (designId: string) => request<{ status: string }>(`/api/designs/${designId}/regenerate`, { method: 'POST' }),
+  rerender: (runId: string) => request<{ rerendered: number }>(`/api/runs/${runId}/rerender`, { method: 'POST' }),
   runChecks: (runId: string, lighthouse = true) => request<{ status: string }>(`/api/runs/${runId}/checks`, { method: 'POST', body: JSON.stringify({ lighthouse }) }),
   publishInfo: (runId: string) => request<PublishInfo>(`/api/runs/${runId}/publish`),
   buildPackage: (runId: string, designIds?: string[]) => request<PackageInfo>(`/api/runs/${runId}/package`, { method: 'POST', body: JSON.stringify(designIds?.length ? { designIds } : {}) }),

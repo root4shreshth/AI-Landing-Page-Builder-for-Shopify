@@ -1,4 +1,6 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import type { BrandProfile } from '../catalogue/brand.js';
@@ -26,7 +28,17 @@ designsApi.get('/runs/:id/designs', wrap(async (req, res) => {
   res.json(
     designs.map((d) => {
       const c = d.config as { previewFile?: string; templateFile?: string };
-      return { ...d, previewUrl: c.previewFile ? `/files/${c.previewFile}` : null, templateUrl: c.templateFile ? `/files/${c.templateFile}` : null };
+      // A run's files live in STORAGE_DIR; if the run was made elsewhere (another machine or volume), say so.
+      const onDisk = (rel?: string) => !!rel && existsSync(path.join(config.storageDir, rel));
+      const hasPreview = onDisk(c.previewFile);
+      const hasTemplate = onDisk(c.templateFile);
+      return {
+        ...d,
+        previewUrl: hasPreview ? `/files/${c.previewFile}` : null,
+        templateUrl: hasTemplate ? `/files/${c.templateFile}` : null,
+        previewMissing: !!c.previewFile && !hasPreview,
+        canRerender: hasTemplate,
+      };
     }),
   );
 }));

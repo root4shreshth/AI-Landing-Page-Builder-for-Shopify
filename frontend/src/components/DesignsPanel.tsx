@@ -111,6 +111,7 @@ function ProofCard({ d, device, runId }: { d: Design; device: Device; runId: str
     onSuccess: () => { setRejecting(false); refresh(); },
   });
   const regen = useMutation({ mutationFn: () => api.regenerate(d.id), onSuccess: () => setRegenerating(true) });
+  const rerender = useMutation({ mutationFn: () => api.rerender(runId), onSuccess: refresh });
   const sim = d.fingerprint?.similarity;
   const near = sim?.nearestPrior;
   const sibMax = Math.max(0, ...(sim?.siblings ?? []).map((s) => s.score));
@@ -130,7 +131,22 @@ function ProofCard({ d, device, runId }: { d: Design; device: Device; runId: str
 
       <div className={`proof ${d.status === 'approved' ? 'is-approved' : ''}`}>
         <div className="overflow-hidden border border-rule bg-white">
-          {d.previewUrl ? <ScaledFrame src={d.previewUrl} width={device.width} title={`${d.name}, ${device.label} preview`} /> : <div className="p-6 text-sm text-ink-2">No preview available</div>}
+          {d.previewUrl ? (
+            <ScaledFrame src={d.previewUrl} width={device.width} title={`${d.name}, ${device.label} preview`} />
+          ) : d.previewMissing ? (
+            <div className="space-y-3 p-6 text-sm text-ink-2">
+              <p className="font-semibold text-ink">Preview file not found</p>
+              <p>{d.canRerender ? 'This run was made with a different storage folder (for example inside Docker). The template is here, so the preview can be rebuilt without an AI call.' : "This run's files are not on this machine. Regenerate the design to recreate them."}</p>
+              {d.canRerender && (
+                <button type="button" className="btn-quiet" disabled={rerender.isPending} onClick={() => rerender.mutate()}>
+                  {rerender.isPending ? 'Rebuilding previews…' : 'Rebuild previews'}
+                </button>
+              )}
+              {rerender.isError && <p role="alert" className="text-bad">{(rerender.error as Error).message}</p>}
+            </div>
+          ) : (
+            <div className="p-6 text-sm text-ink-2">No preview available</div>
+          )}
         </div>
       </div>
       <div className="mt-2 flex justify-between text-xs text-ink-2">

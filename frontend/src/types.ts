@@ -141,6 +141,10 @@ export interface Design {
   createdAt: string;
   previewUrl: string | null;
   templateUrl: string | null;
+  /** preview recorded for this design but its file is not in this machine's storage folder */
+  previewMissing?: boolean;
+  /** the template JSON is on disk, so the preview can be rebuilt without an AI call */
+  canRerender?: boolean;
   config: {
     config: { designName: string; rationale?: string; visual: { colorStrategy: string; radius: string; density: string; accent: string }; sections: { type: string; settings: Record<string, unknown> }[] };
     label: string;

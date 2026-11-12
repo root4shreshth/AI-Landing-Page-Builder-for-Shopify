@@ -200,7 +200,10 @@ export async function rerenderRun(runId: string): Promise<number> {
   for (const d of designs) {
     const c = d.config as { previewFile?: string; templateFile?: string };
     if (!c.previewFile || !c.templateFile) continue;
-    const template = JSON.parse(await readFile(path.join(config.storageDir, c.templateFile), 'utf8'));
+    const raw = await readFile(path.join(config.storageDir, c.templateFile), 'utf8').catch(() => null);
+    if (!raw) continue; // template not on this machine; only regeneration can recreate it
+    const template = JSON.parse(raw);
+    await mkdir(path.dirname(path.join(config.storageDir, c.previewFile)), { recursive: true });
     const html = await renderPreview(template, snapshot, { assetBase: 'assets', title: `${d.name} — ${snapshot.title}` });
     await writeFile(path.join(config.storageDir, c.previewFile), html);
     n++;
