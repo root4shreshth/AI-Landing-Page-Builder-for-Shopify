@@ -34,6 +34,7 @@ export async function runChecks(runId: string, opts: { lighthouse?: boolean } = 
     const designs = await prisma.design.findMany({ where: { runId, status: { not: 'superseded' } }, orderBy: { createdAt: 'asc' } });
     if (!designs.length) throw new Error('No designs to check');
     const variant = stored.snapshot.variants.find((v) => v.available) ?? stored.snapshot.variants[0];
+    const soldOut = !stored.snapshot.variants.some((v) => v.available);
     const base = `http://localhost:${config.port}`;
     let i = 0;
     for (const d of designs) {
@@ -50,7 +51,7 @@ export async function runChecks(runId: string, opts: { lighthouse?: boolean } = 
       });
       await setStage(runId, 'validate', 'running', `Checking ${i}/${designs.length}: ${d.name} — browser at 360/768/1440`);
       const shotsDir = path.join(runDirFor(runId), 'checks', d.templateKey);
-      const browser = await runBrowserChecks(`${base}/files/${c.previewFile}`, shotsDir, variant.id).catch((e) => ({ error: (e as Error).message }));
+      const browser = await runBrowserChecks(`${base}/files/${c.previewFile}`, shotsDir, variant.id, { soldOut }).catch((e) => ({ error: (e as Error).message }));
       let lighthouse: unknown = { status: 'not_run', note: 'Skipped' };
       if (opts.lighthouse !== false) {
         await setStage(runId, 'validate', 'running', `Checking ${i}/${designs.length}: ${d.name} — Lighthouse (mobile)`);

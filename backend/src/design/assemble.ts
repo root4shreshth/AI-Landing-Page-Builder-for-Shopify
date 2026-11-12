@@ -5,6 +5,7 @@
 import type { PageConfigInput } from '../catalogue/page-config.js';
 import type { DesignCopy } from '../ai/copy.js';
 import type { StructurePlan } from './planner.js';
+import { isUnbackedPolicyQuestion } from '../catalogue/facts.js';
 
 const clamp = (s: string | undefined, n: number) => (s ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
 const p = (s: string | undefined, n: number) => {
@@ -13,7 +14,8 @@ const p = (s: string | undefined, n: number) => {
 };
 const opt = (s: string | undefined, n: number) => clamp(s, n) || undefined;
 
-export function assembleConfig(plan: StructurePlan, copy: DesignCopy): PageConfigInput {
+/** `claimIds`: confirmed store promises; FAQ questions about unconfirmed policies are dropped. */
+export function assembleConfig(plan: StructurePlan, copy: DesignCopy, claimIds: ReadonlySet<string> = new Set()): PageConfigInput {
   const sections = plan.sections.map((s) => {
     switch (s.type) {
       case 'hero':
@@ -72,7 +74,7 @@ export function assembleConfig(plan: StructurePlan, copy: DesignCopy): PageConfi
           blocks: copy.specNotes.slice(0, 2).filter((n) => n.title && n.text).map((n) => ({ type: 'note' as const, settings: { title: clamp(n.title, 40), text: p(n.text, 400) ?? '<p>—</p>' } })),
         };
       case 'faq': {
-        const items = copy.faq.items.slice(0, 8).filter((q) => q.question.length >= 5 && q.answer.length >= 5);
+        const items = copy.faq.items.filter((q) => q.question.length >= 5 && q.answer.length >= 5 && !isUnbackedPolicyQuestion(q.question, claimIds)).slice(0, 8);
         if (items.length < 3) return null;
         return {
           type: 'faq' as const,

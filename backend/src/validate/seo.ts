@@ -5,14 +5,13 @@
  * needs_verification here and confirmed on the Shopify preview.
  */
 import * as cheerio from 'cheerio';
-import type { ProductFacts } from '../catalogue/facts.js';
+import { isUnbackedPolicyQuestion, type ProductFacts } from '../catalogue/facts.js';
 
 export type CheckStatus = 'passed' | 'failed' | 'needs_verification' | 'not_applicable';
 export interface CheckItem { id: string; area: 'seo' | 'aeo' | 'geo' | 'schema'; label: string; status: CheckStatus; detail: string }
 export interface Checklist { items: CheckItem[]; scores: Record<'seo' | 'aeo' | 'geo' | 'schema', { passed: number; failed: number; total: number; score: number | null }> }
 
 const VAGUE = ['best in class', 'world-class', 'world class', 'revolutionary', 'game changer', 'game-changer', 'unmatched', 'second to none', 'like never before', 'ultimate', 'number one', '#1', 'perfect for everyone', 'unbeatable'];
-const POLICY_WORDS: [RegExp, string][] = [[/\b(cod|cash on delivery)\b/i, 'cod'], [/\breturn|exchange|refund/i, 'returns'], [/\bdeliver|ship|dispatch/i, 'delivery_time']];
 
 type Json = Record<string, unknown>;
 function jsonLd($: cheerio.CheerioAPI): { nodes: Json[]; errors: string[] } {
@@ -94,9 +93,7 @@ export function runChecklist(html: string, facts: ProductFacts, ctx: { handle: s
     // policy answers must be backed by confirmed claims
     const claimIds = new Set(facts.claims.map((c) => c.id));
     const unbacked: string[] = [];
-    answers.forEach((a, i) => {
-      for (const [re, claim] of POLICY_WORDS) if (re.test(visibleQs[i] ?? '') && !claimIds.has(claim)) unbacked.push(visibleQs[i]);
-    });
+    visibleQs.forEach((q) => { if (isUnbackedPolicyQuestion(q, claimIds)) unbacked.push(q); });
     add('faq_policies', 'aeo', 'Delivery, COD and returns answers match confirmed store promises', unbacked.length ? 'failed' : 'passed', unbacked.length ? `Not backed by a confirmed promise: ${[...new Set(unbacked)].join(' | ')}` : 'Every policy answer is backed by a confirmed promise');
   }
 

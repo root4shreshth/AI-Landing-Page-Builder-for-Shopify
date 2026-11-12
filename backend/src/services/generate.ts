@@ -111,7 +111,7 @@ export async function generateDesigns(a: GenerateArgs) {
       limit(async () => {
         try {
           const copy = await writeCopy({ facts: a.facts, brand: a.brand, plan, priceLine, options: a.snapshot.options, avoid: priorNames, feedback }, a.usage);
-          const cfg = assembleConfig(plan, copy);
+          const cfg = assembleConfig(plan, copy, new Set(a.facts.claims.map((c) => c.id)));
           const rendered = renderTemplate(cfg, a.facts, tokens, { slug, version: a.version });
           const errors = validateTemplate(rendered.template, schemas);
           if (errors.length) throw new Error(`Template failed schema validation: ${errors.slice(0, 3).join('; ')}`);

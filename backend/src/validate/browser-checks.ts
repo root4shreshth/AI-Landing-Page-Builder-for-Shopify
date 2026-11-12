@@ -27,7 +27,7 @@ export async function closeCheckBrowser() {
   browser = null;
 }
 
-export async function runBrowserChecks(url: string, outDir: string, expectVariantId: string | number): Promise<BrowserChecks> {
+export async function runBrowserChecks(url: string, outDir: string, expectVariantId: string | number, opts: { soldOut?: boolean } = {}): Promise<BrowserChecks> {
   await mkdir(outDir, { recursive: true });
   const b = await getBrowser();
   const jsErrors: string[] = [];
@@ -62,6 +62,16 @@ export async function runBrowserChecks(url: string, outDir: string, expectVarian
   try {
     await page.evaluate(() => window.scrollTo(0, 0));
     const form = page.locator('[data-lp-form][data-lp-primary]').first();
+    if (opts.soldOut) {
+      // Every variant is sold out on the source store: the correct behaviour is a disabled button that says so.
+      const btn = form.locator('[data-lp-atc]');
+      const disabled = await btn.isDisabled({ timeout: 3000 });
+      const label = ((await btn.textContent()) ?? '').replace(/s+/g, ' ').trim();
+      const calls = await page.evaluate(() => ((window as unknown as { __lpCartCalls?: unknown[] }).__lpCartCalls ?? []).length);
+      cart = { passed: disabled && /sold out|unavailable/i.test(label) && calls === 0, detail: `Sold out on the source store: button disabled ${disabled}, label "${label}", cart requests ${calls}` };
+      await page.close();
+      return { widths, atcFirstScreen, sticky, cart, jsErrors };
+    }
     await form.locator('[data-lp-qty-step="1"]').click({ timeout: 3000 }).catch(() => undefined);
     await form.locator('[data-lp-atc]').click({ timeout: 5000 });
     await page.waitForFunction(() => ((window as unknown as { __lpCartCalls?: unknown[] }).__lpCartCalls ?? []).length > 0, null, { timeout: 5000 });

@@ -97,6 +97,10 @@
 .lp-opt input:checked + label { background: var(--lp-fg); color: var(--lp-bg); border-color: var(--lp-fg); }
 .lp-opt input:focus-visible + label { outline: 3px solid var(--lp-accent); outline-offset: 2px; }
 .lp-opt label.is-unavailable { text-decoration: line-through; opacity: 0.45; }
+/* one value only (e.g. "Color: Black"): the legend already says it, so skip the single pill */
+.lp-opt--single .lp-opt__values { display: none; }
+.lp-opt--single legend { margin-bottom: 0; }
+.lp-buy__row .lp-btn { white-space: nowrap; }
 .lp-buy__row { display: flex; gap: 1rem; align-items: stretch; }
 .lp-buy__row .lp-btn { flex: 1; }
 .lp-qty { display: inline-flex; align-items: center; border: 1.5px solid var(--lp-line, rgba(127,127,127,.35)); border-radius: var(--lp-radius, 0.6rem); }
@@ -145,6 +149,11 @@
   .lp-hero .lp-price { font-size: 2.4rem; }
   .lp-hero .lp-opt legend { margin-bottom: 0.4rem; }
   .lp-hero .lp-opt label { min-height: 4.2rem; min-width: 4.2rem; padding: 0.6rem 1.2rem; }
+  .lp-qty button { width: 3.8rem; }
+  .lp-qty input { width: 3.2rem; }
+  .lp-breadcrumb ol { flex-wrap: nowrap; }
+  .lp-breadcrumb li { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lp-breadcrumb li:first-child { flex-shrink: 0; }
 }
 .lp-hero--split .lp-hero__media .lp-media { box-shadow: 0 3rem 6rem -3.2rem rgba(0,0,0,.35); }
 

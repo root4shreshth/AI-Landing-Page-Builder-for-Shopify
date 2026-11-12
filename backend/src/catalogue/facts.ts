@@ -50,3 +50,16 @@ export const ProductFactsSchema = z.object({
   offer: z.object({ text: z.string().min(1).max(80), subtext: z.string().max(300).optional(), code: z.string().max(30).optional(), source: z.string() }).optional(),
 });
 export type ProductFacts = z.infer<typeof ProductFactsSchema>;
+
+/**
+ * Store-policy questions (COD, returns, delivery) may only appear when the store confirms that promise.
+ * Shared by the FAQ assembly (drops unbacked questions) and the AEO checklist (flags any that remain).
+ */
+const POLICY_TOPICS: [RegExp, string[]][] = [
+  [/\b(cod|cash on delivery)\b/i, ['cod']],
+  [/\breturn|exchange|refund/i, ['returns']],
+  [/\bdeliver|ship|dispatch/i, ['delivery_time', 'free_shipping']],
+];
+export function isUnbackedPolicyQuestion(question: string, claimIds: ReadonlySet<string>): boolean {
+  return POLICY_TOPICS.some(([re, ids]) => re.test(question) && !ids.some((id) => claimIds.has(id)));
+}

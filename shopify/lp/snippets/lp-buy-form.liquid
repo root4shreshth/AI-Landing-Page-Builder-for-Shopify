@@ -54,7 +54,7 @@
     {%- if show_options -%}{%- unless product.has_only_default_variant -%}
       {%- for option in product.options_with_values -%}
         {%- assign opt_index = forloop.index0 -%}
-        <fieldset class="lp-opt">
+        <fieldset class="lp-opt{% if option.values.size == 1 %} lp-opt--single{% endif %}">
           <legend>{{ option.name | escape }}: <span data-lp-opt-label="{{ opt_index }}">{{ option.selected_value | escape }}</span></legend>
           <div class="lp-opt__values">
             {%- for value in option.values -%}
