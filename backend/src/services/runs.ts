@@ -10,6 +10,7 @@ import { BrandProfileSchema } from '../catalogue/brand.js';
 import { UsageTracker } from '../ai/client.js';
 import { prisma } from '../db.js';
 import { analyzeProductUrl, runDirFor } from './analyze.js';
+import { runResearch } from './research.js';
 
 export interface StageState { stage: string; status: 'pending' | 'running' | 'done' | 'failed' | 'skipped'; message?: string; startedAt?: string; finishedAt?: string }
 
@@ -40,9 +41,11 @@ async function setStage(runId: string, stage: string, status: StageState['status
   runEvents.emit(runId, { type: 'stage', stage, status, message });
 }
 
-export async function createRun(inputUrl: string) {
+export interface RunOptions { competitorUrls?: string[] }
+
+export async function createRun(inputUrl: string, options: RunOptions = {}) {
   const stages: StageState[] = PIPELINE.map((p) => ({ stage: p.stage, status: 'pending' }));
-  const run = await prisma.generationRun.create({ data: { inputUrl, status: 'queued', stage: 'queued', stages: json(stages) } });
+  const run = await prisma.generationRun.create({ data: { inputUrl, status: 'queued', stage: 'queued', stages: json(stages), options: json(options) } });
   void limit(() => executeRun(run.id));
   return run;
 }
@@ -95,12 +98,20 @@ async function executeRun(runId: string) {
       },
     });
 
-    // Stages after analysis are implemented in later milestones; mark them pending-not-run honestly.
-    await prisma.generationRun.update({
-      where: { id: runId },
-      data: { productId: product.id, status: 'analyzed', stage: 'analyzed', cost: json(usage.toJSON()) },
-    });
-    runEvents.emit(runId, { type: 'status', status: 'analyzed', productId: product.id, brandId: brand.id });
+    await prisma.generationRun.update({ where: { id: runId }, data: { productId: product.id, cost: json(usage.toJSON()) } });
+    runEvents.emit(runId, { type: 'analyzed', productId: product.id, brandId: brand.id });
+
+    // ---- competitor research + learnings (partial failure tolerated) ----
+    const options = (run.options ?? {}) as RunOptions;
+    try {
+      await runResearch(runId, runDirFor(runId), facts, result.product.finalUrl, options.competitorUrls ?? [], (stage, status, message) => setStage(runId, stage, status, message));
+    } catch (e) {
+      await setStage(runId, 'competitors', 'failed', `Research failed: ${(e as Error).message}`);
+    }
+
+    // Generation/validation stages arrive in later milestones; they stay "pending" (not run) — never faked.
+    await prisma.generationRun.update({ where: { id: runId }, data: { status: 'researched', stage: 'researched', cost: json(usage.toJSON()) } });
+    runEvents.emit(runId, { type: 'status', status: 'researched', productId: product.id, brandId: brand.id });
   } catch (e) {
     const message = (e as Error).message || 'Unknown error';
     const fresh = await prisma.generationRun.findUnique({ where: { id: runId } });

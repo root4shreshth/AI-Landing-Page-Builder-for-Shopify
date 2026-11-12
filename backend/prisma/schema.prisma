@@ -66,6 +66,8 @@ model GenerationRun {
   // [{stage, status, startedAt, finishedAt, message, error}]
   stages      Json         @default("[]")
   error       String?
+  // { competitorUrls: string[] } user-supplied options
+  options     Json?
   // { inputTokens, outputTokens, estimatedUsd, byStage:{...} }
   cost        Json?
   competitors Competitor[]
@@ -107,8 +109,11 @@ model CategoryLearning {
   id             String   @id @default(uuid())
   category       String
   key            String // feature key, e.g. "reviews_near_price"
-  kind           String // observation | hypothesis | recommendation
-  statement      String
+  kind           String // common | differentiator | rare (prevalence among crawled pages)
+  statement      String // observation, e.g. "6 of 8 pages: ..." (computed in code)
+  hypothesis     String?
+  recommendation String?
+  share          Float    @default(0)
   supportCount   Int
   sampleSize     Int
   // [{competitorId, url}]

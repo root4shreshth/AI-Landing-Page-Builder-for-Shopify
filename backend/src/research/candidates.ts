@@ -45,8 +45,11 @@ export function keywordsFor(facts: ProductFacts): string[] {
     .split(/[^a-z]+/)
     .filter((w) => w.length > 2 && !STOP.has(w) && !brandWords.has(w));
   const catWords = (facts.category ?? '').split(/[/-]/).filter((w) => w.length > 2 && w !== 'other' && w !== 'accessories');
-  return [...new Set([...words.slice(0, 4), ...catWords])].slice(0, 6);
+  return [...new Set([...words.slice(0, 4), ...catWords].map(stem))].slice(0, 6);
 }
+
+/** Crude singular stem so "bags" matches "bag", "serums" matches "serum" (substring matching does the rest). */
+export const stem = (w: string) => (w.length > 3 && /[^su]s$/.test(w) ? w.slice(0, -1) : w);
 
 export function buildQueries(facts: ProductFacts): string[] {
   const kw = keywordsFor(facts);
@@ -135,7 +138,7 @@ export async function discoverCandidates(facts: ProductFacts, ownUrl: string, op
     }
   }
   if (!results.length) {
-    const seeds = seedSitesFor(facts.category);
+    const seeds = seedSitesFor(facts.category, facts.title);
     if (seeds.length) {
       notes.push(`Search unavailable — using the starter list of Indian D2C brand sites for "${facts.category}". Add your own competitor URLs for better relevance.`);
       for (const site of seeds) {

@@ -7,6 +7,7 @@ import { ProductFactsSchema } from '../catalogue/facts.js';
 import { config } from '../config.js';
 import { prisma } from '../db.js';
 import { UnsafeUrlError, assertSafeUrlShape } from '../net/url-guard.js';
+import { categoryLearnings } from '../services/research.js';
 import { createRun, PIPELINE, runEvents } from '../services/runs.js';
 
 export const api = express.Router();
@@ -15,11 +16,15 @@ const wrap = (fn: (req: Request, res: Response) => Promise<unknown>) => (req: Re
 
 // ---------------- runs ----------------
 api.post('/runs', wrap(async (req, res) => {
-  const { url } = z.object({ url: z.string().trim().min(1).max(2048) }).parse(req.body);
+  const { url, competitorUrls } = z
+    .object({ url: z.string().trim().min(1).max(2048), competitorUrls: z.array(z.string().trim().min(1).max(2048)).max(12).optional() })
+    .strict()
+    .parse(req.body);
   assertSafeUrlShape(url); // fast structural check; DNS + robots are checked in the run
+  for (const c of competitorUrls ?? []) assertSafeUrlShape(c);
   // idempotency: same URL submitted within 10s returns the existing run (double clicks)
   const recent = await prisma.generationRun.findFirst({ where: { inputUrl: url, createdAt: { gte: new Date(Date.now() - 10_000) } }, orderBy: { createdAt: 'desc' } });
-  const run = recent ?? (await createRun(url));
+  const run = recent ?? (await createRun(url, { competitorUrls }));
   res.status(202).json({ id: run.id, status: run.status });
 }));
 
@@ -54,6 +59,22 @@ api.get('/runs/:id/events', wrap(async (req, res) => {
     clearInterval(ping);
     runEvents.off(run.id, onEvent);
   });
+}));
+
+api.get('/runs/:id/competitors', wrap(async (req, res) => {
+  const competitors = await prisma.competitor.findMany({ where: { runId: req.params.id }, include: { findings: true }, orderBy: [{ relevance: 'desc' }] });
+  res.json(competitors);
+}));
+
+api.get('/runs/:id/learnings', wrap(async (req, res) => {
+  const learnings = await prisma.categoryLearning.findMany({ where: { runId: req.params.id }, orderBy: [{ share: 'desc' }] });
+  res.json(learnings);
+}));
+
+/** Category memory across all runs (what the next run for this category starts from). */
+api.get('/categories/:group/:leaf?/learnings', wrap(async (req, res) => {
+  const category = req.params.leaf ? `${req.params.group}/${req.params.leaf}` : req.params.group;
+  res.json({ category, learnings: await categoryLearnings(category) });
 }));
 
 // ---------------- brands ----------------

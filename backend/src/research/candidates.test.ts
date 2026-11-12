@@ -9,6 +9,14 @@ describe('candidate selection helpers', () => {
     expect(kw).not.toContain('demo');
     expect(kw).not.toContain('pack');
   });
+  it('stems plural keywords and picks starter lists by category and title', async () => {
+    const { seedSitesFor } = await import('./seeds.js');
+    expect(keywordsFor({ ...demoFacts, title: 'Cabin Bags Pro', category: 'accessories/bags' })).toEqual(['cabin', 'bag']);
+    const seeds = seedSitesFor('accessories/bags', 'Em Cabin Pro');
+    expect(seeds).toEqual(expect.arrayContaining(['https://www.safaribags.com', 'https://www.zouk.co.in']));
+    expect(new Set(seeds).size).toBe(seeds.length);
+    expect(seedSitesFor('other', 'Mystery')).toEqual([]);
+  });
   it('builds India-focused queries', () => {
     const q = buildQueries(demoFacts);
     expect(q.length).toBeGreaterThanOrEqual(2);

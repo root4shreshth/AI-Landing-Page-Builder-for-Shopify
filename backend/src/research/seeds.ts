@@ -17,13 +17,16 @@ export const SEED_SITES: Record<string, string[]> = {
   home: ['https://www.thesleepcompany.in', 'https://www.wakefit.co', 'https://www.ellementry.com', 'https://www.nestasia.in', 'https://www.thedecorkart.com', 'https://www.borosil.com', 'https://www.milton.in', 'https://www.chumbak.com'],
 };
 
-export function seedSitesFor(category: string | undefined): string[] {
-  const c = category ?? '';
-  if (/luggage|trolley|suitcase/.test(c)) return SEED_SITES.luggage;
-  if (/bag|backpack|wallet|tote/.test(c)) return SEED_SITES.bags;
-  if (/jewel|ring|necklace|earring/.test(c)) return SEED_SITES.jewellery;
-  if (/watch/.test(c)) return SEED_SITES.watches;
-  if (/groom|skin|hair|lip|beauty|cosmetic/.test(c)) return SEED_SITES.beauty;
-  const group = c.split('/')[0];
-  return SEED_SITES[group] ?? [];
+/** Every list whose topic matches the category or product title (union, de-duplicated). */
+export function seedSitesFor(category: string | undefined, title = ''): string[] {
+  const c = `${category ?? ''} ${title}`.toLowerCase();
+  const lists: string[][] = [];
+  if (/luggage|trolley|suitcase|cabin/.test(c)) lists.push(SEED_SITES.luggage);
+  if (/\bbags?\b|backpack|wallet|tote|duffel/.test(c)) lists.push(SEED_SITES.bags);
+  if (/jewel|\brings?\b|necklace|earring/.test(c)) lists.push(SEED_SITES.jewellery);
+  if (/watch/.test(c)) lists.push(SEED_SITES.watches);
+  if (/groom|skin|hair|lip|beauty|cosmetic|serum|trimmer|shav/.test(c)) lists.push(SEED_SITES.beauty);
+  const group = (category ?? '').split('/')[0];
+  if (SEED_SITES[group]) lists.push(SEED_SITES[group]);
+  return [...new Set(lists.flat())];
 }
