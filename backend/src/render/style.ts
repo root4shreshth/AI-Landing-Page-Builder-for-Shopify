@@ -61,7 +61,7 @@ export function styleFor(
   if (type === 'sticky' || type === 'seo') bg = base;
 
   const fg = readableOn(bg, [c.text, isDark(bg) ? '#FFFFFF' : '#111111']);
-  const accent = ensureContrast(accentSrc, bg, 3);
+  const accent = ensureContrast(accentSrc, bg, 4.5); // accents are also used for small text (eyebrows), so AA for text
 
   let btnBg = c.button;
   if (contrast(btnBg, bg) < 3) btnBg = contrast(accentSrc, bg) >= 3 ? accentSrc : fg;

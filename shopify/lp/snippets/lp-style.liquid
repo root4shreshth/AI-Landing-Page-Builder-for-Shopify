@@ -11,6 +11,8 @@
   assign pb = s.lp_pb | default: 0
   assign pt_m = pt | times: 0.66 | round
   assign pb_m = pb | times: 0.66 | round
+  # Text on accent-coloured badges: dark on light accents, white on dark ones (WCAG AA)
+  assign accent_brightness = s.lp_accent | color_brightness
 -%}
 <style>
   {{ hf | font_face: font_display: 'swap' }}
@@ -20,7 +22,7 @@
     --lp-bg: {{ s.lp_bg }};
     --lp-fg: {{ s.lp_fg }};
     --lp-accent: {{ s.lp_accent }};
-    --lp-accent-fg: {{ s.lp_btn_fg }};
+    --lp-accent-fg: {% if accent_brightness > 150 %}#111111{% else %}#FFFFFF{% endif %};
     --lp-accent-soft: {{ s.lp_accent | color_modify: 'alpha', 0.12 }};
     --lp-btn-bg: {{ s.lp_btn_bg }};
     --lp-btn-fg: {{ s.lp_btn_fg }};

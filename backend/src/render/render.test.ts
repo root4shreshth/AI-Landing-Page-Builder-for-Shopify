@@ -59,6 +59,7 @@ describe.each([
       for (const [id, s] of Object.entries(r.template.sections)) {
         expect(contrast(String(s.settings.lp_bg), String(s.settings.lp_fg)), `${r.config.designName}/${id}`).toBeGreaterThanOrEqual(4.5);
         expect(contrast(String(s.settings.lp_btn_bg), String(s.settings.lp_btn_fg)), `${r.config.designName}/${id} button`).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(String(s.settings.lp_accent), String(s.settings.lp_bg)), `${r.config.designName}/${id} accent text`).toBeGreaterThanOrEqual(4.5);
       }
   });
 

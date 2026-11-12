@@ -169,6 +169,12 @@ function buildEngine(themeDir: string, assetBase: string, moneyFormat: string) {
   engine.registerFilter('placeholder_svg_tag', (_name: string, cls?: string) => placeholderSvg(cls));
   engine.registerFilter('font_face', () => ''); // preview loads Google Fonts in <head> instead
   engine.registerFilter('font_modify', (f: ResolvedFont, prop: string, val: string) => (f && prop === 'weight' && val === 'bold' ? { ...f, weight: 700 } : f));
+  // Shopify's color_brightness: perceived brightness 0-255 ((r*299 + g*587 + b*114) / 1000)
+  engine.registerFilter('color_brightness', (hex: string) => {
+    if (typeof hex !== 'string' || !hex.startsWith('#')) return 0;
+    const [r, g, b] = hexToRgb(hex);
+    return (r * 299 + g * 587 + b * 114) / 1000;
+  });
   engine.registerFilter('color_modify', (hex: string, prop: string, val: number) => {
     if (prop !== 'alpha' || typeof hex !== 'string' || !hex.startsWith('#')) return hex;
     const [r, g, b] = hexToRgb(hex);
@@ -242,6 +248,7 @@ export async function renderPreview(
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(opts.title ?? product.title)} — local preview</title>
 <meta name="description" content="Local preview of a generated landing page">
+<link rel="icon" href="data:,">
 ${gf}
 <style>
   html { font-size: 62.5%; -webkit-text-size-adjust: 100%; }
