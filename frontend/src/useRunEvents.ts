@@ -27,7 +27,7 @@ export function useRunEvents(runId: string | undefined) {
         qc.invalidateQueries({ queryKey: ['competitors', runId] });
         qc.invalidateQueries({ queryKey: ['learnings', runId] });
       }
-      if (e.stage === 'generate' || e.type === 'design' || e.type === 'regenerate') qc.invalidateQueries({ queryKey: ['designs', runId] });
+      if (e.stage === 'generate' || e.stage === 'validate' || e.type === 'design' || e.type === 'regenerate' || e.type === 'checks') qc.invalidateQueries({ queryKey: ['designs', runId] });
     };
     return () => es.close();
   }, [runId, qc]);

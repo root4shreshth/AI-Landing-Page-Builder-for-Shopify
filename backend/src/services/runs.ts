@@ -33,14 +33,16 @@ const limit = pLimit(2);
 
 const json = (v: unknown) => v as Prisma.InputJsonValue;
 
-async function setStage(runId: string, stage: string, status: StageState['status'], message?: string) {
+export async function setStage(runId: string, stage: string, status: StageState['status'], message?: string) {
   const run = await prisma.generationRun.findUniqueOrThrow({ where: { id: runId } });
   const stages = (run.stages as unknown as StageState[]).map((s) =>
     s.stage === stage
       ? { ...s, status, message, ...(status === 'running' ? { startedAt: new Date().toISOString() } : { finishedAt: new Date().toISOString() }) }
       : s,
   );
-  await prisma.generationRun.update({ where: { id: runId }, data: { stages: json(stages), stage, status: 'running' } });
+  // later stages (checks, regenerate) run on finished runs: don't flip a finished run back to "running"
+  const runStatus = ['queued', 'running'].includes(run.status) ? 'running' : run.status;
+  await prisma.generationRun.update({ where: { id: runId }, data: { stages: json(stages), stage, status: runStatus } });
   runEvents.emit(runId, { type: 'stage', stage, status, message });
 }
 

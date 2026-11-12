@@ -1,4 +1,4 @@
-import type { Brand, BrandProfile, Competitor, Design, Facts, FontOption, Learning, Product, Run, RunListItem } from './types';
+import type { Brand, BrandProfile, Competitor, Deployment, Design, Facts, FontOption, Learning, PackageInfo, Product, PublishInfo, Run, RunListItem } from './types';
 
 export class ApiError extends Error {
   constructor(message: string, public status: number, public issues?: { path: string; message: string }[]) {
@@ -28,6 +28,10 @@ export const api = {
   feedback: (designId: string, verdict: 'approved' | 'rejected', reason?: string, tags?: string[]) =>
     request<{ design: Design }>(`/api/designs/${designId}/feedback`, { method: 'POST', body: JSON.stringify({ verdict, ...(reason ? { reason } : {}), ...(tags?.length ? { tags } : {}) }) }),
   regenerate: (designId: string) => request<{ status: string }>(`/api/designs/${designId}/regenerate`, { method: 'POST' }),
+  runChecks: (runId: string, lighthouse = true) => request<{ status: string }>(`/api/runs/${runId}/checks`, { method: 'POST', body: JSON.stringify({ lighthouse }) }),
+  publishInfo: (runId: string) => request<PublishInfo>(`/api/runs/${runId}/publish`),
+  buildPackage: (runId: string, designIds?: string[]) => request<PackageInfo>(`/api/runs/${runId}/package`, { method: 'POST', body: JSON.stringify(designIds?.length ? { designIds } : {}) }),
+  deploy: (runId: string, body: { store: string; mode: 'new' | 'existing'; themeId?: string; themeName?: string; confirmOverwrite: true }) => request<Deployment>(`/api/runs/${runId}/deploy`, { method: 'POST', body: JSON.stringify(body) }),
 };
 
 export const fileUrl = (rel: string | null | undefined) => (rel ? `/files/${rel}` : null);

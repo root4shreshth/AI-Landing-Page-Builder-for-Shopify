@@ -152,6 +152,50 @@ export interface Design {
   };
   fingerprint: { features: Record<string, unknown>; similarity: Similarity } | null;
   feedback: { id: string; verdict: string; reason: string | null; createdAt: string }[];
+  checks: DesignChecks | null;
 }
 
 export interface FontOption { family: string; category: string; handles: { handle: string; weight: number }[] }
+
+export type CheckStatus = 'passed' | 'failed' | 'needs_verification' | 'not_applicable';
+export interface CheckItem { id: string; area: 'seo' | 'aeo' | 'geo' | 'schema'; label: string; status: CheckStatus; detail: string }
+export interface DesignChecks {
+  ranAt: string;
+  checklist: { items: CheckItem[]; scores: Record<'seo' | 'aeo' | 'geo' | 'schema', { passed: number; failed: number; total: number; score: number | null }> };
+  browser:
+    | { error: string }
+    | {
+        widths: { width: number; overflowPx: number; h1Count: number; screenshot: string }[];
+        atcFirstScreen: { passed: boolean; bottomPx: number | null; viewport: string };
+        sticky: { passed: boolean; detail: string };
+        cart: { passed: boolean; detail: string };
+        jsErrors: string[];
+      };
+  lighthouse:
+    | { status: 'not_run' | 'failed'; note: string }
+    | { url: string; target: string; scores: { performance: number | null; accessibility: number | null; seo: number | null; 'best-practices': number | null }; metrics: { lcpMs: number | null; cls: number | null; tbtMs: number | null }; failedAudits: { id: string; title: string }[]; ranAt: string };
+}
+
+export interface PackageInfo {
+  designIds: string[];
+  templates: string[];
+  zipUrl: string;
+  zipBytes: number;
+  csvUrl: string | null;
+  themeCheck: { status: 'passed' | 'failed' | 'not_run'; errors: number; warnings: number; lpIssues: string[]; note?: string };
+  builtAt: string;
+}
+export interface Deployment {
+  id: string;
+  designIds: string[];
+  method: string;
+  status: 'pending' | 'succeeded' | 'partial' | 'failed';
+  store: string | null;
+  themeId: string | null;
+  themeName: string | null;
+  previewUrl: string | null;
+  editorUrl: string | null;
+  log: string | null;
+  createdAt: string;
+}
+export interface PublishInfo { cliInstalled: boolean; store: string | null; package: PackageInfo | null; history: Deployment[] }

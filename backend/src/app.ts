@@ -2,6 +2,7 @@ import { config } from './config.js';
 import express from 'express';
 import { api, errorHandler, files } from './api/routes.js';
 import { designsApi } from './api/designs.js';
+import { publishApi } from './api/publish.js';
 import { closeBrowser } from './browser/browser.js';
 import { prisma } from './db.js';
 import { failStaleRuns } from './services/runs.js';
@@ -16,6 +17,7 @@ app.get('/api/health', async (_req, res) => {
 });
 app.use('/api', api);
 app.use('/api', designsApi);
+app.use('/api', publishApi);
 app.use('/files', files);
 app.use(errorHandler);
 
