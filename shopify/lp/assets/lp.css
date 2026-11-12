@@ -155,7 +155,9 @@
 .lp-sticky .lp-btn { min-height: 4.4rem; padding: 1rem 1.8rem; }
 .lp-sticky .lp-status { grid-column: 1 / -1; }
 .lp-sticky .lp-status[hidden] { display: none; }
-@media (min-width: 990px) { .lp-sticky--mobile-only { display: none; } .lp-sticky .lp__wrap { padding: 0; } }
+.lp-sticky-spacer { height: 7.6rem; }
+@media (min-width: 990px) { .lp-sticky--mobile-only, .lp-sticky-spacer--mobile-only { display: none; } .lp-sticky .lp__wrap { padding: 0; } }
+.lp-seo--crumbs { padding: 1.2rem 0; }
 @media (prefers-reduced-motion: reduce) { .lp-sticky { transition: none; } .lp-btn { transition: none; } }
 
 /* ---------- grids / cards ---------- */

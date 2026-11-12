@@ -43,7 +43,12 @@ async function zipDir(dir, zipPath) {
   });
 }
 
+// Icon names supported by snippets/lp-icon.liquid (kept in sync with backend section catalogue).
+const ICONS = ['check', 'truck', 'cash', 'return', 'shield', 'star', 'leaf', 'sparkle', 'clock', 'heart', 'droplet', 'sun', 'ruler', 'box', 'award', 'lock', 'bolt', 'feather', 'gift', 'chat', 'tag'];
+const ICON_OPTIONS = ICONS.map((v) => ({ value: v, label: v[0].toUpperCase() + v.slice(1) }));
+
 // Expand schema placeholders so every LP section exposes the same editable style controls.
+//   "__LP_ICONS__"        -> icon select options
 //   "__LP_STYLE__"        -> colours, fonts, radius, width, padding
 //   "__LP_STYLE_NOPAD__"  -> colours, fonts, radius only (e.g. sticky bar)
 async function expandSchemaPartials() {
@@ -57,7 +62,10 @@ async function expandSchemaPartials() {
     const p = path.join(sectionsDir, file);
     const src = await readFile(p, 'utf8');
     if (!src.includes('"__LP_STYLE')) continue;
-    const out = src.replaceAll('"__LP_STYLE_NOPAD__"', frag(noPad)).replaceAll('"__LP_STYLE__"', frag(all));
+    const out = src
+      .replaceAll('"__LP_STYLE_NOPAD__"', frag(noPad))
+      .replaceAll('"__LP_STYLE__"', frag(all))
+      .replaceAll('"__LP_ICONS__"', JSON.stringify(ICON_OPTIONS));
     // Validate the resulting schema JSON early so a typo fails the build, not the upload.
     const m = out.match(/\{%\s*schema\s*%\}([\s\S]*?)\{%\s*endschema\s*%\}/);
     if (m) {

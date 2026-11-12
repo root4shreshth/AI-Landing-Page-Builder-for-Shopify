@@ -1,0 +1,110 @@
+{%- comment -%}
+  Product structured data (+ optional visible breadcrumb with BreadcrumbList).
+  Price/availability/SKU come from the live product. aggregateRating is output ONLY when a real rating
+  is entered AND the page visibly shows it (reviews or rating in hero/purchase), per Google guidelines.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign collection = product.collections.first
+  assign brand_name = s.brand_name | default: product.vendor | default: shop.name
+  assign first_v = product.selected_or_first_available_variant
+-%}
+{%- if s.show_breadcrumb and product != blank -%}
+  {{ 'lp.css' | asset_url | stylesheet_tag }}
+  {% render 'lp-style', section: section %}
+  <div class="lp lp-seo--crumbs">
+    <div class="lp__wrap">
+      <nav class="lp-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ routes.root_url }}">Home</a></li>
+          {%- if collection != blank -%}<li><a href="{{ collection.url }}">{{ collection.title | escape }}</a></li>{%- endif -%}
+          <li aria-current="page">{{ product.title | escape }}</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+{%- endif -%}
+
+{%- if product != blank -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {%- if product.description != blank %}
+    "description": {{ product.description | strip_html | strip_newlines | truncate: 5000 | json }},
+    {%- endif %}
+    {%- if product.images.size > 0 %}
+    "image": [{%- for img in product.images limit: 6 -%}{{ img | image_url: width: 1600 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}{%- endfor -%}],
+    {%- endif %}
+    {%- if first_v.sku != blank %}
+    "sku": {{ first_v.sku | json }},
+    {%- endif %}
+    {%- assign bc_size = first_v.barcode | size -%}
+    {%- if bc_size == 8 or bc_size == 12 or bc_size == 13 or bc_size == 14 %}
+    "gtin": {{ first_v.barcode | json }},
+    {%- endif %}
+    {%- if s.rating_value != blank and s.rating_count != blank %}
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": {{ s.rating_value | json }},
+      "reviewCount": {{ s.rating_count | json }}
+    },
+    {%- endif %}
+    "brand": { "@type": "Brand", "name": {{ brand_name | json }} },
+    "offers": [
+      {%- for v in product.variants -%}
+      {
+        "@type": "Offer",
+        {%- if v.sku != blank %}"sku": {{ v.sku | json }},{% endif %}
+        "name": {{ v.title | json }},
+        "price": {{ v.price | divided_by: 100.0 | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": {{ request.origin | append: product.url | append: '?variant=' | append: v.id | json }}
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+{%- if s.show_breadcrumb -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ request.origin | append: routes.root_url | json }} }
+      {%- if collection != blank -%},
+      { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ request.origin | append: collection.url | json }} },
+      { "@type": "ListItem", "position": 3, "name": {{ product.title | json }} }
+      {%- else -%},
+      { "@type": "ListItem", "position": 2, "name": {{ product.title | json }} }
+      {%- endif %}
+    ]
+  }
+</script>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP SEO & breadcrumb",
+  "tag": "section",
+  "class": "lp-section",
+  "limit": 1,
+  "settings": [
+    { "type": "paragraph", "content": "Adds Product structured data (price, availability, brand from the live product) and an optional breadcrumb linking to the product's collection." },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+    { "type": "text", "id": "brand_name", "label": "Brand name", "info": "Defaults to the product vendor. Use the same brand name everywhere." },
+    { "type": "header", "content": "Rating (optional)" },
+    { "type": "paragraph", "content": "Only fill in if this page visibly shows a real rating from genuine reviews. Leave blank otherwise." },
+    { "type": "text", "id": "rating_value", "label": "Average rating" },
+    { "type": "text", "id": "rating_count", "label": "Number of reviews" },
+    "__LP_STYLE__"
+  ],
+  "presets": [{ "name": "LP SEO & breadcrumb" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

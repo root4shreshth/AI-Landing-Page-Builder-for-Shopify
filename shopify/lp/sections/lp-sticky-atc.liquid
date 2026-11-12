@@ -1,0 +1,47 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- liquid
+  assign s = section.settings
+  assign form_id = 'lp-sticky-' | append: section.id
+-%}
+{%- if product != blank -%}
+  <div class="lp-sticky-spacer{% unless s.show_on_desktop %} lp-sticky-spacer--mobile-only{% endunless %}" aria-hidden="true"></div>
+  <div
+    class="lp lp-sticky{% unless s.show_on_desktop %} lp-sticky--mobile-only{% endunless %}"
+    data-lp-sticky
+    aria-hidden="true"
+    role="region"
+    aria-label="Quick add to cart"
+  >
+    <div class="lp__wrap">
+      {% render 'lp-buy-form',
+        product: product,
+        form_id: form_id,
+        primary: false,
+        compact: true,
+        show_options: false,
+        show_qty: false,
+        button_label: s.button_label
+      %}
+    </div>
+  </div>
+  {% render 'lp-product-data', product: product %}
+  <script src="{{ 'lp-cart.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Sticky add-to-cart",
+  "tag": "section",
+  "class": "lp-section lp-section--sticky",
+  "limit": 1,
+  "settings": [
+    { "type": "paragraph", "content": "Appears once the main add-to-cart button scrolls out of view. Uses the same variant and quantity the shopper picked above." },
+    { "type": "checkbox", "id": "show_on_desktop", "label": "Also show on desktop", "default": false },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add to cart" },
+    "__LP_STYLE_NOPAD__"
+  ],
+  "presets": [{ "name": "LP Sticky add-to-cart" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

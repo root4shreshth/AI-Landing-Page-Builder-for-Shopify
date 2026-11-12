@@ -1,0 +1,144 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- liquid
+  assign s = section.settings
+  assign htag = s.heading_tag | default: 'h1'
+  assign heading = s.heading | default: product.title
+  assign form_id = 'lp-buy-' | append: section.id
+  if s.image != blank
+    assign hero_media = s.image
+  else
+    assign hero_media = product.featured_media
+  endif
+  assign scrim = s.scrim | divided_by: 100.0
+-%}
+
+{%- capture hero_content -%}
+  {%- if s.eyebrow != blank -%}<span class="lp-eyebrow">{{ s.eyebrow | escape }}</span>{%- endif -%}
+  <{{ htag }} class="lp-h1">{{ heading | escape }}</{{ htag }}>
+  {%- if s.show_rating and s.rating_value != blank -%}
+    <div class="lp-rating">
+      {% render 'lp-stars', rating: s.rating_value %}
+      <span>{{ s.rating_value | escape }}{% if s.rating_count != blank %} · {{ s.rating_count | escape }} reviews{% endif %}</span>
+    </div>
+  {%- endif -%}
+  {%- if s.subheading != blank -%}<div class="lp-hero__sub lp-rte">{{ s.subheading }}</div>{%- endif -%}
+  {%- if section.blocks.size > 0 -%}
+    <ul class="lp-highlights">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>{% render 'lp-icon', name: block.settings.icon %}<span>{{ block.settings.text | escape }}</span></li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+  {%- if s.show_buy_form and product != blank -%}
+    <div class="lp-buy-card">
+      {% render 'lp-buy-form',
+        product: product,
+        form_id: form_id,
+        primary: true,
+        show_price: true,
+        show_options: s.show_options,
+        show_qty: s.show_qty,
+        button_label: s.button_label
+      %}
+    </div>
+  {%- elsif s.button_label != blank -%}
+    <div><a href="#lp-main-buy" class="lp-btn" data-lp-scroll-buy>{{ s.button_label | escape }}</a></div>
+  {%- endif -%}
+{%- endcapture -%}
+
+<div
+  class="lp lp-hero lp-hero--{{ s.layout }} lp-hero--media-{{ s.media_position }} lp--{{ s.lp_width }}"
+  style="--lp-scrim: {{ scrim }}; --lp-overlay-fg: {{ s.overlay_fg }};"
+>
+  {%- if s.layout == 'overlay' -%}
+    <div class="lp-hero__bg">
+      {% render 'lp-image', image: hero_media, eager: true, sizes: '100vw', max_width: 2000 %}
+    </div>
+    <div class="lp__wrap">
+      <div class="lp-hero__content">{{ hero_content }}</div>
+    </div>
+  {%- else -%}
+    <div class="lp__wrap">
+      <div class="lp-hero__grid">
+        <div class="lp-hero__content">{{ hero_content }}</div>
+        <div class="lp-hero__media">
+          {%- if s.layout == 'collage' and product.media.size > 1 -%}
+            <div class="lp-hero__collage">
+              {%- for m in product.media limit: 3 -%}
+                <div class="lp-media lp-ratio-{% if forloop.first %}portrait{% else %}square{% endif %}">
+                  {% render 'lp-image', image: m, eager: forloop.first, sizes: '(min-width: 750px) 33vw, 66vw' %}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div class="lp-media lp-ratio-{{ s.image_ratio }}">
+              {% render 'lp-image', image: hero_media, eager: true, sizes: '(min-width: 750px) 50vw, 100vw' %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{%- if s.show_buy_form and product != blank -%}
+  {% render 'lp-product-data', product: product %}
+  <script src="{{ 'lp-cart.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "LP Hero",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "split", "options": [
+      { "value": "split", "label": "Split (text + image)" },
+      { "value": "overlay", "label": "Full-bleed image with overlay" },
+      { "value": "stacked", "label": "Stacked, centred" },
+      { "value": "collage", "label": "Collage of product images" }
+    ] },
+    { "type": "select", "id": "media_position", "label": "Image position (desktop)", "default": "right", "options": [
+      { "value": "right", "label": "Right" }, { "value": "left", "label": "Left" }
+    ] },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Defaults to the product's featured image." },
+    { "type": "select", "id": "image_ratio", "label": "Image shape", "default": "portrait", "options": [
+      { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait" },
+      { "value": "landscape", "label": "Landscape" }, { "value": "natural", "label": "Original" }
+    ] },
+    { "type": "range", "id": "scrim", "label": "Overlay darkness", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 40 },
+    { "type": "color", "id": "overlay_fg", "label": "Overlay text colour", "default": "#FFFFFF" },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Leave blank to use the product title." },
+    { "type": "select", "id": "heading_tag", "label": "Heading level", "default": "h1", "info": "Use H1 only once per page.", "options": [
+      { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }
+    ] },
+    { "type": "richtext", "id": "subheading", "label": "Subheading" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": false },
+    { "type": "text", "id": "rating_value", "label": "Rating (e.g. 4.6)", "info": "Only enter a real rating shown on your store." },
+    { "type": "text", "id": "rating_count", "label": "Number of reviews" },
+    { "type": "header", "content": "Purchase" },
+    { "type": "checkbox", "id": "show_buy_form", "label": "Show add-to-cart in hero", "default": true },
+    { "type": "checkbox", "id": "show_options", "label": "Show variant options", "default": true },
+    { "type": "checkbox", "id": "show_qty", "label": "Show quantity", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add to cart" },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "limit": 6,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": "__LP_ICONS__" },
+        { "type": "text", "id": "text", "label": "Text", "default": "A key fact about the product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Hero" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

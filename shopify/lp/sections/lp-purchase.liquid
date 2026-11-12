@@ -1,0 +1,159 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{% render 'lp-style', section: section %}
+{%- liquid
+  assign s = section.settings
+  assign ttag = s.title_tag | default: 'h2'
+  assign title = s.title | default: product.title
+  assign form_id = 'lp-buy-' | append: section.id
+  assign collection = product.collections.first
+-%}
+<div class="lp lp-purchase lp-purchase--media-{{ s.media_position }} lp--{{ s.lp_width }}" id="lp-main-buy">
+  <div class="lp__wrap">
+    <div class="lp-purchase__grid">
+      <div class="lp-purchase__media">
+        <div class="lp-gallery-strip lp-gallery-strip--{{ s.gallery_style }}" tabindex="0" aria-label="Product images">
+          {%- for m in product.media limit: s.media_limit -%}
+            {%- if m.media_type == 'image' -%}
+              <div class="lp-media lp-ratio-{{ s.image_ratio }}">
+                {%- if forloop.first and s.is_above_fold -%}
+                  {% render 'lp-image', image: m, eager: true, sizes: '(min-width: 750px) 55vw, 86vw' %}
+                {%- else -%}
+                  {% render 'lp-image', image: m, sizes: '(min-width: 750px) 27vw, 86vw' %}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            <div class="lp-media lp-ratio-square">{% render 'lp-image', image: blank %}</div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="lp-purchase__info">
+        {%- if s.show_breadcrumb and collection != blank -%}
+          <nav class="lp-breadcrumb" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="{{ routes.root_url }}">Home</a></li>
+              <li><a href="{{ collection.url }}">{{ collection.title | escape }}</a></li>
+              <li aria-current="page">{{ product.title | escape }}</li>
+            </ol>
+          </nav>
+        {%- endif -%}
+        {%- if s.show_vendor and product.vendor != blank -%}
+          <span class="lp-eyebrow">{{ product.vendor | escape }}</span>
+        {%- endif -%}
+        <{{ ttag }} class="lp-h2">{{ title | escape }}</{{ ttag }}>
+        {%- if s.show_rating and s.rating_value != blank -%}
+          <div class="lp-rating">
+            {% render 'lp-stars', rating: s.rating_value %}
+            <span>{{ s.rating_value | escape }}{% if s.rating_count != blank %} · {{ s.rating_count | escape }} reviews{% endif %}</span>
+          </div>
+        {%- endif -%}
+
+        {% render 'lp-buy-form',
+          product: product,
+          form_id: form_id,
+          primary: true,
+          show_price: true,
+          show_options: s.show_options,
+          show_qty: s.show_qty,
+          button_label: s.button_label
+        %}
+
+        {%- assign trust_blocks = section.blocks | where: 'type', 'trust' -%}
+        {%- if trust_blocks.size > 0 -%}
+          <ul class="lp-trust__list">
+            {%- for block in trust_blocks -%}
+              <li class="lp-trust__item" {{ block.shopify_attributes }}>
+                {% render 'lp-icon', name: block.settings.icon %}
+                <span><strong>{{ block.settings.title | escape }}</strong>{% if block.settings.text != blank %}<span class="lp-muted">{{ block.settings.text | escape }}</span>{% endif %}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- assign highlight_blocks = section.blocks | where: 'type', 'highlight' -%}
+        {%- if highlight_blocks.size > 0 -%}
+          <ul class="lp-highlights">
+            {%- for block in highlight_blocks -%}
+              <li {{ block.shopify_attributes }}>{% render 'lp-icon', name: block.settings.icon %}<span>{{ block.settings.text | escape }}</span></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if s.description_source == 'custom' and s.description != blank -%}
+          <div class="lp-rte">{{ s.description }}</div>
+        {%- elsif s.description_source == 'product' and product.description != blank -%}
+          <div class="lp-rte">{{ product.description }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% render 'lp-product-data', product: product %}
+<script src="{{ 'lp-cart.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "LP Purchase",
+  "tag": "section",
+  "class": "section lp-section",
+  "settings": [
+    { "type": "header", "content": "Gallery" },
+    { "type": "select", "id": "media_position", "label": "Gallery position (desktop)", "default": "left", "options": [
+      { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }
+    ] },
+    { "type": "select", "id": "gallery_style", "label": "Gallery style (desktop)", "default": "grid", "options": [
+      { "value": "grid", "label": "Grid" }, { "value": "stack", "label": "Stacked" }, { "value": "strip", "label": "Swipe strip" }
+    ] },
+    { "type": "select", "id": "image_ratio", "label": "Image shape", "default": "square", "options": [
+      { "value": "square", "label": "Square" }, { "value": "portrait", "label": "Portrait" }, { "value": "natural", "label": "Original" }
+    ] },
+    { "type": "range", "id": "media_limit", "label": "Images to show", "min": 1, "max": 10, "step": 1, "default": 5 },
+    { "type": "checkbox", "id": "is_above_fold", "label": "Section is at the top of the page", "default": false, "info": "Loads the first image eagerly for faster display." },
+    { "type": "header", "content": "Content" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb (links to collection)", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show brand", "default": true },
+    { "type": "text", "id": "title", "label": "Title", "info": "Leave blank to use the product title." },
+    { "type": "select", "id": "title_tag", "label": "Title level", "default": "h2", "info": "Use H1 here only if the page has no hero.", "options": [
+      { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" }
+    ] },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": false },
+    { "type": "text", "id": "rating_value", "label": "Rating (e.g. 4.6)", "info": "Only enter a real rating shown on your store." },
+    { "type": "text", "id": "rating_count", "label": "Number of reviews" },
+    { "type": "select", "id": "description_source", "label": "Description", "default": "product", "options": [
+      { "value": "product", "label": "Product description" }, { "value": "custom", "label": "Custom text" }, { "value": "none", "label": "Hide" }
+    ] },
+    { "type": "richtext", "id": "description", "label": "Custom description" },
+    { "type": "header", "content": "Purchase" },
+    { "type": "checkbox", "id": "show_options", "label": "Show variant options", "default": true },
+    { "type": "checkbox", "id": "show_qty", "label": "Show quantity", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add to cart" },
+    "__LP_STYLE__"
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust point",
+      "limit": 4,
+      "settings": [
+        { "type": "paragraph", "content": "Only add claims your store actually offers (delivery time, COD, returns)." },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": "__LP_ICONS__" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Delivery details" },
+        { "type": "text", "id": "text", "label": "Detail" }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "limit": 6,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "check", "options": "__LP_ICONS__" },
+        { "type": "text", "id": "text", "label": "Text", "default": "A key fact about the product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "LP Purchase" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}
