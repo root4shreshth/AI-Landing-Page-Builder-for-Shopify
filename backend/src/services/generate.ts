@@ -2,7 +2,7 @@
  * Design generation stage: memory retrieval -> structure planning -> copy (LLM) -> assembly -> deterministic
  * render -> schema validation -> local preview -> fingerprint + similarity -> persist.
  */
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import pLimit from 'p-limit';
 import type { Prisma } from '@prisma/client';
@@ -185,28 +185,57 @@ export async function generateDesigns(a: GenerateArgs) {
 }
 
 /**
- * Re-render a run's previews from their stored template JSON with the current theme files (no LLM call,
- * no new designs, no memory change). Used after theme/CSS updates so existing designs pick them up.
+ * Re-render a run's files with the current theme (no LLM call, no new designs, no memory change).
+ * Everything needed is in the database: the design's stored page config, the product facts and the brand
+ * profile. So a missing template (e.g. a host whose disk is wiped on restart) is rebuilt deterministically,
+ * validated against the section schemas again, and the preview is rendered from it.
+ * onlyMissing: touch only designs whose template or preview file is absent (cheap; used before checks/packaging).
  */
-export async function rerenderRun(runId: string): Promise<number> {
-  const run = await prisma.generationRun.findUniqueOrThrow({ where: { id: runId }, include: { product: true } });
+export async function rerenderRun(runId: string, opts: { onlyMissing?: boolean } = {}): Promise<number> {
+  const run = await prisma.generationRun.findUniqueOrThrow({ where: { id: runId }, include: { product: { include: { brand: true } } } });
   if (!run.product) throw new Error('Run has no analysed product');
-  const { snapshot } = run.product.facts as unknown as { snapshot: ProductSnapshot };
+  const { snapshot, facts } = run.product.facts as unknown as { snapshot: ProductSnapshot; facts: ProductFacts };
   const designs = await prisma.design.findMany({ where: { runId, status: { not: 'superseded' } } });
+  const abs = (rel: string) => path.join(config.storageDir, rel);
+  const exists = (rel: string) => stat(abs(rel)).then(() => true, () => false);
+
   const previewDir = path.join(config.storageDir, 'runs', runId, 'preview');
   await mkdir(path.join(previewDir, 'assets'), { recursive: true });
-  for (const f of ['lp.css', 'lp-cart.js']) await copyFile(path.join(DEFAULT_THEME_DIR, 'assets', f), path.join(previewDir, 'assets', f));
+  for (const f of ['lp.css', 'lp-cart.js']) {
+    const dest = path.join(previewDir, 'assets', f);
+    if (!opts.onlyMissing || !(await stat(dest).then(() => true, () => false))) await copyFile(path.join(DEFAULT_THEME_DIR, 'assets', f), dest);
+  }
+
+  let schemas: Awaited<ReturnType<typeof loadSectionSchemas>> | null = null;
   let n = 0;
   for (const d of designs) {
-    const c = d.config as { previewFile?: string; templateFile?: string };
+    const c = d.config as { previewFile?: string; templateFile?: string; config?: Parameters<typeof renderTemplate>[0] };
     if (!c.previewFile || !c.templateFile) continue;
-    const raw = await readFile(path.join(config.storageDir, c.templateFile), 'utf8').catch(() => null);
-    if (!raw) continue; // template not on this machine; only regeneration can recreate it
-    const template = JSON.parse(raw);
-    await mkdir(path.dirname(path.join(config.storageDir, c.previewFile)), { recursive: true });
-    const html = await renderPreview(template, snapshot, { assetBase: 'assets', title: `${d.name} — ${snapshot.title}` });
-    await writeFile(path.join(config.storageDir, c.previewFile), html);
+    const hasTemplate = await exists(c.templateFile);
+    if (opts.onlyMissing && hasTemplate && (await exists(c.previewFile))) continue;
+
+    let template: unknown;
+    if (hasTemplate) {
+      template = JSON.parse(await readFile(abs(c.templateFile), 'utf8'));
+    } else {
+      if (!c.config || !run.product.brand) continue; // very old design without a stored config
+      const tokens = tokensFromProfile(run.product.brand.profile as unknown as BrandProfile);
+      const slug = `${snapshot.handle.slice(0, 24)}-${runId.slice(0, 6)}`;
+      const rendered = renderTemplate(c.config, facts, tokens, { slug, version: d.version });
+      schemas ??= await loadSectionSchemas();
+      const errors = validateTemplate(rendered.template, schemas);
+      if (errors.length) throw new Error(`Rebuilt template for ${d.name} failed schema validation: ${errors[0]}`);
+      template = rendered.template;
+      await mkdir(path.dirname(abs(c.templateFile)), { recursive: true });
+      await writeFile(abs(c.templateFile), JSON.stringify(template, null, 2));
+    }
+    await mkdir(path.dirname(abs(c.previewFile)), { recursive: true });
+    const html = await renderPreview(template as Parameters<typeof renderPreview>[0], snapshot, { assetBase: 'assets', title: `${d.name} — ${snapshot.title}` });
+    await writeFile(abs(c.previewFile), html);
     n++;
   }
   return n;
 }
+
+/** Make sure every design of a run has its template and preview on disk (rebuilds only what is missing). */
+export const ensureRendered = (runId: string) => rerenderRun(runId, { onlyMissing: true });

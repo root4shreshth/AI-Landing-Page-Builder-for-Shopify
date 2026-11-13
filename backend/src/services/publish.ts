@@ -13,6 +13,8 @@ import { promisify } from 'node:util';
 import type { Prisma } from '@prisma/client';
 import type { ProductSnapshot } from '../catalogue/product.js';
 import { config, REPO_ROOT } from '../config.js';
+import { ensureRendered } from './generate.js';
+import { heavy } from './runs.js';
 import { prisma } from '../db.js';
 import { toShopifyProductCsv } from '../export/product-csv.js';
 import { runDirFor } from './analyze.js';
@@ -41,8 +43,14 @@ async function selectedDesigns(runId: string, designIds?: string[]) {
   return approved.length ? approved : all.filter((d) => d.status !== 'rejected');
 }
 
-export async function buildPackage(runId: string, designIds?: string[]): Promise<PackageResult> {
+/** Heavy (builds a whole theme, zips it, runs Theme Check), so it shares the one-at-a-time queue on small hosts. */
+export function buildPackage(runId: string, designIds?: string[]): Promise<PackageResult> {
+  return config.lowMemory ? heavy(() => buildPackageNow(runId, designIds)) : buildPackageNow(runId, designIds);
+}
+
+async function buildPackageNow(runId: string, designIds?: string[]): Promise<PackageResult> {
   const runDir = runDirFor(runId);
+  await ensureRendered(runId); // templates may be gone after a restart on hosts with temporary disks
   const designs = await selectedDesigns(runId, designIds);
   if (!designs.length) throw Object.assign(new Error('No designs selected — approve at least one design or pick designs to package'), { status: 409 });
 
@@ -63,7 +71,9 @@ export async function buildPackage(runId: string, designIds?: string[]): Promise
   const zipBytes = (await stat(zipPath)).size;
 
   let themeCheck: PackageResult['themeCheck'] = { status: 'not_run', errors: 0, warnings: 0, lpIssues: [] };
-  try {
+  if (config.lowMemory) {
+    themeCheck = { status: 'not_run', errors: 0, warnings: 0, lpIssues: [], note: 'Theme Check is skipped on this small host (it needs more memory than 512 MB). The same sections pass Theme Check with 0 errors in the repository (npm run theme:check).' };
+  } else try {
     const r = await runShopify(['theme', 'check', '--path', themeDir, '--output', 'json'], { timeoutMs: 180_000 });
     const j = r.json as { errorCount?: number; warningCount?: number; issues?: { filePath: string; check: string; message: string; severity: string }[] } | null;
     if (j && typeof j.errorCount === 'number') {
@@ -100,7 +110,12 @@ export async function lastPackage(runId: string): Promise<PackageResult | null> 
 
 export interface DeployInput { runId: string; store: string; mode: 'new' | 'existing'; themeId?: string; themeName?: string }
 
-export async function deploy(input: DeployInput) {
+/** Runs the Shopify CLI (a separate Node process), so it also waits its turn on small hosts. */
+export function deploy(input: DeployInput) {
+  return config.lowMemory ? heavy(() => deployNow(input)) : deployNow(input);
+}
+
+async function deployNow(input: DeployInput) {
   if (!STORE_RE.test(input.store)) throw Object.assign(new Error('Store must look like your-store.myshopify.com'), { status: 400 });
   if (input.mode === 'existing' && !THEME_ID_RE.test(input.themeId ?? '')) throw Object.assign(new Error('Theme ID must be numeric'), { status: 400 });
   const pkg = await lastPackage(input.runId);

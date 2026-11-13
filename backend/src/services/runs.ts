@@ -162,6 +162,14 @@ export async function failStaleRuns() {
     data: { status: 'failed', error: 'Interrupted: the server restarted while this run was in progress. Start a new run.' },
   });
   if (res.count) console.warn(`[runs] marked ${res.count} interrupted run(s) as failed`);
+  // Stages started separately (checks) can also be cut off by a restart; don't leave them spinning.
+  const recent = await prisma.generationRun.findMany({ orderBy: { createdAt: 'desc' }, take: 200, select: { id: true, stages: true } });
+  for (const r of recent) {
+    const stages = (r.stages ?? []) as unknown as StageState[];
+    if (!stages.some((s) => s.status === 'running')) continue;
+    const fixed = stages.map((s) => (s.status === 'running' ? { ...s, status: 'failed' as const, message: 'Interrupted by a server restart. Run it again.', finishedAt: new Date().toISOString() } : s));
+    await prisma.generationRun.update({ where: { id: r.id }, data: { stages: json(fixed) } });
+  }
 }
 
 export function validateBrandPatch(body: unknown) {

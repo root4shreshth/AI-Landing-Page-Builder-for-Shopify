@@ -27,7 +27,7 @@ designsApi.get('/runs/:id/designs', wrap(async (req, res) => {
   });
   res.json(
     designs.map((d) => {
-      const c = d.config as { previewFile?: string; templateFile?: string };
+      const c = d.config as { previewFile?: string; templateFile?: string; config?: unknown };
       // A run's files live in STORAGE_DIR; if the run was made elsewhere (another machine or volume), say so.
       const onDisk = (rel?: string) => !!rel && existsSync(path.join(config.storageDir, rel));
       const hasPreview = onDisk(c.previewFile);
@@ -37,7 +37,7 @@ designsApi.get('/runs/:id/designs', wrap(async (req, res) => {
         previewUrl: hasPreview ? `/files/${c.previewFile}` : null,
         templateUrl: hasTemplate ? `/files/${c.templateFile}` : null,
         previewMissing: !!c.previewFile && !hasPreview,
-        canRerender: hasTemplate,
+        canRerender: hasTemplate || !!c.config, // the template itself can be rebuilt from the stored config
       };
     }),
   );

@@ -136,7 +136,7 @@ function ProofCard({ d, device, runId }: { d: Design; device: Device; runId: str
           ) : d.previewMissing ? (
             <div className="space-y-3 p-6 text-sm text-ink-2">
               <p className="font-semibold text-ink">Preview file not found</p>
-              <p>{d.canRerender ? 'This run was made with a different storage folder (for example inside Docker). The template is here, so the preview can be rebuilt without an AI call.' : "This run's files are not on this machine. Regenerate the design to recreate them."}</p>
+              <p>{d.canRerender ? 'The file is not on this server (for example after a restart on a host with a temporary disk). It can be rebuilt from the saved design, without an AI call.' : "This run's files are not on this machine. Regenerate the design to recreate them."}</p>
               {d.canRerender && (
                 <button type="button" className="btn-quiet" disabled={rerender.isPending} onClick={() => rerender.mutate()}>
                   {rerender.isPending ? 'Rebuilding previews…' : 'Rebuild previews'}

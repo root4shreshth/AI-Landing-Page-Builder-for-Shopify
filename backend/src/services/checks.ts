@@ -15,6 +15,7 @@ import { runLighthouse } from '../validate/lighthouse.js';
 import { runChecklist } from '../validate/seo.js';
 import { runDirFor } from './analyze.js';
 import { heavy, runEvents, setStage } from './runs.js';
+import { ensureRendered } from './generate.js';
 
 const json = (v: unknown) => v as Prisma.InputJsonValue;
 const rel = (p: string) => path.relative(config.storageDir, p).split(path.sep).join('/');
@@ -33,6 +34,7 @@ export async function runChecks(runId: string, opts: { lighthouse?: boolean } = 
 
 async function checkNow(runId: string, opts: { lighthouse?: boolean }) {
   try {
+    await ensureRendered(runId); // files may be gone after a restart on hosts with temporary disks
     const run = await prisma.generationRun.findUniqueOrThrow({ where: { id: runId }, include: { product: true } });
     if (!run.product) throw new Error('Run has no analysed product');
     const stored = run.product.facts as unknown as { facts: ProductFacts; snapshot: ProductSnapshot };
