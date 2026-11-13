@@ -36,8 +36,9 @@ docker run --rm -i -e TARGET="$TARGET" "$CLIENT" sh -c 'psql "$TARGET" -v ON_ERR
 echo "4/4 Comparing row counts..."
 # exact row counts per table, same query on both sides
 TABLES=$(docker compose exec -T postgres psql -U lpb -d lpb -tAc "select string_agg(format('select %L as t, count(*) as n from public.%I', tablename, tablename), ' union all ' order by tablename) from pg_tables where schemaname='public'")
-LOCAL=$(docker compose exec -T postgres psql -U lpb -d lpb -tA -F= -c "$TABLES order by 1")
-REMOTE=$(docker run --rm -e TARGET="$TARGET" -e Q="$TABLES order by 1" "$CLIENT" sh -c 'psql "$TARGET" -tA -F= -c "$Q"')
+# sorted here, not in SQL: the two servers may use different collations
+LOCAL=$(docker compose exec -T postgres psql -U lpb -d lpb -tA -F= -c "$TABLES" | tr -d '\r' | LC_ALL=C sort)
+REMOTE=$(docker run --rm -e TARGET="$TARGET" -e Q="$TABLES" "$CLIENT" sh -c 'psql "$TARGET" -tA -F= -c "$Q"' | tr -d '\r' | LC_ALL=C sort)
 if [ "$LOCAL" = "$REMOTE" ]; then
   echo "    identical:"; echo "$LOCAL" | sed 's/^/      /'
 else
