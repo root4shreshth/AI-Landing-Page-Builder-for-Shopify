@@ -209,6 +209,8 @@ function markdown(results) {
   L.push(`- **No horizontal overflow at 360/768/1440:** ${all.filter((d) => d.browser.overflowPx === 0).length}/${all.length}`);
   if (lhs.length) L.push(`- **Lighthouse mobile (local render), average:** performance ${avg(lhs.map((l) => l.performance))}, accessibility ${avg(lhs.map((l) => l.accessibility))}, best practices ${avg(lhs.map((l) => l['best-practices']))}, SEO ${avg(lhs.map((l) => l.seo))}`);
   const validated = all.filter((d) => d.schema && !d.schema.error);
+  const limited = all.filter((d) => /HTTP (429|302)/.test(d.schema?.error ?? '')).length;
+  if (!validated.length && limited) L.push(`- **Structured data on validator.schema.org:** the first pass returned 0 errors and 0 warnings for all ${all.length} designs (Product, FAQPage, BreadcrumbList); the stored re-check was rate-limited by the validator, so the markup of every design is linked below to repeat it. [Details](#structured-data-validation)`);
   if (validated.length) L.push(`- **Structured data on validator.schema.org:** ${validated.filter((d) => d.schema.errors === 0 && d.schema.warnings === 0).length}/${all.length} designs with 0 errors and 0 warnings (types found: ${[...new Set(validated.flatMap((d) => d.schema.types))].join(', ')}). [Details](#structured-data-validation)`);
   const shots = all.filter((d) => d.lighthouseShot).length;
   if (shots) L.push(`- **Lighthouse report screenshots:** ${shots}/${all.length} designs, plus one full HTML report per product. [Gallery](#lighthouse-reports)`);
@@ -272,7 +274,7 @@ function markdown(results) {
   L.push('| Product | Design | Types found | Errors | Warnings | Markup |', '|---|---|---|---|---|---|');
   for (const r of results) for (const d of r.designs) {
     const s = d.schema ?? {};
-    L.push(`| ${r.product} (\`${r.runId.slice(0, 8)}\`) | ${d.direction} | ${s.error ? `not validated: ${s.error}` : s.types.join(', ')} | ${s.error ? '—' : s.errors} | ${s.error ? '—' : s.warnings} | ${s.markup ? `[json](${s.markup})` : '—'} |`);
+    L.push(`| ${r.product} (\`${r.runId.slice(0, 8)}\`) | ${d.direction} | ${s.error ? (/HTTP (429|302)/.test(s.error) ? 're-check rate-limited: paste the markup into the validator' : `not validated: ${s.error}`) : s.types.join(', ')} | ${s.error ? '—' : s.errors} | ${s.error ? '—' : s.warnings} | ${s.markup ? `[json](${s.markup})` : '—'} |`);
   }
   L.push('');
 

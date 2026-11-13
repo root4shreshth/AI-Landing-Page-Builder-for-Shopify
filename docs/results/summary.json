@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T17:24:35.900Z",
+  "generatedAt": "2026-11-13T05:34:57.423Z",
   "api": "http://localhost:4100",
   "results": [
     {
@@ -145,16 +145,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 90,
+            "performance": 92,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.019,
-            "lcpMs": 3210,
+            "cls": 0,
+            "lcpMs": 3227,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/d212101f/story-led.jpg"
+          "image": "img/d212101f/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/d212101f/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/d212101f/story-led.jpg",
+          "lighthouseReport": "lighthouse/d212101f/story-led.html"
         },
         {
           "id": "c02d2c26-96c7-476d-bb67-efb74101e4c4",
@@ -246,12 +254,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0.001,
-            "lcpMs": 2030,
+            "lcpMs": 2033,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/d212101f/benefit-grid.jpg"
+          "image": "img/d212101f/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/d212101f/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/d212101f/benefit-grid.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "4beecfcb-e667-43e7-9c87-6b1d9d89d176",
@@ -342,16 +358,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 98,
+            "performance": 97,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.001,
-            "lcpMs": 2188,
+            "cls": 0,
+            "lcpMs": 2287,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/d212101f/social-proof.jpg"
+          "image": "img/d212101f/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 2,
+            "error": "HTTP 429",
+            "markup": "schema/d212101f/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/d212101f/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "9d9e9be5-794f-43ad-af97-5e0abed9d8a4",
@@ -442,13 +466,21 @@
             "performance": 97,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.018,
-            "lcpMs": 2468,
+            "cls": 0,
+            "lcpMs": 2309,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/d212101f/offer-led.jpg"
+          "image": "img/d212101f/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/d212101f/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/d212101f/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     },
@@ -595,13 +627,21 @@
             "performance": 98,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.005,
-            "lcpMs": 2093,
+            "cls": 0,
+            "lcpMs": 2065,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/a67530ff/benefit-grid.jpg"
+          "image": "img/a67530ff/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/a67530ff/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/a67530ff/benefit-grid.jpg",
+          "lighthouseReport": "lighthouse/a67530ff/benefit-grid.html"
         },
         {
           "id": "90dc73b6-79ef-4eeb-9024-ae392f76800c",
@@ -695,13 +735,21 @@
             "performance": 97,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0,
-            "lcpMs": 2363,
+            "cls": 0.006,
+            "lcpMs": 2367,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/a67530ff/story-led.jpg"
+          "image": "img/a67530ff/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/a67530ff/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/a67530ff/story-led.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "30da3229-11dd-48fb-9170-a13be85b8996",
@@ -796,12 +844,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0.005,
-            "lcpMs": 2261,
+            "lcpMs": 2203,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/a67530ff/social-proof.jpg"
+          "image": "img/a67530ff/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 2,
+            "error": "HTTP 429",
+            "markup": "schema/a67530ff/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/a67530ff/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "cc770ab9-a2de-4062-bd99-04df2050ac61",
@@ -899,12 +955,20 @@
             "accessibility": 96,
             "best-practices": 100,
             "cls": 0.007,
-            "lcpMs": 2380,
+            "lcpMs": 2361,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/a67530ff/offer-led.jpg"
+          "image": "img/a67530ff/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/a67530ff/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/a67530ff/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     },
@@ -1045,13 +1109,21 @@
             "performance": 98,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0,
-            "lcpMs": 2011,
+            "cls": 0.001,
+            "lcpMs": 2007,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/992866ff/story-led.jpg"
+          "image": "img/992866ff/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/992866ff/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/992866ff/story-led.jpg",
+          "lighthouseReport": "lighthouse/992866ff/story-led.html"
         },
         {
           "id": "373014b1-8299-4d43-a00d-b131819006f7",
@@ -1143,12 +1215,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1880,
+            "lcpMs": 1921,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/992866ff/benefit-grid.jpg"
+          "image": "img/992866ff/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/992866ff/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/992866ff/benefit-grid.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "b986ef57-23c5-4fc7-927d-6f717aa5a838",
@@ -1236,16 +1316,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 89,
+            "performance": 99,
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 3585,
+            "lcpMs": 1844,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/992866ff/social-proof.jpg"
+          "image": "img/992866ff/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/992866ff/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/992866ff/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "880354a0-b722-425b-9e99-6a37fc40a75c",
@@ -1339,13 +1427,21 @@
             "performance": 98,
             "accessibility": 96,
             "best-practices": 100,
-            "cls": 0.03,
-            "lcpMs": 2001,
+            "cls": 0,
+            "lcpMs": 2056,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/992866ff/offer-led.jpg"
+          "image": "img/992866ff/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/992866ff/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/992866ff/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     },
@@ -1489,16 +1585,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 96,
+            "performance": 97,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.002,
-            "lcpMs": 2647,
+            "cls": 0,
+            "lcpMs": 2403,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/587a6eae/benefit-grid.jpg"
+          "image": "img/587a6eae/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/587a6eae/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/587a6eae/benefit-grid.jpg",
+          "lighthouseReport": "lighthouse/587a6eae/benefit-grid.html"
         },
         {
           "id": "ec99d5d5-5aac-4951-a275-6ebe228b6924",
@@ -1589,16 +1693,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 97,
+            "performance": 95,
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0.003,
-            "lcpMs": 2418,
+            "lcpMs": 2771,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/587a6eae/story-led.jpg"
+          "image": "img/587a6eae/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/587a6eae/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/587a6eae/story-led.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "b27d0911-bb12-419f-90fa-506e2a063aed",
@@ -1698,14 +1810,22 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0.032,
-            "lcpMs": 2208,
+            "lcpMs": 2230,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [
             "1,400"
           ],
-          "image": "img/587a6eae/social-proof.jpg"
+          "image": "img/587a6eae/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 2,
+            "error": "HTTP 429",
+            "markup": "schema/587a6eae/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/587a6eae/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "59b8f37e-53a4-40b0-b815-fe30f24560df",
@@ -1801,16 +1921,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 96,
+            "performance": 97,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0.019,
-            "lcpMs": 2623,
+            "cls": 0.014,
+            "lcpMs": 2443,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/587a6eae/offer-led.jpg"
+          "image": "img/587a6eae/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/587a6eae/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/587a6eae/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     },
@@ -1955,12 +2083,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1852,
+            "lcpMs": 1857,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/0a723302/benefit-grid.jpg"
+          "image": "img/0a723302/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/0a723302/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/0a723302/benefit-grid.jpg",
+          "lighthouseReport": "lighthouse/0a723302/benefit-grid.html"
         },
         {
           "id": "21e176b0-1d2f-4e24-b84a-ce878a829dd4",
@@ -2052,12 +2188,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1755,
+            "lcpMs": 1744,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/0a723302/story-led.jpg"
+          "image": "img/0a723302/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/0a723302/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/0a723302/story-led.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "e534172d-3b5d-481a-834e-c1faa478c854",
@@ -2149,12 +2293,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1736,
+            "lcpMs": 1688,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/0a723302/social-proof.jpg"
+          "image": "img/0a723302/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/0a723302/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/0a723302/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "8997e962-4a0a-410d-8646-61d6a53b7d8b",
@@ -2243,12 +2395,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1864,
+            "lcpMs": 1855,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/0a723302/offer-led.jpg"
+          "image": "img/0a723302/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/0a723302/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/0a723302/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     },
@@ -2390,12 +2550,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1746,
+            "lcpMs": 1727,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/6033b44a/benefit-grid.jpg"
+          "image": "img/6033b44a/benefit-grid.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/6033b44a/benefit-grid.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/6033b44a/benefit-grid.jpg",
+          "lighthouseReport": "lighthouse/6033b44a/benefit-grid.html"
         },
         {
           "id": "3968d516-fef6-4181-b873-8b341a0a3a41",
@@ -2487,12 +2655,20 @@
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1916,
+            "lcpMs": 1847,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/6033b44a/story-led.jpg"
+          "image": "img/6033b44a/story-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/6033b44a/story-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/6033b44a/story-led.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "289cd673-6179-4291-8bd4-50afe17678e6",
@@ -2580,16 +2756,24 @@
           },
           "lighthouse": {
             "seo": 100,
-            "performance": 99,
+            "performance": 98,
             "accessibility": 100,
             "best-practices": 100,
             "cls": 0,
-            "lcpMs": 1886,
+            "lcpMs": 1956,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/6033b44a/social-proof.jpg"
+          "image": "img/6033b44a/social-proof.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 2,
+            "error": "HTTP 429",
+            "markup": "schema/6033b44a/social-proof.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/6033b44a/social-proof.jpg",
+          "lighthouseReport": null
         },
         {
           "id": "2e337cf4-dc95-4159-9750-eed44d9d0a56",
@@ -2680,13 +2864,21 @@
             "performance": 99,
             "accessibility": 100,
             "best-practices": 100,
-            "cls": 0,
-            "lcpMs": 1881,
+            "cls": 0.006,
+            "lcpMs": 1832,
             "tbtMs": 0,
             "target": "local-render"
           },
           "unsupportedNumbers": [],
-          "image": "img/6033b44a/offer-led.jpg"
+          "image": "img/6033b44a/offer-led.jpg",
+          "schema": {
+            "validator": "validator.schema.org",
+            "blocks": 3,
+            "error": "HTTP 429",
+            "markup": "schema/6033b44a/offer-led.jsonld.json"
+          },
+          "lighthouseShot": "lighthouse/6033b44a/offer-led.jpg",
+          "lighthouseReport": null
         }
       ]
     }
