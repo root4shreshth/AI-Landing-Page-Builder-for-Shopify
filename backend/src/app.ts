@@ -5,12 +5,19 @@ import path from 'node:path';
 import { api, errorHandler, files } from './api/routes.js';
 import { designsApi } from './api/designs.js';
 import { publishApi } from './api/publish.js';
+import { accessGate, hourlyLimit } from './net/access.js';
 import { closeBrowser } from './browser/browser.js';
 import { prisma } from './db.js';
 import { failStaleRuns } from './services/runs.js';
 
 const app = express();
 app.disable('x-powered-by');
+app.set('trust proxy', 1); // behind one proxy on hosted platforms (Render, etc.): req.ip is the visitor
+if (config.access.password) app.use(accessGate(config.access.password));
+else if (process.env.RENDER || process.env.NODE_ENV === 'production') console.warn('[backend] APP_PASSWORD is not set: anyone with the URL can start runs and spend LLM credits.');
+const spendLimit = hourlyLimit({ perClient: config.access.runsPerClientHour, total: config.access.runsPerHour });
+app.post('/api/runs', spendLimit);
+app.post('/api/designs/:id/regenerate', spendLimit);
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/api/health', async (_req, res) => {

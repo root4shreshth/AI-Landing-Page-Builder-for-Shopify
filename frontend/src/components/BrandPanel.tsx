@@ -106,7 +106,11 @@ export function BrandPanel({ run }: { run: Run }) {
       <div className="grid gap-6 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="space-y-4">
           <figure className="sheet overflow-hidden">
-            <img src={shot} alt={`Desktop screenshot of ${brand.domain}`} className="w-full" loading="lazy" />
+            {brand.extracted?.screenshots?.desktop ? (
+              <img src={shot} alt={`Desktop screenshot of ${brand.domain}`} className="w-full" loading="lazy" />
+            ) : (
+              <p className="p-6 text-sm text-ink-2">The page could not be rendered on this host, so there is no screenshot and the colours and fonts below are neutral defaults. Set them to match the brand.</p>
+            )}
             <figcaption className="flex items-center justify-between gap-2 border-t border-rule px-3 py-2 text-xs text-ink-2">
               <span>Captured from {brand.domain}</span>
               <a className="link" href={mobileShot} target="_blank" rel="noreferrer">Mobile screenshot</a>

@@ -7,6 +7,7 @@
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium, type Browser } from 'playwright';
+import { CHROMIUM_ARGS } from '../browser/browser.js';
 
 export interface WidthResult { width: number; overflowPx: number; h1Count: number; screenshot: string }
 export interface BrowserChecks {
@@ -19,7 +20,7 @@ export interface BrowserChecks {
 
 let browser: Browser | null = null;
 async function getBrowser() {
-  if (!browser) browser = await chromium.launch();
+  if (!browser) browser = await chromium.launch({ args: CHROMIUM_ARGS });
   return browser;
 }
 export async function closeCheckBrowser() {

@@ -18,7 +18,33 @@ docker compose up --build
 ```
 
 Open http://localhost:4180. Postgres, migrations, the API and the dashboard all start together. Chromium for crawling, checks and Lighthouse is included in the image.
-*Deploying to Shopify from inside the container needs a logged-in Shopify CLI. Use the theme ZIP download there, or run locally for CLI deploys.*
+*To deploy to Shopify from the container, set `SHOPIFY_CLI_THEME_TOKEN` (see the hosting section below). Otherwise use the theme ZIP download, or run locally where your own CLI login is used.*
+
+### Option C: hosted on Render (free plan)
+
+`render.yaml` is a Render Blueprint. It creates the Docker web service and a free Postgres.
+1. On render.com, choose **New → Blueprint** and select this GitHub repository.
+2. Fill in the secrets Render asks for:
+   - `ANTHROPIC_API_KEY`
+   - `APP_PASSWORD`, the shared password evaluators type in
+   - optionally `SHOPIFY_STORE` and `SHOPIFY_CLI_THEME_TOKEN`, to enable **Deploy**. The token is a [Theme Access](https://apps.shopify.com/theme-access) password for your store.
+   - optionally `SERPER_API_KEY`
+3. Click **Apply**. The first build takes about 10 minutes. Then open `https://<service>.onrender.com`; any username works with the password.
+
+**What the free plan changes:** 512 MB RAM and 0.1 CPU. `render.yaml` therefore turns on `LOW_MEMORY=1`, which means:
+- one job at a time
+- Chromium closes between stages
+- pages are crawled without scripts and web fonts
+- no mobile brand screenshot
+
+It also sets `LIGHTHOUSE=off`, because Lighthouse needs a second full Chrome. Run Lighthouse locally (see [docs/results](docs/results/RESULTS.md)).
+
+**Other free-plan behaviour:**
+- **Waking up:** the service sleeps after 15 idle minutes, and the first visit wakes it in about a minute.
+- **Files:** they reset on every deploy or restart, so old previews then show "Preview file not found"; Regenerate brings them back.
+- **Database:** the free Postgres expires after 30 days.
+
+**Spend limits:** runs and regenerations are capped per visitor and in total per hour (`MAX_RUNS_PER_CLIENT_HOUR`, `MAX_RUNS_PER_HOUR`).
 
 ### Option B: local development
 
@@ -45,6 +71,9 @@ Optional: `npm i -g @shopify/cli`, then run `shopify theme list --store <your-st
 | `SHOPIFY_STORE` | deploy and preview links | e.g. `my-dev-store.myshopify.com` |
 | `SHOPIFY_STOREFRONT_PASSWORD` | storefront checks | Only for password-protected dev stores. |
 | `DATABASE_URL` | Postgres | Defaults to the compose database on port 5440. |
+| `APP_PASSWORD` | hosted deployments | When set, the dashboard, API and files require this password (HTTP Basic, any username). |
+| `SHOPIFY_CLI_THEME_TOKEN` | deploy from a server | Theme Access password; replaces the interactive CLI login. |
+| `LOW_MEMORY` / `LIGHTHOUSE` | small hosts | `LOW_MEMORY=1` for 512 MB instances; `LIGHTHOUSE=off` skips Lighthouse and says so in the checks. |
 
 ### Tests and checks
 

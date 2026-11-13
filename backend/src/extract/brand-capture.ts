@@ -6,6 +6,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { Page } from 'playwright';
 import { newGuardedContext, openPage } from '../browser/browser.js';
+import { config } from '../config.js';
 
 export interface StyleSample {
   bg: string; color: string; fontFamily: string; fontSize: number; fontWeight: number; textTransform: string; letterSpacing: string;
@@ -159,6 +160,7 @@ export async function captureBrand(url: string, outDir: string): Promise<BrandCa
 
   let mobile: ComputedBrandData | null = null;
   let mobilePath: string | null = null;
+  if (config.lowMemory) return { desktop, mobile, screenshots: { desktop: desktopPath, mobile: null }, desktopPng, desktopJpeg, finalUrl };
   const mobileCtx = await newGuardedContext({ viewport: { width: 390, height: 844 }, mobile: true });
   try {
     const page = await openPage(mobileCtx, url);

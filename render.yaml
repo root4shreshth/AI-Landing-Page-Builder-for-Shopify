@@ -1,0 +1,50 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> pick this repository.
+# Creates the web service (Docker, free plan) and a free Postgres. Render asks for the values marked
+# `sync: false` when you create the Blueprint; they are stored as secrets, never in the repository.
+services:
+  - type: web
+    name: landing-page-builder
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lpb-db
+          property: connectionString
+      # --- you fill these in ---
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: APP_PASSWORD # shared password for the dashboard; give it to the evaluators
+        sync: false
+      - key: SHOPIFY_STORE # optional, e.g. your-store.myshopify.com
+        sync: false
+      - key: SHOPIFY_CLI_THEME_TOKEN # optional: Theme Access password, enables "Deploy" from the server
+        sync: false
+      - key: SERPER_API_KEY # optional competitor search; without it the curated starter list is used
+        sync: false
+      # --- fixed settings for the 512 MB free instance ---
+      - key: LLM_MODEL_MAIN
+        value: claude-haiku-5-5
+      - key: LLM_MODEL_FAST
+        value: claude-haiku-5-5
+      - key: LOW_MEMORY
+        value: "1"
+      - key: LIGHTHOUSE
+        value: "off"
+      - key: CRAWL_MAX_CONCURRENCY
+        value: "1"
+      - key: MAX_RUNS_PER_CLIENT_HOUR
+        value: "6"
+      - key: MAX_RUNS_PER_HOUR
+        value: "15"
+      - key: STORAGE_DIR
+        value: /app/storage
+
+databases:
+  - name: lpb-db
+    plan: free
+    databaseName: lpb
+    user: lpb

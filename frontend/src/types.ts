@@ -50,7 +50,7 @@ export interface Brand {
   name: string | null;
   profile: BrandProfile;
   confidence: Record<string, FieldConfidence>;
-  extracted: { profile: BrandProfile; notes: string[]; palette: { hex: string; share: number }[]; screenshots: { desktop: string; mobile: string | null } };
+  extracted: { profile: BrandProfile; notes: string[]; palette: { hex: string; share: number }[]; screenshots: { desktop: string | null; mobile: string | null } };
   editedAt: string | null;
 }
 

@@ -5,12 +5,20 @@
  */
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright';
 import { assertPublicHost, DEFAULT_UA } from '../net/url-guard.js';
+import { config } from '../config.js';
+
+/** Container-friendly flags; LOW_MEMORY trims renderer processes and the JS heap for 512 MB hosts. */
+export const CHROMIUM_ARGS = [
+  '--disable-dev-shm-usage',
+  '--disable-gpu',
+  ...(config.lowMemory ? ['--renderer-process-limit=2', '--disable-extensions', '--js-flags=--max-old-space-size=192'] : []),
+];
 
 let browserPromise: Promise<Browser> | null = null;
 
 export function getBrowser(): Promise<Browser> {
   if (!browserPromise) {
-    browserPromise = chromium.launch({ headless: true }).catch((e) => {
+    browserPromise = chromium.launch({ headless: true, args: CHROMIUM_ARGS }).catch((e) => {
       browserPromise = null;
       throw e;
     });
@@ -67,6 +75,8 @@ export async function newGuardedContext(opts: GuardedContextOptions): Promise<Br
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.abort('blockedbyclient');
     if (url.port && url.port !== '80' && url.port !== '443') return route.abort('blockedbyclient');
     if (req.resourceType() === 'media' || req.resourceType() === 'websocket') return route.abort('blockedbyclient');
+    // LOW_MEMORY: styles and HTML are enough for brand and page signals; scripts/fonts cost most of the CPU and RAM.
+    if (config.lowMemory && (req.resourceType() === 'script' || req.resourceType() === 'font')) return route.abort('blockedbyclient');
     if (!(await hostAllowed(url.hostname))) return route.abort('blockedbyclient');
     return route.continue();
   });
@@ -74,7 +84,7 @@ export async function newGuardedContext(opts: GuardedContextOptions): Promise<Br
 }
 
 /** Navigate with bounded waits; returns the page once DOM is ready and the network has mostly settled. */
-export async function openPage(ctx: BrowserContext, url: string, timeoutMs = 30_000): Promise<Page> {
+export async function openPage(ctx: BrowserContext, url: string, timeoutMs = config.lowMemory ? 60_000 : 30_000): Promise<Page> {
   const page = await ctx.newPage();
   page.setDefaultTimeout(timeoutMs);
   const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: timeoutMs });

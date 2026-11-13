@@ -13,6 +13,7 @@ import { analyzeProductUrl, runDirFor } from './analyze.js';
 import { runResearch } from './research.js';
 import { generateDesigns } from './generate.js';
 import { config } from '../config.js';
+import { closeBrowser } from '../browser/browser.js';
 import type { BrandProfile } from '../catalogue/brand.js';
 
 export interface StageState { stage: string; status: 'pending' | 'running' | 'done' | 'failed' | 'skipped'; message?: string; startedAt?: string; finishedAt?: string }
@@ -29,7 +30,11 @@ export const PIPELINE: { stage: string; label: string }[] = [
 
 export const runEvents = new EventEmitter();
 runEvents.setMaxListeners(200);
-const limit = pLimit(2);
+/**
+ * Heavy jobs (runs, checks) share one queue. Two at a time normally; one at a time in LOW_MEMORY mode so a
+ * 512 MB host never holds two Chromium instances at once.
+ */
+export const heavy = pLimit(config.lowMemory ? 1 : 2);
 
 const json = (v: unknown) => v as Prisma.InputJsonValue;
 
@@ -51,7 +56,7 @@ export interface RunOptions { competitorUrls?: string[] }
 export async function createRun(inputUrl: string, options: RunOptions = {}) {
   const stages: StageState[] = PIPELINE.map((p) => ({ stage: p.stage, status: 'pending' }));
   const run = await prisma.generationRun.create({ data: { inputUrl, status: 'queued', stage: 'queued', stages: json(stages), options: json(options) } });
-  void limit(() => executeRun(run.id));
+  void heavy(() => executeRun(run.id));
   return run;
 }
 
@@ -113,6 +118,7 @@ async function executeRun(runId: string) {
     } catch (e) {
       await setStage(runId, 'competitors', 'failed', `Research failed: ${(e as Error).message}`);
     }
+    if (config.lowMemory) await closeBrowser(); // crawling is done; free Chromium before generation
 
     // ---- design generation (uses the brand profile as stored, i.e. including user corrections) ----
     let generated = 0;
@@ -133,7 +139,7 @@ async function executeRun(runId: string) {
       await setStage(runId, 'generate', 'skipped', 'No ANTHROPIC_API_KEY configured — designs need the LLM for copy');
     }
 
-    // Validation (SEO/AEO/GEO, Lighthouse) arrives in M6; it stays "pending" (not run) — never faked.
+    // Validation (SEO/AEO/GEO, browser, Lighthouse) is started separately from the dashboard; until then it stays "pending".
     const status = generated ? 'generated' : 'researched';
     await prisma.generationRun.update({ where: { id: runId }, data: { status, stage: status, cost: json(usage.toJSON()) } });
     runEvents.emit(runId, { type: 'status', status, productId: product.id, brandId: brand.id });
@@ -144,6 +150,8 @@ async function executeRun(runId: string) {
     await prisma.generationRun.update({ where: { id: runId }, data: { status: 'failed', error: message, stages: json(stages), cost: json(usage.toJSON()) } });
     runEvents.emit(runId, { type: 'status', status: 'failed', error: message });
     console.error(`[run ${runId}] failed:`, message);
+  } finally {
+    if (config.lowMemory) await closeBrowser().catch(() => undefined);
   }
 }
 
