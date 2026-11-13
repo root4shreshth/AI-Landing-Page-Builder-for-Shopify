@@ -1,0 +1,104 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Em Cabin Pro (V1)",
+    "url": "https://preview.local/products/em-cabin-pro-copy",
+    "description": "LIGHTWEIGHT &amp; UNBREAKABLECrafted with a polycarbonate hard shell that makes it incredibly durable. FRONT QUICK ACCESS COMPARTMENTA front compartment which gives you quick access to your tech, while you’re at the security checkpoint. Fits up to a 15.6” laptop, a laptop charger and documents. SUPER SILENT NINJA WHEELS 8 silent-run Japanese Hinomoto wheels that glide like butter across both carpeted floors and tiled surfaces.TSA-APPROVED LOCK Keyless TSA Lock security. This lock does not require a key for you to unlock. Simply push the latch towards the numbers to unlock. Instructions to set your lock code will be inside the luggage.DIMENSIONS, WEIGHT and CAPACITY56 x 35.6 x 25 cm, Weight: 3.29 Kg, Capacity: 41 L",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/The-Em-Cabin-Pro_WMAS-1.jpg?v=1775033054&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/The-Em-Cabin-Pro_WMAS-2.jpg?v=1764674613&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/The-Em-Cabin-Pro_WMAS-3.jpg?v=1764674613&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/The-Em-Cabin-Pro_WMAS-4.jpg?v=1764674613&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/The-Em-Cabin-Pro_WMAS-5.jpg?v=1764674613&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0068/7341/5750/files/Em-Cabin-Pro-Shiopify-Slide-7_e90edd87-789b-4399-81b8-0ea9b8025f94.jpg?v=1764674613&width=1600"
+    ],
+    "sku": "THAECP10CMS22001",
+    "gtin": "8904444505133",
+    "brand": {
+      "@type": "Brand",
+      "name": "Mokobara"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "THAECP10CMS22001",
+        "name": "We Meet Again Sunray",
+        "price": 6999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/em-cabin-pro-copy?variant=50987644551238"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Luggage",
+        "item": "https://preview.local/collections/luggage-all"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Em Cabin Pro (V1)"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will a 15.6-inch laptop fit in the front compartment?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the front compartment fits a laptop up to 15.6 inches, a laptop charger and documents. It gives quick access to your tech at security."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the lock need a key?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, the TSA-approved lock is keyless. Push the latch towards the numbers to unlock it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I set my lock code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Instructions to set your lock code are placed inside the luggage. Follow them before your first trip."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the dimensions and capacity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The bag measures 56 x 35.6 x 25 cm and offers 41 L of capacity. It weighs 3.29 kg."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I return the bag if it does not suit me?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this store offers 30-day returns. Check the return policy for full details before you order."
+        }
+      }
+    ]
+  }
+]

@@ -84,7 +84,7 @@ function DesignChecksCard({ d }: { d: Design }) {
               {lh ? (
                 <div className="mt-2 flex flex-wrap gap-6">{LH_TARGETS.map(([k, label, t]) => <ScoreTile key={k} label={label} value={lh.scores[k]} target={t} sub={`target ${t}+`} />)}</div>
               ) : <p className="mt-2 text-sm text-ink-2">{'note' in c.lighthouse ? c.lighthouse.note : 'Not run'}</p>}
-              {lh && <p className="mt-1 text-xs text-ink-2">LCP {lh.metrics.lcpMs != null ? `${(lh.metrics.lcpMs / 1000).toFixed(1)} s` : '—'}, CLS {lh.metrics.cls ?? '—'}, TBT {lh.metrics.tbtMs ?? '—'} ms. Scores on Shopify include your theme's header, footer and scripts.</p>}
+              {lh && <p className="mt-1 text-xs text-ink-2">LCP {lh.metrics.lcpMs != null ? `${(lh.metrics.lcpMs / 1000).toFixed(1)} s` : '—'}, CLS {lh.metrics.cls ?? '—'}, TBT {lh.metrics.tbtMs ?? '—'} ms. Scores on Shopify include your theme's header, footer and scripts.{lh.reportFile && <> <a className="link" href={lh.reportFile} target="_blank" rel="noreferrer">Full Lighthouse report</a></>}</p>}
             </div>
           </div>
 

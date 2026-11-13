@@ -1,0 +1,154 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Out of Imagination Oversized T-shirt",
+    "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1",
+    "description": "PRODUCT DETAILSComposition: 100% CottonGSM: 240Color: WhiteCountry of production: IndiaWash care: Machine wash cold with similar colors.Only non-chlorine.Tumble dry low.Warm Iron if needed.Sizing: Garment measurement in inches.Estimated order processing time: 48 hours.PRODUCT DESCRIPTIONSize and Fit:The model (Height 5’8″) is wearing size SChest - 34 inchesWaist - 25 inchesFit: Oversized FitSleeve length: Short SleevePlease Note:Colors may slightly vary depending on your screen brightness.Actual product specifications/GSM may vary +/-5%All the products have different sizes and size chartMRP: Rs.1299/- incl. of all taxes.",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_13.jpg?v=1793876254&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_9.jpg?v=1793876254&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_3.jpg?v=1793876254&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_6.jpg?v=1793876254&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_8.jpg?v=1793876254&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0653/0541/1684/files/OutofImaginationOversizedT-shirt_7.jpg?v=1793876255&width=1600"
+    ],
+    "sku": "U-8904531045672",
+    "gtin": "8904531045672",
+    "brand": {
+      "@type": "Brand",
+      "name": "Bonkers Corner"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045672",
+        "name": "XS",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607589228"
+      },
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045689",
+        "name": "S",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607621996"
+      },
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045696",
+        "name": "M",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607654764"
+      },
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045702",
+        "name": "L",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607687532"
+      },
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045719",
+        "name": "XL",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607720300"
+      },
+      {
+        "@type": "Offer",
+        "sku": "U-8904531045726",
+        "name": "XXL",
+        "price": 999,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/out-of-imagination-oversized-t-shirt-1?variant=68075607753068"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Womens New Arrivals",
+        "item": "https://preview.local/collections/womens-new-arrivals"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Out of Imagination Oversized T-shirt"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this tee oversized?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, it has an oversized fit with short sleeves. The model in the listing is 5'8\" and wears size S."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the tee made of?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is made from 100% cotton with a 240 GSM weight. Actual GSM may vary by plus or minus 5 percent."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How should I wash it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Machine wash cold with similar colours, use only non-chlorine bleach, tumble dry low, and iron on warm if needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is it made?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tee is produced in India."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does delivery take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Delivery usually takes 4 to 7 days, and orders are processed within 48 hours."
+        }
+      }
+    ]
+  }
+]

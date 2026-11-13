@@ -1,0 +1,103 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Power Groomer Special Edition",
+    "url": "https://preview.local/products/power-groomer-special-edition",
+    "description": "One trimmer. 3 attachments. Endless styles. This 11-in-1 full-body trimmer comes with skin-safe blades, a 90-min runtime, and a sleek hard case. ",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/1copy_0ffe1f5c-32c7-4281-9487-b6818659136a.webp?v=1793341570&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/2copy_7b32c192-2dc5-414b-b99f-998733fafdb5.webp?v=1793341570&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/3copy_159fc088-b38a-4ea8-a28a-82cb5007459a.webp?v=1793341570&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/4copy_cac5538b-a143-4d41-8061-38291cd8d02c.webp?v=1793341570&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/5copy2.webp?v=1793341570&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0459/6563/9834/files/6copy_70fca826-bed7-4380-bd93-482e7e9d1aab.webp?v=1793341570&width=1600"
+    ],
+    "sku": "APPLIANCES_POWER_GROOMER_SPL_EDITION",
+    "brand": {
+      "@type": "Brand",
+      "name": "Bombay Shaving Company"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "APPLIANCES_POWER_GROOMER_SPL_EDITION",
+        "name": "Default Title",
+        "price": 1400,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/OutOfStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/power-groomer-special-edition?variant=68004852433050"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Fragrances",
+        "item": "https://preview.local/collections/buy-perfumes-fragrances-for-men"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Power Groomer Special Edition"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the trimmer made of?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The blades are stainless steel and ceramic, and the body is ABS plastic. The blades are described as skin-safe."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does the battery last?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The run time is 90 minutes and the charging time is also 90 minutes. The battery is a lithium ion type and one is included."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I wash the trimmer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the head is washable and the trimmer is water resistant. Care instructions say to clean it after every use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which areas can I groom with it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is suitable for beard, face, body and intimate grooming. It comes with 3 attachments and 8 length adjustments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it come with a case?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, it comes with a sleek hard case. The trimmer is cordless and charges over USB C-Type."
+        }
+      }
+    ]
+  }
+]

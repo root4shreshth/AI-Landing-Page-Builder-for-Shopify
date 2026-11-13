@@ -2,6 +2,8 @@
  * Lighthouse (mobile preset, simulated throttling) using Playwright's Chromium.
  * Scores are measured, never hardcoded; the target the URL points at is stated alongside.
  */
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import * as chromeLauncher from 'chrome-launcher';
 import lighthouse from 'lighthouse';
 import { chromium } from 'playwright';
@@ -13,14 +15,20 @@ export interface LighthouseResult {
   metrics: { lcpMs: number | null; cls: number | null; tbtMs: number | null };
   failedAudits: { id: string; title: string }[];
   ranAt: string;
+  /** Lighthouse's own HTML report, when a path was given */
+  reportFile?: string;
 }
 
-export async function runLighthouse(url: string, target: LighthouseResult['target']): Promise<LighthouseResult> {
+export async function runLighthouse(url: string, target: LighthouseResult['target'], reportPath?: string): Promise<LighthouseResult> {
   const chrome = await chromeLauncher.launch({ chromePath: chromium.executablePath(), chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu'] });
   try {
-    const result = await lighthouse(url, { port: chrome.port, output: 'json', logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'seo', 'best-practices'] });
+    const result = await lighthouse(url, { port: chrome.port, output: reportPath ? ['json', 'html'] : 'json', logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'seo', 'best-practices'] });
     if (!result) throw new Error('Lighthouse returned no result');
     const lhr = result.lhr;
+    if (reportPath && Array.isArray(result.report)) {
+      await mkdir(path.dirname(reportPath), { recursive: true });
+      await writeFile(reportPath, result.report[1]);
+    }
     const score = (k: string) => (lhr.categories[k]?.score == null ? null : Math.round((lhr.categories[k].score as number) * 100));
     const num = (id: string) => (typeof lhr.audits[id]?.numericValue === 'number' ? Math.round(lhr.audits[id].numericValue! * (id === 'cumulative-layout-shift' ? 1000 : 1)) / (id === 'cumulative-layout-shift' ? 1000 : 1) : null);
     const failed = Object.values(lhr.categories)
@@ -35,6 +43,7 @@ export async function runLighthouse(url: string, target: LighthouseResult['targe
       metrics: { lcpMs: num('largest-contentful-paint'), cls: num('cumulative-layout-shift'), tbtMs: num('total-blocking-time') },
       failedAudits: failed,
       ranAt: new Date().toISOString(),
+      ...(reportPath ? { reportFile: reportPath } : {}),
     };
   } finally {
     await chrome.kill();

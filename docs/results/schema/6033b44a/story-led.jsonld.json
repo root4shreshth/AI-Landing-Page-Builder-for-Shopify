@@ -1,0 +1,103 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Lip Peptide Complex 2.5% Lip Mask",
+    "url": "https://preview.local/products/lip-peptide-complex-lip-mask",
+    "description": "A deeply moisturizing, gel-textured lip mask formulated with two peptides, Sodium Hyaluronate and Pycnogenol, to help hydrate and volumize lips. At its core is Hilurlip, an advanced delivery technology that helps Sodium Hyaluronate penetrate into the lip skin, while high-performance occlusives form a protective barrier that locks in hydration. The result: visibly smoother, softer, plumper lips with a cushiony shine, in a petrolatum-free formula.",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/1_c428c563-f2a8-45e2-90d6-aa2bc40ac420.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/3_18b7f5d0-e68b-48e2-b6c2-8b9a2ccef2e6.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/2_fade6ff3-336e-4341-97d4-39c3bcfd3aa3.png?v=1793965722&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/4_ea273782-f4bf-4e48-a4f8-3bf184d12025.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/5_bbac70f6-6e94-44f9-92a0-9403a60854ca.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/7_6e374dc7-e037-4ca7-b48e-25a8a9c80939.png?v=1793965723&width=1600"
+    ],
+    "sku": "8906128102591",
+    "brand": {
+      "@type": "Brand",
+      "name": "Minimalist"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "8906128102591",
+        "name": "Default Title",
+        "price": 399,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/lip-peptide-complex-lip-mask?variant=48893871423649"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Skin & Body",
+        "item": "https://preview.local/collections/skin-body-1"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Lip Peptide Complex 2.5% Lip Mask"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does the lip mask contain petrolatum?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, the formula is petrolatum-free. It uses high-performance occlusives to form a protective barrier instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Hilurlip?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hilurlip is the delivery technology that helps Sodium Hyaluronate penetrate into the lip skin. It sits at the core of the formula."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the texture of this lip mask?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It has a gel texture. It is designed to leave lips with a cushiony shine."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which peptides are in the formula?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The formula contains Sodium Hyaluronate and Pycnogenol. Both are included to help hydrate and volumize lips."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this lip mask meant for dry lips?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is formulated to deeply moisturize lips and help them look smoother and softer. It suits anyone wanting a deeper hydration step."
+        }
+      }
+    ]
+  }
+]

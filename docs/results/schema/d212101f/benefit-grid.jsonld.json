@@ -1,0 +1,137 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "M8 Competition Fan Art - Black - Oversized Hoodie 400 GSM",
+    "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm",
+    "description": "M8 Competition  - Perfect Unisex HoodieLooking for a Hoodie that fits perfectly and has superior bold prints? Look no further than our Premium Unisex Hoodie! Made from high-quality materials, our hoodie is designed to keep your body warm while still allowing you to move and breathe easily. Plus, the vibrant colors and prints are sure to turn heads when you're working out!Our 100% cotton Unisex hoodie is perfect for everyday wear or even for special occasions like parties and festivals.Disclaimer: This hoodie features a design inspired by racing sports culture and is created solely for artistic and expressive purposes. It is not intended to represent, replicate, or infringe upon any trademarks, brands, or intellectual property. All rights of respective trademark holders are fully respected.",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0354/3072/7813/files/new.png?v=1794454983&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0354/3072/7813/files/bmw_performance_black_hoodie-transformed.png?v=1721485700&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0354/3072/7813/files/Background_feb7427d-3d40-44ed-b89a-4e2aa141e657.png?v=1749299233&width=1600"
+    ],
+    "sku": "SS-OH-0291-01-S",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "reviewCount": "116"
+    },
+    "brand": {
+      "@type": "Brand",
+      "name": "Strong Soul"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "SS-OH-0291-01-S",
+        "name": "Black / S",
+        "price": 2199,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm?variant=40822738124933"
+      },
+      {
+        "@type": "Offer",
+        "sku": "SS-OH-0291-01-M",
+        "name": "Black / M",
+        "price": 2199,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm?variant=40822738157701"
+      },
+      {
+        "@type": "Offer",
+        "sku": "SS-OH-0291-01-L",
+        "name": "Black / L",
+        "price": 2199,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm?variant=40822738190469"
+      },
+      {
+        "@type": "Offer",
+        "sku": "SS-OH-0291-01-XL",
+        "name": "Black / XL",
+        "price": 2199,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm?variant=40822738223237"
+      },
+      {
+        "@type": "Offer",
+        "sku": "SS-OH-0291-01-2XL",
+        "name": "Black / 2XL",
+        "price": 2199,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/m8-competition-white-oversized-hoodie-400-gsm?variant=40822738256005"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Buy 2 & Get 10% Off",
+        "item": "https://preview.local/collections/2-t-shirts-999"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "M8 Competition Fan Art - Black - Oversized Hoodie 400 GSM"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is this hoodie made from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is made from 100% cotton with a 400 GSM weight. The fabric is designed to keep you warm while letting you move easily."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this hoodie unisex?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, it is a unisex hoodie with an oversized fit. Choose your size from the size option on the product page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where can I wear this hoodie?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is suitable for everyday wear as well as special occasions like parties and festivals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the hoodie come with free shipping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, free shipping is available on this product. Secure checkout is processed by Shopify."
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,95 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Lip Peptide Complex 2.5% Lip Mask",
+    "url": "https://preview.local/products/lip-peptide-complex-lip-mask",
+    "description": "A deeply moisturizing, gel-textured lip mask formulated with two peptides, Sodium Hyaluronate and Pycnogenol, to help hydrate and volumize lips. At its core is Hilurlip, an advanced delivery technology that helps Sodium Hyaluronate penetrate into the lip skin, while high-performance occlusives form a protective barrier that locks in hydration. The result: visibly smoother, softer, plumper lips with a cushiony shine, in a petrolatum-free formula.",
+    "image": [
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/1_c428c563-f2a8-45e2-90d6-aa2bc40ac420.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/3_18b7f5d0-e68b-48e2-b6c2-8b9a2ccef2e6.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/2_fade6ff3-336e-4341-97d4-39c3bcfd3aa3.png?v=1793965722&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/4_ea273782-f4bf-4e48-a4f8-3bf184d12025.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/5_bbac70f6-6e94-44f9-92a0-9403a60854ca.png?v=1793965723&width=1600",
+      "https:https://cdn.shopify.com/s/files/1/0410/9608/5665/files/7_6e374dc7-e037-4ca7-b48e-25a8a9c80939.png?v=1793965723&width=1600"
+    ],
+    "sku": "8906128102591",
+    "brand": {
+      "@type": "Brand",
+      "name": "Minimalist"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "sku": "8906128102591",
+        "name": "Default Title",
+        "price": 399,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "url": "https://preview.local/products/lip-peptide-complex-lip-mask?variant=48893871423649"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://preview.local/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Skin & Body",
+        "item": "https://preview.local/collections/skin-body-1"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Lip Peptide Complex 2.5% Lip Mask"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this lip mask petrolatum-free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the formula is petrolatum-free. It uses occlusives to form a protective barrier instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does Hilurlip do in this lip mask?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hilurlip is a delivery technology that helps Sodium Hyaluronate penetrate into the lip skin. It is the core of the formula."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What texture is the lip mask?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The lip mask has a gel texture. It leaves a cushiony shine on the lips."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which peptides are in this lip mask?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The mask contains Sodium Hyaluronate and Pycnogenol. Both are listed as the two peptides in the formula."
+        }
+      }
+    ]
+  }
+]

@@ -60,7 +60,9 @@ async function checkNow(runId: string, opts: { lighthouse?: boolean }) {
       let lighthouse: unknown = { status: 'not_run', note: config.lighthouse ? 'Skipped' : 'Lighthouse is turned off on this host (LIGHTHOUSE=off; it needs a second full Chrome, more than a 512 MB instance has). Scores from a full machine are in docs/results/RESULTS.md.' };
       if (opts.lighthouse !== false && config.lighthouse) {
         await setStage(runId, 'validate', 'running', `Checking ${i}/${designs.length}: ${d.name} — Lighthouse (mobile)`);
-        lighthouse = await runLighthouse(`${base}/files/${c.previewFile}`, 'local-render').catch((e) => ({ status: 'failed', note: (e as Error).message }));
+        lighthouse = await runLighthouse(`${base}/files/${c.previewFile}`, 'local-render', path.join(shotsDir, 'lighthouse.html'))
+          .then((r) => ({ ...r, reportFile: r.reportFile ? `/files/${rel(r.reportFile)}` : undefined }))
+          .catch((e) => ({ status: 'failed', note: (e as Error).message }));
       }
       const checks = {
         ranAt: new Date().toISOString(),

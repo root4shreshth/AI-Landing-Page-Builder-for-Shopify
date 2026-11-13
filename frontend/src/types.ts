@@ -177,7 +177,7 @@ export interface DesignChecks {
       };
   lighthouse:
     | { status: 'not_run' | 'failed'; note: string }
-    | { url: string; target: string; scores: { performance: number | null; accessibility: number | null; seo: number | null; 'best-practices': number | null }; metrics: { lcpMs: number | null; cls: number | null; tbtMs: number | null }; failedAudits: { id: string; title: string }[]; ranAt: string };
+    | { url: string; target: string; scores: { performance: number | null; accessibility: number | null; seo: number | null; 'best-practices': number | null }; metrics: { lcpMs: number | null; cls: number | null; tbtMs: number | null }; failedAudits: { id: string; title: string }[]; ranAt: string; reportFile?: string };
 }
 
 export interface PackageInfo {
